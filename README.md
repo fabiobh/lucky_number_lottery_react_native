@@ -1,8 +1,9 @@
-# lucky number lottery AI
-Web version of the lucky number lottery game
+# react native app created with expo
 
-- Create with help of IA ( loveable.dev ) for a small lottery game in family
+- created using the command:
 
-Can be accessed here:
+npx create-expo-app lucky_number_lottery_react_native
 
-https://lucky-number-drawer.lovable.app/
+- to run use:
+
+npm run android
