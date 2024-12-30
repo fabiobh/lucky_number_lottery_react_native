@@ -6,4 +6,5 @@ npx create-expo-app lucky_number_lottery_react_native
 
 - to run use:
 
+npx expo start
 npm run android

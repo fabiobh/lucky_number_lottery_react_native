@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "lottery-expo-app",
-    "slug": "lottery-expo-app",
+    "name": "lucky_number_lottery_react_native",
+    "slug": "lucky_number_lottery_react_native",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
