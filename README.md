@@ -2,7 +2,7 @@
 
 - created using the command:
 
-npx create-expo-app lucky_number_lottery_react_native
+npx create-expo-app lucky_number_react_native
 
 - to run use:
 
