@@ -89,8 +89,8 @@ const GameScreen = ({ route }) => {
         const allNumbers = Array.from({ length: numCount }, (_, i) => i + 1); // Gera todos os números de 1 a numCount
         return (
           <View style={styles.scene}>
-            <Text style={styles.title}>Números Sorteados</Text>
             <Button title="Sortear Número" onPress={drawNumber} disabled={isDrawing} style={styles.drawButton} />
+            <Text style={styles.title}>Números Sorteados</Text>
             <View style={styles.numberContainer}>
               <FlatList
                 data={allNumbers}
