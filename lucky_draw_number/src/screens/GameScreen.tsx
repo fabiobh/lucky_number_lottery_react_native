@@ -7,7 +7,7 @@ const Card = ({ item, index, onEdit }) => {
   const [editedName, setEditedName] = useState(`Cartela #${index + 1}`);
 
   const handleEdit = () => {
-    setIsEditing(true);
+    // setIsEditing(true);
   };
 
   const handleSave = () => {
@@ -16,6 +16,7 @@ const Card = ({ item, index, onEdit }) => {
   };
 
   return (
+    <TouchableOpacity onPress={handleEdit}>
     <View style={styles.cardContainer}>
       {isEditing ? (
         <TextInput
@@ -26,9 +27,7 @@ const Card = ({ item, index, onEdit }) => {
           autoFocus
         />
       ) : (
-        <TouchableOpacity onPress={handleEdit}>
-          <Text style={styles.cardTitle}>{editedName}</Text>
-        </TouchableOpacity>
+        <Text style={styles.cardTitle}>{editedName}</Text>
       )}
       <View style={styles.numberContainer}>
         {Array.isArray(item) && item.map((number, idx) => (
@@ -38,6 +37,7 @@ const Card = ({ item, index, onEdit }) => {
         ))}
       </View>
     </View>
+    </TouchableOpacity>
   );
 };
 
