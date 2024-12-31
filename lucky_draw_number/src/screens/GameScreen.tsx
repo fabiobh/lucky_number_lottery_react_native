@@ -31,7 +31,7 @@ const Card = ({ item, index, onEdit }) => {
         </TouchableOpacity>
       )}
       <View style={styles.numberContainer}>
-        {item.map((number, idx) => (
+        {Array.isArray(item) && item.map((number, idx) => (
           <View key={idx} style={styles.numberBox}>
             <Text style={styles.number}>{number}</Text>
           </View>
