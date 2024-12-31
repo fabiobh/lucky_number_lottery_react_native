@@ -8,13 +8,11 @@ export default function HomeScreen({ navigation }) {
 
   const handleStart = () => {
     console.log('Iniciando jogo...');
-    /*
     navigation.navigate('Game', {
       numCount: parseInt(numCount),
       cardCount: parseInt(cardCount),
       numbersPerCard: parseInt(numbersPerCard),
     });
-    */
   };
 
   return (
