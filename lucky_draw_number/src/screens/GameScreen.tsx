@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Button, Text, StyleSheet, FlatList } from 'react-native';
 import { TabView, TabBar } from 'react-native-tab-view';
 
@@ -41,24 +41,34 @@ export default function GameScreen({ route }) {
     setCards(newCards);
   };
 
+  useEffect(() => {
+    generateCards();
+  }, []);
+
   const renderScene = ({ route }) => {
     switch (route.key) {
       case 'draw':
         return (
           <View style={styles.scene}>
             <Text>Números Sorteados:</Text>
-            <FlatList
-              data={Array.from({ length: numCount }, (_, i) => i + 1)}
-              keyExtractor={(item) => item.toString()}
-              renderItem={({ item }) => {
-                const isDrawn = drawnNumbers.includes(item);
-                return (
-                  <Text style={[styles.number, isDrawn && styles.drawnNumber]}>
-                    {item}
-                  </Text>
-                );
-              }}
-            />
+            <View style={styles.numberContainer}>
+              {Array.from({ length: numCount }, (_, i) => i + 1).reduce((rows, number, index) => {
+                if (index % 10 === 0) rows.push([]);
+                rows[rows.length - 1].push(number);
+                return rows;
+              }, []).map((row, rowIndex) => (
+                <View key={rowIndex} style={styles.row}>
+                  {row.map((item) => {
+                    const isDrawn = drawnNumbers.includes(item);
+                    return (
+                      <Text key={item} style={[styles.number, isDrawn && styles.drawnNumber]}>
+                        {item}
+                      </Text>
+                    );
+                  })}
+                </View>
+              ))}
+            </View>
             <Button title="Sortear Número" onPress={drawNumber} disabled={isDrawing} />
             <Button title="Parar Sorteio" onPress={stopDrawing} />
           </View>
@@ -66,7 +76,6 @@ export default function GameScreen({ route }) {
       case 'cards':
         return (
           <View style={styles.scene}>
-            <Button title="Gerar Cartelas" onPress={generateCards} />
             <FlatList
               data={cards}
               keyExtractor={(item, index) => index.toString()}
@@ -102,6 +111,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  numberContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 5,
   },
   card: {
     margin: 10,
