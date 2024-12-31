@@ -1,30 +1,58 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Button, Text, StyleSheet, FlatList, TextInput, TouchableOpacity } from 'react-native';
 import { TabView, TabBar } from 'react-native-tab-view';
 
-export default function GameScreen({ route }) {
-  const { numCount, cardCount, numbersPerCard } = route.params;
-  const [drawnNumbers, setDrawnNumbers] = useState([]);
-  const [isDrawing, setIsDrawing] = useState(false);
-  const [cards, setCards] = useState([]);
+const Card = ({ item, index, onEdit }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedName, setEditedName] = useState(`Cartela #${index + 1}`);
 
-  const drawNumber = () => {
-    console.log('Lógica para sortear números - Sorteando número...');
-    if (drawnNumbers.length === numCount) {
-      alert('Todos os números possíveis já foram sorteados');      
-      return;
-    }
-    let newNumber;
-    do {
-      newNumber = Math.floor(Math.random() * numCount) + 1;
-    } while (drawnNumbers.includes(newNumber));
-    setDrawnNumbers([...drawnNumbers, newNumber]);
-    console.log(`Número sorteado: ${newNumber}`);
+  const handleEdit = () => {
+    setIsEditing(true);
   };
 
+  const handleSave = () => {
+    onEdit(index, editedName);
+    setIsEditing(false);
+  };
+
+  return (
+    <View style={styles.cardContainer}>
+      {isEditing ? (
+        <TextInput
+          style={styles.input}
+          value={editedName}
+          onChangeText={setEditedName}
+          onBlur={handleSave} // Salva o nome ao sair do campo
+          autoFocus
+        />
+      ) : (
+        <TouchableOpacity onPress={handleEdit}>
+          <Text style={styles.cardTitle}>{editedName}</Text>
+        </TouchableOpacity>
+      )}
+      <View style={styles.numberContainer}>
+        {item.map((number, idx) => (
+          <View key={idx} style={styles.numberBox}>
+            <Text style={styles.number}>{number}</Text>
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+};
+
+const GameScreen = ({ route }) => {
+  const { numCount, cardCount, numbersPerCard } = route.params;
+  const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [cards, setCards] = useState<number[][]>([]);
+
+  useEffect(() => {
+    generateCards();
+  }, []);
+
   const generateCards = () => {
-    const newCards = [];
-    for (let i = 0; i < cardCount; i++) {
+    const newCards = Array.from({ length: cardCount }, () => {
       const card = [];
       while (card.length < numbersPerCard) {
         const newNumber = Math.floor(Math.random() * numCount) + 1;
@@ -32,40 +60,61 @@ export default function GameScreen({ route }) {
           card.push(newNumber);
         }
       }
-      newCards.push(card);
-    }
+      return card;
+    });
     setCards(newCards);
   };
 
-  useEffect(() => {
-    generateCards();
-  }, []);
+  const drawNumber = () => {
+    if (drawnNumbers.length >= numCount) {
+      alert('Todos os números possíveis já foram sorteados');
+      return;
+    }
+    let newNumber;
+    do {
+      newNumber = Math.floor(Math.random() * numCount) + 1;
+    } while (drawnNumbers.includes(newNumber));
+    setDrawnNumbers([...drawnNumbers, newNumber]);
+  };
+
+  const handleEditCardName = (index, newName) => {
+    const updatedCards = [...cards];
+    updatedCards[index] = newName; // Atualiza o nome da cartela
+    setCards(updatedCards);
+  };
 
   const renderScene = ({ route }) => {
     switch (route.key) {
       case 'draw':
+        const allNumbers = Array.from({ length: numCount }, (_, i) => i + 1); // Gera todos os números de 1 a numCount
         return (
           <View style={styles.scene}>
-            <Text>Números Sorteados:</Text>
+            <Text style={styles.title}>Números Sorteados</Text>
+            <Button title="Sortear Número" onPress={drawNumber} disabled={isDrawing} style={styles.drawButton} />
             <View style={styles.numberContainer}>
-              {Array.from({ length: numCount }, (_, i) => i + 1).reduce((rows, number, index) => {
-                if (index % 10 === 0) rows.push([]);
-                rows[rows.length - 1].push(number);
-                return rows;
-              }, []).map((row, rowIndex) => (
-                <View key={rowIndex} style={styles.row}>
-                  {row.map((item) => {
-                    const isDrawn = drawnNumbers.includes(item);
-                    return (
-                      <Text key={item} style={[styles.number, isDrawn && styles.drawnNumber]}>
+              <FlatList
+                data={allNumbers}
+                keyExtractor={(item) => item.toString()}
+                renderItem={({ item }) => {
+                  const isDrawn = drawnNumbers.includes(item);
+                  return (
+                    <View style={[
+                      styles.numberBox,
+                      isDrawn ? styles.drawnBox : styles.undrawnBox // Aplica estilos com base no estado do número
+                    ]}>
+                      <Text style={[
+                        styles.number,
+                        isDrawn ? styles.drawnNumber : styles.undrawnNumber // Aplica estilos com base no estado do número
+                      ]}>
                         {item}
                       </Text>
-                    );
-                  })}
-                </View>
-              ))}
+                    </View>
+                  );
+                }}
+                numColumns={5} // Define o número de colunas
+                contentContainerStyle={styles.numbersList} // Adiciona estilo à lista
+              />
             </View>
-            <Button title="Sortear Número" onPress={drawNumber} disabled={isDrawing} />
           </View>
         );
       case 'cards':
@@ -75,10 +124,7 @@ export default function GameScreen({ route }) {
               data={cards}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item, index }) => (
-                <View style={styles.cardContainer}>
-                  <Text style={styles.cardTitle}>Cartela #{index + 1}</Text>
-                  <Text style={styles.card}>{item.join(', ')}</Text>
-                </View>
+                <Card item={item} index={index} onEdit={handleEditCardName} />
               )}
             />
           </View>
@@ -99,25 +145,27 @@ export default function GameScreen({ route }) {
       navigationState={{ index, routes }}
       renderScene={renderScene}
       onIndexChange={setIndex}
-      renderTabBar={props => <TabBar {...props} />}
+      renderTabBar={props => <TabBar {...props} style={styles.tabBar} />}
     />
   );
-}
+};
 
 const styles = StyleSheet.create({
   scene: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start', // Alinha os elementos no topo
     alignItems: 'center',
+    backgroundColor: '#f0f8ff', // Cor de fundo suave
+    padding: 20,
   },
-  numberContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#333', // Cor do título
   },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginVertical: 5,
+  drawButton: {
+    marginBottom: 20, // Espaço entre o botão e a lista de números
   },
   cardContainer: {
     margin: 10,
@@ -131,12 +179,49 @@ const styles = StyleSheet.create({
     margin: 5,
     fontSize: 18,
   },
-  number: {
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    marginBottom: 12,
+    padding: 8,
+    width: '80%', // Largura do campo de entrada
+  },
+  numberContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap', // Permite que os números se movam para a linha seguinte
+    justifyContent: 'center', // Centraliza os números
+  },
+  numbersList: {
+    alignItems: 'center', // Centraliza os números na lista
+  },
+  numberBox: {
+    width: 60, // Largura fixa para cada número
+    height: 60, // Altura fixa para cada número
+    justifyContent: 'center',
+    alignItems: 'center',
     margin: 5,
-    fontSize: 18,
-    color: 'gray',
+    borderRadius: 30, // Bordas arredondadas
+    borderColor: 'gray', // Cor da borda para números não sorteados
+    borderWidth: 2, // Largura da borda
+    backgroundColor: '#e0f7fa', // Fundo suave para números não sorteados
+  },
+  number: {
+    fontSize: 28, // Aumenta o tamanho da fonte dos números
+    color: 'gray', // Cor padrão para números não sorteados
+  },
+  drawnBox: {
+    borderColor: 'green', // Cor da borda para números sorteados
+    backgroundColor: 'lightgreen', // Fundo suave para números sorteados
   },
   drawnNumber: {
-    color: 'green',
+    color: 'green', // Cor para números sorteados
   },
-}); 
+  undrawnNumber: {
+    color: 'gray', // Cor para números não sorteados
+  },
+  tabBar: {
+    marginBottom: 10, // Espaço entre a aba e o conteúdo
+  },
+});
+
+export default GameScreen; 
