@@ -46,6 +46,7 @@ const GameScreen = ({ route }) => {
   const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
   const [isDrawing, setIsDrawing] = useState(false);
   const [cards, setCards] = useState<number[][]>([]);
+  const [lastDrawnNumber, setLastDrawnNumber] = useState<number | null>(null); // Estado para o número sorteado
 
   useEffect(() => {
     generateCards();
@@ -75,6 +76,7 @@ const GameScreen = ({ route }) => {
       newNumber = Math.floor(Math.random() * numCount) + 1;
     } while (drawnNumbers.includes(newNumber));
     setDrawnNumbers([...drawnNumbers, newNumber]);
+    setLastDrawnNumber(newNumber); // Atualiza o número sorteado
   };
 
   const handleEditCardName = (index, newName) => {
@@ -89,7 +91,12 @@ const GameScreen = ({ route }) => {
         const allNumbers = Array.from({ length: numCount }, (_, i) => i + 1); // Gera todos os números de 1 a numCount
         return (
           <View style={styles.scene}>
-            <Button title="Sortear Número" onPress={drawNumber} disabled={isDrawing} style={styles.drawButton} />
+            <View style={styles.drawContainer}>
+              <Button title="Sortear Número" onPress={drawNumber} disabled={isDrawing} />
+              {lastDrawnNumber !== null && (
+                <Text style={styles.lastDrawnText}>{lastDrawnNumber}</Text>
+              )}
+            </View>
             <Text style={styles.title}>Números Sorteados</Text>
             <View style={styles.numberContainer}>
               <FlatList
@@ -164,8 +171,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: '#333', // Cor do título
   },
-  drawButton: {
+  drawContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 20, // Espaço entre o botão e a lista de números
+  },
+  lastDrawnText: {
+    fontSize: 18,
+    marginLeft: 10, // Espaço entre o botão e o número sorteado
+    color: '#333', // Cor do texto
   },
   cardContainer: {
     margin: 10,

@@ -1,43 +1,53 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
+import Slider from '@react-native-community/slider';
 
 export default function HomeScreen({ navigation }) {
-  const [numCount, setNumCount] = useState('');
-  const [cardCount, setCardCount] = useState('');
-  const [numbersPerCard, setNumbersPerCard] = useState('');
+  const [numCount, setNumCount] = useState(30);
+  const [cardCount, setCardCount] = useState(10);
+  const [numbersPerCard, setNumbersPerCard] = useState(5);
 
   const handleStart = () => {
     console.log('Iniciando jogo...');
     navigation.navigate('Game', {
-      numCount: parseInt(numCount),
-      cardCount: parseInt(cardCount),
-      numbersPerCard: parseInt(numbersPerCard),
+      numCount,
+      cardCount,
+      numbersPerCard,
     });
   };
 
   return (
     <View style={styles.container}>
-      <Text>Quantidade de Números (30 a 100):</Text>
-      <TextInput
-        keyboardType="numeric"
+      <Text>Quantidade de Números (30 a 100): {numCount}</Text>
+      <Slider
+        minimumValue={30}
+        maximumValue={100}
+        step={1}
         value={numCount}
-        onChangeText={setNumCount}
-        style={styles.input}
+        onValueChange={setNumCount}
+        style={styles.slider}
       />
-      <Text>Quantidade de Cartelas (10 a 100):</Text>
-      <TextInput
-        keyboardType="numeric"
+      
+      <Text>Quantidade de Cartelas (10 a 100): {cardCount}</Text>
+      <Slider
+        minimumValue={10}
+        maximumValue={100}
+        step={1}
         value={cardCount}
-        onChangeText={setCardCount}
-        style={styles.input}
+        onValueChange={setCardCount}
+        style={styles.slider}
       />
-      <Text>Números por Cartela (5 a 25):</Text>
-      <TextInput
-        keyboardType="numeric"
+      
+      <Text>Números por Cartela (5 a 25): {numbersPerCard}</Text>
+      <Slider
+        minimumValue={5}
+        maximumValue={25}
+        step={1}
         value={numbersPerCard}
-        onChangeText={setNumbersPerCard}
-        style={styles.input}
+        onValueChange={setNumbersPerCard}
+        style={styles.slider}
       />
+      
       <Button title="Prosseguir" onPress={handleStart} />
     </View>
   );
@@ -49,10 +59,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 16,
   },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    marginBottom: 12,
-    padding: 8,
+  slider: {
+    width: '100%',
+    height: 40,
   },
 }); 
