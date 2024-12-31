@@ -22,10 +22,6 @@ export default function GameScreen({ route }) {
     console.log(`Número sorteado: ${newNumber}`);
   };
 
-  const stopDrawing = () => {
-    setIsDrawing(false);
-  };
-
   const generateCards = () => {
     const newCards = [];
     for (let i = 0; i < cardCount; i++) {
@@ -70,7 +66,6 @@ export default function GameScreen({ route }) {
               ))}
             </View>
             <Button title="Sortear Número" onPress={drawNumber} disabled={isDrawing} />
-            <Button title="Parar Sorteio" onPress={stopDrawing} />
           </View>
         );
       case 'cards':
@@ -79,8 +74,11 @@ export default function GameScreen({ route }) {
             <FlatList
               data={cards}
               keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => (
-                <Text style={styles.card}>{item.join(', ')}</Text>
+              renderItem={({ item, index }) => (
+                <View style={styles.cardContainer}>
+                  <Text style={styles.cardTitle}>Cartela #{index + 1}</Text>
+                  <Text style={styles.card}>{item.join(', ')}</Text>
+                </View>
               )}
             />
           </View>
@@ -121,8 +119,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginVertical: 5,
   },
-  card: {
+  cardContainer: {
     margin: 10,
+    alignItems: 'center',
+  },
+  cardTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  card: {
+    margin: 5,
     fontSize: 18,
   },
   number: {
