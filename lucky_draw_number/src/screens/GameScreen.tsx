@@ -161,7 +161,7 @@ const GameScreen = ({ route, navigation }) => {
                 onPress={drawNumber} 
                 disabled={isDrawing} 
               >
-                <Text style={styles.buttonText}>Sortear Número</Text>
+                <Text style={styles.drawButtonTextStyle}>Sortear Número</Text>
               </TouchableOpacity>
               {lastDrawnNumber !== null && (
                 <Text style={styles.lastDrawnText}>{lastDrawnNumber}</Text>
@@ -431,6 +431,12 @@ const styles = StyleSheet.create({
     borderRadius: 10, // Bordas arredondadas
     paddingVertical: 15, // Aumenta a altura do botão
     paddingHorizontal: 20, // Aumenta a largura do botão
+  },
+  drawButtonTextStyle: {
+    color: 'white', // Cor do texto do botão
+    fontSize: 16,
+    textAlign: 'center', // Centraliza o texto
+    fontWeight: 'bold', // Negrito para o texto do botão
   },
 });
 
