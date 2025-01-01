@@ -57,7 +57,7 @@ const Card = ({ item, index, onEdit, onShare, drawnNumbers }) => {
   );
 };
 
-const GameScreen = ({ route }) => {
+const GameScreen = ({ route, navigation }) => {
   const { numCount, cardCount, numbersPerCard } = route.params;
   const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -68,6 +68,7 @@ const GameScreen = ({ route }) => {
   const [wonCards, setWonCards] = useState(new Set()); // Estado para rastrear cartelas vencedoras
   const [wonCardNames, setWonCardNames] = useState([]); // Estado para armazenar os nomes das cartelas vencedoras
   const [drawnCount, setDrawnCount] = useState(0); // Estado para contar os números sorteados
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false); // Estado para controlar a modal de confirmação
 
   useEffect(() => {
     generateCards();
@@ -217,6 +218,34 @@ const GameScreen = ({ route }) => {
     { key: 'cards', title: 'Cartelas' },
   ]);
 
+  const handleBackButtonPress = () => {
+    if (index === 0) { // Verifica se está na aba de sorteio
+      setShowConfirmationModal(true); // Mostra a modal de confirmação
+      return true; // Impede a navegação padrão
+    }
+    return false; // Permite a navegação padrão
+  };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+      if (handleBackButtonPress()) {
+        e.preventDefault(); // Impede a navegação padrão
+      }
+    });
+
+    return unsubscribe;
+  }, [navigation, index]);
+
+  const handleConfirmRestart = () => {
+    setDrawnNumbers([]); // Reinicia os números sorteados
+    setDrawnCount(0); // Reinicia a contagem de números sorteados
+    setShowConfirmationModal(false); // Fecha a modal de confirmação
+  };
+
+  const handleCancelRestart = () => {
+    setShowConfirmationModal(false); // Fecha a modal de confirmação
+  };
+
   return (
     <>
       <TabView
@@ -249,6 +278,24 @@ const GameScreen = ({ route }) => {
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonRed} onPress={() => setModalVisible(false)}>
               <Text style={styles.buttonText}>Cancelar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showConfirmationModal}
+        onRequestClose={handleCancelRestart}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Deseja reiniciar o sorteio?</Text>
+            <TouchableOpacity style={styles.button} onPress={handleConfirmRestart}>
+              <Text style={styles.buttonText}>Sim</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonRed} onPress={handleCancelRestart}>
+              <Text style={styles.buttonText}>Não</Text>
             </TouchableOpacity>
           </View>
         </View>
