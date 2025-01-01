@@ -65,6 +65,9 @@ const GameScreen = ({ route }) => {
   const [lastDrawnNumber, setLastDrawnNumber] = useState<number | null>(null); // Estado para o número sorteado
   const [modalVisible, setModalVisible] = useState(false); // Estado para controlar a visibilidade do modal
   const [selectedCardIndex, setSelectedCardIndex] = useState(null); // Índice da cartela selecionada
+  const [wonCards, setWonCards] = useState(new Set()); // Estado para rastrear cartelas vencedoras
+  const [wonCardNames, setWonCardNames] = useState([]); // Estado para armazenar os nomes das cartelas vencedoras
+  const [drawnCount, setDrawnCount] = useState(0); // Estado para contar os números sorteados
 
   useEffect(() => {
     generateCards();
@@ -95,16 +98,23 @@ const GameScreen = ({ route }) => {
     } while (drawnNumbers.includes(newNumber));
     setDrawnNumbers([...drawnNumbers, newNumber]);
     setLastDrawnNumber(newNumber); // Atualiza o número sorteado
+    setDrawnCount(prevCount => prevCount + 1); // Incrementa a contagem de números sorteados
 
     checkWinningCards(newNumber);
   };
 
   const checkWinningCards = (number) => {
+    const newWonCardNames = []; // Array temporário para armazenar os nomes das cartelas vencedoras
     cards.forEach((card, index) => {
-      if (card.every(num => drawnNumbers.includes(num))) {
-        alert(`A cartela #${index + 1} foi campeã!`);
+      if (card.every(num => drawnNumbers.includes(num)) && !wonCards.has(index)) { // Verifica se a cartela já venceu
+        newWonCardNames.push(`Cartela #${index + 1}`); // Adiciona o nome da cartela ao array
+        setWonCards(prev => new Set(prev).add(index)); // Adiciona a cartela ao conjunto de vencedoras
       }
     });
+
+    if (newWonCardNames.length > 0) {
+      alert(`As cartelas vencedoras: ${newWonCardNames.join(', ')}`); // Exibe todas as cartelas vencedoras
+    }
   };
 
   const handleEditCardName = (index, newName) => {
@@ -150,7 +160,7 @@ const GameScreen = ({ route }) => {
                 <Text style={styles.lastDrawnText}>{lastDrawnNumber}</Text>
               )}
             </View>
-            <Text style={styles.title}>Números Sorteados</Text>
+            <Text style={styles.title}>Números Sorteados: {drawnCount}</Text>
             <ScrollView 
               contentContainerStyle={{
                 flexDirection: 'row',
@@ -217,7 +227,7 @@ const GameScreen = ({ route }) => {
           <TabBar 
             {...props} 
             style={styles.tabBar} 
-            activeColor="yellow"
+            activeColor="white"
             inactiveColor="black"
           />
         )}
@@ -230,7 +240,7 @@ const GameScreen = ({ route }) => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Escolha uma opção</Text>
+            <Text style={styles.modalTitle}>Compartilhar</Text>
             <TouchableOpacity style={styles.button} onPress={shareSelectedCard}>
               <Text style={styles.buttonText}>Cartela selecionada</Text>
             </TouchableOpacity>
@@ -250,9 +260,9 @@ const GameScreen = ({ route }) => {
 const styles = StyleSheet.create({
   scene: {
     flex: 1,
-    justifyContent: 'flex-start', // Alinha os elementos no topo
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#f0f8ff', // Cor de fundo suave
+    backgroundColor: '#d3d3d3',
     padding: 20,
   },
   title: {
@@ -269,11 +279,14 @@ const styles = StyleSheet.create({
   lastDrawnText: {
     fontSize: 18,
     marginLeft: 10, // Espaço entre o botão e o número sorteado
-    color: '#333', // Cor do texto
+    color: '#333', 
   },
   cardContainer: {
-    margin: 10,
+    marginBottom: 20,
+    padding: 5,
     alignItems: 'center',
+    borderRadius: 15, 
+    overflow: 'hidden', // Garante que o conteúdo não ultrapasse os limites arredondados
   },
   cardTitle: {
     fontSize: 20,
@@ -293,7 +306,7 @@ const styles = StyleSheet.create({
   numberContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
   },
   numbersList: {
     alignItems: 'center', // Centraliza os números na lista
@@ -306,6 +319,7 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 20, 
     borderWidth: 2, // Largura da borda    
+    alignSelf: 'center',
   },
   number: {
     fontSize: 20, 
