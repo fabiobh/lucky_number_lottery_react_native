@@ -13,7 +13,7 @@ export default function Index() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Bingo - Seleção Números e Cartelas' }}/>
-        <Stack.Screen name="Game" component={GameScreen} options={{ title: 'Bingo' }} />
+        <Stack.Screen name="Game" component={GameScreen} options={{ title: 'Bingo - Sorteio', headerTitleAlign: 'center' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

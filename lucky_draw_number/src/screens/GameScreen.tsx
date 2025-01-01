@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, Text, StyleSheet, FlatList, TextInput, TouchableOpacity, ScrollView, Share, Modal } from 'react-native';
+import { View, Button, Text, StyleSheet, FlatList, TextInput, TouchableOpacity, ScrollView, Share, Modal, BackHandler } from 'react-native';
 import { TabView, TabBar } from 'react-native-tab-view';
 
 const Card = ({ item, index, onEdit, onShare, drawnNumbers }) => {
@@ -72,6 +72,20 @@ const GameScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     generateCards();
+  }, []);
+
+  useEffect(() => {
+    const backAction = () => {
+      setShowConfirmationModal(true); // Mostra o modal de confirmação
+      return true; // Impede a navegação padrão
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    return () => backHandler.remove(); // Remove o listener ao desmontar o componente
   }, []);
 
   const generateCards = () => {
@@ -217,6 +231,13 @@ const GameScreen = ({ route, navigation }) => {
     { key: 'draw', title: 'Sorteio' },
     { key: 'cards', title: 'Cartelas' },
   ]);
+
+
+  const handleConfirmRestart = () => {
+    // Lógica para interromper o sorteio
+    console.log("Sorteio interrompido");
+    navigation.goBack(); // Volta para a tela anterior
+  };
 
   const handleCancelRestart = () => {
     setShowConfirmationModal(false); // Fecha a modal de confirmação
