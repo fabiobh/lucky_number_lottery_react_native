@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, Text, StyleSheet, FlatList, TextInput, TouchableOpacity } from 'react-native';
+import { View, Button, Text, StyleSheet, FlatList, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { TabView, TabBar } from 'react-native-tab-view';
 
 const Card = ({ item, index, onEdit }) => {
@@ -98,30 +98,31 @@ const GameScreen = ({ route }) => {
               )}
             </View>
             <Text style={styles.title}>Números Sorteados</Text>
-            <View style={styles.numberContainer}>
-              <FlatList
-                data={allNumbers}
-                keyExtractor={(item) => item.toString()}
-                renderItem={({ item }) => {
-                  const isDrawn = drawnNumbers.includes(item);
-                  return (
-                    <View style={[
-                      styles.numberBox,
-                      isDrawn ? styles.drawnBox : styles.undrawnBox // Aplica estilos com base no estado do número
+            <ScrollView 
+              contentContainerStyle={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+              }}
+            >
+              {allNumbers.map((item) => {
+                const isDrawn = drawnNumbers.includes(item);
+                return (
+                  <View key={item} style={[
+                    styles.numberBox,
+                    isDrawn ? styles.drawnBox : styles.undrawnBox // Aplica estilos com base no estado do número
+                  ]}>
+                    <Text style={[
+                      styles.number,
+                      isDrawn ? styles.drawnNumber : styles.undrawnNumber // Aplica estilos com base no estado do número
                     ]}>
-                      <Text style={[
-                        styles.number,
-                        isDrawn ? styles.drawnNumber : styles.undrawnNumber // Aplica estilos com base no estado do número
-                      ]}>
-                        {item}
-                      </Text>
-                    </View>
-                  );
-                }}
-                numColumns={5} // Define o número de colunas
-                contentContainerStyle={styles.numbersList} // Adiciona estilo à lista
-              />
-            </View>
+                      {item}
+                    </Text>
+                  </View>
+                );
+              })}
+            </ScrollView>
           </View>
         );
       case 'cards':
@@ -201,26 +202,24 @@ const styles = StyleSheet.create({
     width: '80%', // Largura do campo de entrada
   },
   numberContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap', // Permite que os números se movam para a linha seguinte
-    justifyContent: 'center', // Centraliza os números
+    // Mantenha outros estilos que você deseja aplicar
   },
   numbersList: {
     alignItems: 'center', // Centraliza os números na lista
   },
   numberBox: {
-    width: 60, // Largura fixa para cada número
-    height: 60, // Altura fixa para cada número
+    width: 40,  // Diminuído para caber mais números na tela
+    height: 40, // Diminuído para caber mais números na tela
     justifyContent: 'center',
     alignItems: 'center',
     margin: 5,
-    borderRadius: 30, // Bordas arredondadas
+    borderRadius: 20, // Bordas arredondadas
     borderColor: 'gray', // Cor da borda para números não sorteados
     borderWidth: 2, // Largura da borda
     backgroundColor: '#e0f7fa', // Fundo suave para números não sorteados
   },
   number: {
-    fontSize: 28, // Aumenta o tamanho da fonte dos números
+    fontSize: 20, // Diminuído para caber mais números na tela
     color: 'gray', // Cor padrão para números não sorteados
   },
   drawnBox: {
