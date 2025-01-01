@@ -237,9 +237,11 @@ const GameScreen = ({ route, navigation }) => {
   }, [navigation, index]);
 
   const handleConfirmRestart = () => {
+    console.log("handleConfirmRestart");
     setDrawnNumbers([]); // Reinicia os números sorteados
     setDrawnCount(0); // Reinicia a contagem de números sorteados
     setShowConfirmationModal(false); // Fecha a modal de confirmação
+    navigation.goBack(); // Volta para a tela anterior
   };
 
   const handleCancelRestart = () => {
