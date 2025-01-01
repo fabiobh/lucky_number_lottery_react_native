@@ -74,20 +74,6 @@ const GameScreen = ({ route, navigation }) => {
     generateCards();
   }, []);
 
-  useEffect(() => {
-    const backAction = () => {
-      setShowConfirmationModal(true); // Mostra o modal de confirmação
-      return true; // Impede a navegação padrão
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction
-    );
-
-    return () => backHandler.remove(); // Remove o listener ao desmontar o componente
-  }, []);
-
   const generateCards = () => {
     const newCards = Array.from({ length: cardCount }, () => {
       const card = [];
@@ -170,7 +156,13 @@ const GameScreen = ({ route, navigation }) => {
         return (
           <View style={styles.scene}>
             <View style={styles.drawContainer}>
-              <Button title="Sortear Número" onPress={drawNumber} disabled={isDrawing} />
+              <TouchableOpacity 
+                style={styles.drawButton} // Aplica o novo estilo
+                onPress={drawNumber} 
+                disabled={isDrawing} 
+              >
+                <Text style={styles.buttonText}>Sortear Número</Text>
+              </TouchableOpacity>
               {lastDrawnNumber !== null && (
                 <Text style={styles.lastDrawnText}>{lastDrawnNumber}</Text>
               )}
@@ -433,7 +425,13 @@ const styles = StyleSheet.create({
     color: 'white', // Cor do texto do botão
     fontSize: 16,
     textAlign: 'center', // Centraliza o texto
-  }
+  },
+  drawButton: {
+    backgroundColor: '#007BFF', // Cor de fundo do botão
+    borderRadius: 10, // Bordas arredondadas
+    paddingVertical: 15, // Aumenta a altura do botão
+    paddingHorizontal: 20, // Aumenta a largura do botão
+  },
 });
 
 export default GameScreen; 
