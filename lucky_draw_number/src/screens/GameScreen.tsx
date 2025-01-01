@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Button, Text, StyleSheet, FlatList, TextInput, TouchableOpacity, ScrollView, Share, Modal } from 'react-native';
 import { TabView, TabBar } from 'react-native-tab-view';
 
-const Card = ({ item, index, onEdit, onShare }) => {
+const Card = ({ item, index, onEdit, onShare, drawnNumbers }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState(`Cartela #${index + 1}`);
 
   const handleEdit = () => {
-    // setIsEditing(true);
-    onShare(index)
+    onShare(index);
   };
 
   const handleSave = () => {
@@ -16,28 +15,44 @@ const Card = ({ item, index, onEdit, onShare }) => {
     setIsEditing(false);
   };
 
+  const isCardDrawn = item.every(num => drawnNumbers.includes(num)); // Verifica se todos os números da cartela foram sorteados
+
   return (
     <TouchableOpacity onPress={handleEdit}>
-    <View style={styles.cardContainer}>
-      {isEditing ? (
-        <TextInput
-          style={styles.input}
-          value={editedName}
-          onChangeText={setEditedName}
-          onBlur={handleSave} // Salva o nome ao sair do campo
-          autoFocus
-        />
-      ) : (
-        <Text style={styles.cardTitle}>{editedName}</Text>
-      )}
-      <View style={styles.numberContainer}>
-        {Array.isArray(item) && item.map((number, idx) => (
-          <View key={idx} style={styles.numberBox}>
-            <Text style={styles.number}>{number}</Text>
-          </View>
-        ))}
+      <View style={[
+        styles.cardContainer,
+        isCardDrawn ? styles.drawnBox : styles.undrawnBox // Aplica estilos com base no estado da cartela
+      ]}>
+        {isEditing ? (
+          <TextInput
+            style={styles.input}
+            value={editedName}
+            onChangeText={setEditedName}
+            onBlur={handleSave} // Salva o nome ao sair do campo
+            autoFocus
+          />
+        ) : (
+          <Text style={styles.cardTitle}>{editedName}</Text>
+        )}
+        <View style={styles.numberContainer}>
+          {Array.isArray(item) && item.map((number, idx) => {
+            const isDrawn = drawnNumbers.includes(number); // Verifica se o número foi sorteado
+            return (
+              <View key={idx} style={[
+                styles.numberBox,
+                isDrawn ? styles.drawnBox : styles.undrawnBox // Aplica estilos com base no estado do número
+              ]}>
+                <Text style={[
+                  styles.number,
+                  isDrawn ? styles.drawnNumber : styles.undrawnNumber // Aplica estilos com base no estado do número
+                ]}>
+                  {number}
+                </Text>
+              </View>
+            );
+          })}
+        </View>
       </View>
-    </View>
     </TouchableOpacity>
   );
 };
@@ -81,11 +96,9 @@ const GameScreen = ({ route }) => {
     setDrawnNumbers([...drawnNumbers, newNumber]);
     setLastDrawnNumber(newNumber); // Atualiza o número sorteado
 
-    // Verifica se alguma cartela ganhou
     checkWinningCards(newNumber);
   };
 
-  // Nova função para verificar se alguma cartela ganhou
   const checkWinningCards = (number) => {
     cards.forEach((card, index) => {
       if (card.every(num => drawnNumbers.includes(num))) {
@@ -172,7 +185,13 @@ const GameScreen = ({ route }) => {
               data={cards}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item, index }) => (
-                <Card item={item} index={index} onEdit={handleEditCardName} onShare={handleShareCard} />
+                <Card 
+                  item={item} 
+                  index={index} 
+                  onEdit={handleEditCardName} 
+                  onShare={handleShareCard} 
+                  drawnNumbers={drawnNumbers} // Passa os números sorteados para o Card
+                />
               )}
             />
           </View>
@@ -305,7 +324,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold', // Negrito para números sorteados
   },
   undrawnNumber: {
-    color: 'black', // Cor para números não sorteados
+    color: 'gray', // Cor para números não sorteados
     fontWeight: 'normal', // Normal para números não sorteados
   },
   tabBar: {
