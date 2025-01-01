@@ -218,32 +218,6 @@ const GameScreen = ({ route, navigation }) => {
     { key: 'cards', title: 'Cartelas' },
   ]);
 
-  const handleBackButtonPress = () => {
-    if (index === 0) { // Verifica se está na aba de sorteio
-      setShowConfirmationModal(true); // Mostra a modal de confirmação
-      return true; // Impede a navegação padrão
-    }
-    return false; // Permite a navegação padrão
-  };
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-      if (handleBackButtonPress()) {
-        e.preventDefault(); // Impede a navegação padrão
-      }
-    });
-
-    return unsubscribe;
-  }, [navigation, index]);
-
-  const handleConfirmRestart = () => {
-    console.log("handleConfirmRestart");
-    setDrawnNumbers([]); // Reinicia os números sorteados
-    setDrawnCount(0); // Reinicia a contagem de números sorteados
-    setShowConfirmationModal(false); // Fecha a modal de confirmação
-    navigation.goBack(); // Volta para a tela anterior
-  };
-
   const handleCancelRestart = () => {
     setShowConfirmationModal(false); // Fecha a modal de confirmação
   };
