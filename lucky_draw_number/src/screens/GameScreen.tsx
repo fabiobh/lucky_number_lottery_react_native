@@ -247,7 +247,7 @@ const GameScreen = ({ route }) => {
             <TouchableOpacity style={styles.button} onPress={shareAllCards}>
               <Text style={styles.buttonText}>Todas as cartelas</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => setModalVisible(false)}>
+            <TouchableOpacity style={styles.buttonRed} onPress={() => setModalVisible(false)}>
               <Text style={styles.buttonText}>Cancelar</Text>
             </TouchableOpacity>
           </View>
@@ -373,6 +373,13 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#007BFF', // Cor de fundo do botão
+    borderRadius: 10, // Bordas arredondadas
+    paddingVertical: 10,
+    marginVertical: 10, // Aumente o espaço entre os botões
+    width: '100%', // Largura total do botão
+  },
+  buttonRed: {
+    backgroundColor: 'red', // Cor de fundo do botão
     borderRadius: 10, // Bordas arredondadas
     paddingVertical: 10,
     marginVertical: 10, // Aumente o espaço entre os botões
