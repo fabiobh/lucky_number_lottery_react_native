@@ -202,21 +202,22 @@ const styles = StyleSheet.create({
     width: '80%', // Largura do campo de entrada
   },
   numberContainer: {
-    // Mantenha outros estilos que você deseja aplicar
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
   },
   numbersList: {
     alignItems: 'center', // Centraliza os números na lista
   },
   numberBox: {
-    width: 40,  // Diminuído para caber mais números na tela
-    height: 40, // Diminuído para caber mais números na tela
+    width: 60,  // controla o tamanho do número
+    height: 60, // controla o tamanho do número
     justifyContent: 'center',
     alignItems: 'center',
     margin: 5,
-    borderRadius: 20, // Bordas arredondadas
-    borderColor: 'gray', // Cor da borda para números não sorteados
+    borderRadius: 20, 
     borderWidth: 2, // Largura da borda
-    backgroundColor: '#e0f7fa', // Fundo suave para números não sorteados
+    
   },
   number: {
     fontSize: 20, // Diminuído para caber mais números na tela
@@ -225,6 +226,10 @@ const styles = StyleSheet.create({
   drawnBox: {
     borderColor: 'green', // Cor da borda para números sorteados
     backgroundColor: 'lightgreen', // Fundo suave para números sorteados
+  },
+  undrawnBox: {
+    borderColor: 'gray', // Cor da borda para números não sorteados
+    backgroundColor: '#e0f7fa', // Fundo suave para números não sorteados
   },
   drawnNumber: {
     color: 'green', // Cor para números sorteados
