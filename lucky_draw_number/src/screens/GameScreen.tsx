@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, Text, StyleSheet, FlatList, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Button, Text, StyleSheet, FlatList, TextInput, TouchableOpacity, ScrollView, Share, Modal } from 'react-native';
 import { TabView, TabBar } from 'react-native-tab-view';
 
-const Card = ({ item, index, onEdit }) => {
+const Card = ({ item, index, onEdit, onShare }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState(`Cartela #${index + 1}`);
 
   const handleEdit = () => {
     // setIsEditing(true);
+    onShare(index)
   };
 
   const handleSave = () => {
@@ -47,6 +48,8 @@ const GameScreen = ({ route }) => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [cards, setCards] = useState<number[][]>([]);
   const [lastDrawnNumber, setLastDrawnNumber] = useState<number | null>(null); // Estado para o número sorteado
+  const [modalVisible, setModalVisible] = useState(false); // Estado para controlar a visibilidade do modal
+  const [selectedCardIndex, setSelectedCardIndex] = useState(null); // Índice da cartela selecionada
 
   useEffect(() => {
     generateCards();
@@ -77,12 +80,49 @@ const GameScreen = ({ route }) => {
     } while (drawnNumbers.includes(newNumber));
     setDrawnNumbers([...drawnNumbers, newNumber]);
     setLastDrawnNumber(newNumber); // Atualiza o número sorteado
+
+    // Verifica se alguma cartela ganhou
+    checkWinningCards(newNumber);
+  };
+
+  // Nova função para verificar se alguma cartela ganhou
+  const checkWinningCards = (number) => {
+    cards.forEach((card, index) => {
+      if (card.every(num => drawnNumbers.includes(num))) {
+        alert(`A cartela #${index + 1} foi campeã!`);
+      }
+    });
   };
 
   const handleEditCardName = (index, newName) => {
     const updatedCards = [...cards];
     updatedCards[index] = newName; // Atualiza o nome da cartela
     setCards(updatedCards);
+  };
+
+  const handleShareCard = (index) => {
+    setSelectedCardIndex(index); // Define a cartela selecionada
+    setModalVisible(true); // Abre o modal
+  };
+
+  const shareSelectedCard = () => {
+    const cardName = `Cartela #${selectedCardIndex + 1}`;
+    const cardNumbers = cards[selectedCardIndex].join(', ');
+    const message = `Nome da Cartela: ${cardName}\nNúmeros: ${cardNumbers}`;
+
+    Share.share({ message });
+    setModalVisible(false); // Fecha o modal após compartilhar
+  };
+
+  const shareAllCards = () => {
+    const messages = cards.map((_, index) => {
+      const cardName = `Cartela #${index + 1}`;
+      const cardNumbers = cards[index].join(', ');
+      return `Nome da Cartela: ${cardName}\nNúmeros: ${cardNumbers}`;
+    }).join('\n\n'); // Junta todas as mensagens
+
+    Share.share({ message: messages });
+    setModalVisible(false); // Fecha o modal após compartilhar
   };
 
   const renderScene = ({ route }) => {
@@ -132,7 +172,7 @@ const GameScreen = ({ route }) => {
               data={cards}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item, index }) => (
-                <Card item={item} index={index} onEdit={handleEditCardName} />
+                <Card item={item} index={index} onEdit={handleEditCardName} onShare={handleShareCard} />
               )}
             />
           </View>
@@ -149,12 +189,42 @@ const GameScreen = ({ route }) => {
   ]);
 
   return (
-    <TabView
-      navigationState={{ index, routes }}
-      renderScene={renderScene}
-      onIndexChange={setIndex}
-      renderTabBar={props => <TabBar {...props} style={styles.tabBar} />}
-    />
+    <>
+      <TabView
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        renderTabBar={props => (
+          <TabBar 
+            {...props} 
+            style={styles.tabBar} 
+            activeColor="yellow"
+            inactiveColor="black"
+          />
+        )}
+      />
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Escolha uma opção</Text>
+            <TouchableOpacity style={styles.button} onPress={shareSelectedCard}>
+              <Text style={styles.buttonText}>Cartela selecionada</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={shareAllCards}>
+              <Text style={styles.buttonText}>Todas as cartelas</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => setModalVisible(false)}>
+              <Text style={styles.buttonText}>Cancelar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    </>
   );
 };
 
@@ -216,12 +286,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 5,
     borderRadius: 20, 
-    borderWidth: 2, // Largura da borda
-    
+    borderWidth: 2, // Largura da borda    
   },
   number: {
-    fontSize: 20, // Diminuído para caber mais números na tela
-    color: 'gray', // Cor padrão para números não sorteados
+    fontSize: 20, 
+    color: 'black', // Cor padrão para números não sorteados
   },
   drawnBox: {
     borderColor: 'green', // Cor da borda para números sorteados
@@ -229,17 +298,58 @@ const styles = StyleSheet.create({
   },
   undrawnBox: {
     borderColor: 'gray', // Cor da borda para números não sorteados
-    backgroundColor: '#e0f7fa', // Fundo suave para números não sorteados
+    backgroundColor: '#f0f0f0', // Fundo cinza claro para números não sorteados
   },
   drawnNumber: {
     color: 'green', // Cor para números sorteados
+    fontWeight: 'bold', // Negrito para números sorteados
   },
   undrawnNumber: {
-    color: 'gray', // Cor para números não sorteados
+    color: 'black', // Cor para números não sorteados
+    fontWeight: 'normal', // Normal para números não sorteados
   },
   tabBar: {
-    marginBottom: 10, // Espaço entre a aba e o conteúdo
+    marginBottom: 10, // Espaço entre a aba e o conteúdo    
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)', // Fundo semi-transparente mais escuro
+  },
+  modalContent: {
+    width: '80%', // Largura do modal
+    padding: 20,
+    backgroundColor: 'white',
+    borderRadius: 15, // Bordas arredondadas
+    alignItems: 'center',
+    shadowColor: '#000', // Sombra
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5, // Sombra para Android
+  },
+  modalTitle: {
+    fontSize: 20, // Aumentar o tamanho da fonte
+    fontWeight: 'bold',
+    marginBottom: 15,
+    color: '#333', // Cor do título
+  },
+  button: {
+    backgroundColor: '#007BFF', // Cor de fundo do botão
+    borderRadius: 10, // Bordas arredondadas
+    paddingVertical: 10,
+    marginVertical: 10, // Aumente o espaço entre os botões
+    width: '100%', // Largura total do botão
+  },
+  buttonText: {
+    color: 'white', // Cor do texto do botão
+    fontSize: 16,
+    textAlign: 'center', // Centraliza o texto
+  }
 });
 
 export default GameScreen; 

@@ -12,8 +12,8 @@ export default function Index() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Game" component={GameScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Bingo - Seleção Números e Cartelas' }}/>
+        <Stack.Screen name="Game" component={GameScreen} options={{ title: 'Bingo' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
