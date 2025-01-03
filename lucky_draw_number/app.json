@@ -13,7 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.uaialternativa.luckydraw"
     },
     "android": {
       "package": "com.uaialternativa.luckydraw",
