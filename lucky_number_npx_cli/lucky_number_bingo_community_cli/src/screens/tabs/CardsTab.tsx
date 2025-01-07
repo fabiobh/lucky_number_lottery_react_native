@@ -1,16 +1,13 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 
-function CardsTab({ numbersPerCard, numCount }: { numbersPerCard: number, numCount: number }): React.JSX.Element {
-  const cards = [
-    Array.from({ length: numbersPerCard }, () => Math.floor(Math.random() * numCount)),
-    Array.from({ length: numbersPerCard }, () => Math.floor(Math.random() * numCount)),
-    Array.from({ length: numbersPerCard }, () => Math.floor(Math.random() * numCount)),
-    Array.from({ length: numbersPerCard }, () => Math.floor(Math.random() * numCount)),
-  ];
+function CardsTab({ numbersPerCard, numCount, cardCount }: { numbersPerCard: number, numCount: number, cardCount: number }): React.JSX.Element {
+  const cards = Array.from({ length: cardCount }, () =>
+    Array.from({ length: numbersPerCard }, () => Math.floor(Math.random() * numCount))
+  );
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {cards.map((card, index) => (
         <View key={index} style={styles.card}>
           <Text style={styles.cardTitle}>Card {index + 1}</Text>
@@ -21,7 +18,7 @@ function CardsTab({ numbersPerCard, numCount }: { numbersPerCard: number, numCou
           </View>
         </View>
       ))}
-    </View>
+    </ScrollView>
   );
 }
 
