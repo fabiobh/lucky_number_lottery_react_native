@@ -13,7 +13,7 @@ function GameScreen(): React.JSX.Element {
     return activeTab === 'lottery' ? (
       <LotteryTab {...params} />
     ) : (
-      <CardsTab {...params} />
+      <CardsTab numbersPerCard={0} {...params} />
     );
   };
 

@@ -1,12 +1,12 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-function CardsTab({ numbersPerCard }: { numbersPerCard: number }): React.JSX.Element {
+function CardsTab({ numbersPerCard, numCount }: { numbersPerCard: number, numCount: number }): React.JSX.Element {
   const cards = [
-    Array.from({ length: numbersPerCard }, () => Math.floor(Math.random() * 100)),
-    Array.from({ length: numbersPerCard }, () => Math.floor(Math.random() * 100)),
-    Array.from({ length: numbersPerCard }, () => Math.floor(Math.random() * 100)),
-    Array.from({ length: numbersPerCard }, () => Math.floor(Math.random() * 100)),
+    Array.from({ length: numbersPerCard }, () => Math.floor(Math.random() * numCount)),
+    Array.from({ length: numbersPerCard }, () => Math.floor(Math.random() * numCount)),
+    Array.from({ length: numbersPerCard }, () => Math.floor(Math.random() * numCount)),
+    Array.from({ length: numbersPerCard }, () => Math.floor(Math.random() * numCount)),
   ];
 
   return (
