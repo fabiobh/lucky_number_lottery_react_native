@@ -6,11 +6,13 @@ function LotteryTab(): React.JSX.Element {
   const route = useRoute();
   const {numCount} = route.params;
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
-  const [drawnNumber, setDrawnNumber] = useState<number | null>(null);
+  const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
+  const [lastDrawnNumber, setLastDrawnNumber] = useState<number | null>(null);
 
   const handleDrawNumber = () => {
     const random = Math.floor(Math.random() * numCount) + 1;
-    setDrawnNumber(random);
+    setLastDrawnNumber(random);
+    setDrawnNumbers(prev => [...prev, random]);
   };
 
   const renderNumberGrid = () => {
@@ -23,7 +25,7 @@ function LotteryTab(): React.JSX.Element {
             style={[
               styles.numberBox,
               selectedNumber === number && styles.selectedNumber,
-              drawnNumber === number && styles.drawnNumber,
+              drawnNumbers.includes(number) && styles.drawnNumber,
             ]}
             onPress={() => setSelectedNumber(number)}>
             <Text style={styles.numberText}>{number}</Text>
@@ -39,13 +41,12 @@ function LotteryTab(): React.JSX.Element {
         <TouchableOpacity style={styles.drawButton} onPress={handleDrawNumber}>
           <Text style={styles.drawButtonText}>Draw Number</Text>
         </TouchableOpacity>
-        <Text style={styles.drawnNumberText}>{drawnNumber || ''}</Text>
+        <Text style={styles.drawnNumberText}>{lastDrawnNumber || ''}</Text>
       </View>
       {renderNumberGrid()}
     </>
   );
 }
-
 const styles = StyleSheet.create({
   drawSection: {
     alignItems: 'center',
