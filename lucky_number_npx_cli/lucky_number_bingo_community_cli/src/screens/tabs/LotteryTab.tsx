@@ -5,9 +5,10 @@ import {useRoute} from '@react-navigation/native';
 function LotteryTab(): React.JSX.Element {
   const route = useRoute();
   const {numCount} = route.params;
-  const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
+  const [selectedNumber, setSelectedNumber] = useState<number>(0);
   const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
-  const [lastDrawnNumber, setLastDrawnNumber] = useState<number | null>(null);
+  const [lastDrawnNumber, setLastDrawnNumber] = useState<number>(0);
+
 
   const handleDrawNumber = () => {
     const random = Math.floor(Math.random() * numCount) + 1;
