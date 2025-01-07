@@ -5,7 +5,7 @@ function CardsTab({ numbersPerCard, numCount, cardCount }: { numbersPerCard: num
   const cards = Array.from({ length: cardCount }, () =>
     Array.from({ length: numbersPerCard }, () => Math.floor(Math.random() * numCount))
   );
-
+  
   return (
     <ScrollView style={styles.container}>
       {cards.map((card, index) => (
