@@ -3,10 +3,10 @@ import {StyleSheet, Text, View} from 'react-native';
 
 function CardsTab(): React.JSX.Element {
   const cards = [
-    [1, 2, 3, 4, 5],
-    [6, 7, 8, 9, 10],
-    [11, 12, 13, 14, 15],
-    [16, 17, 18, 19, 20],
+    Array.from({ length: 5 }, () => Math.floor(Math.random() * 100)),
+    Array.from({ length: 5 }, () => Math.floor(Math.random() * 100)),
+    Array.from({ length: 5 }, () => Math.floor(Math.random() * 100)),
+    Array.from({ length: 5 }, () => Math.floor(Math.random() * 100)),
   ];
 
   return (

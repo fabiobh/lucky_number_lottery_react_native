@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {useRoute} from '@react-navigation/native';
+import {StyleSheet, Text, TouchableOpacity, View, ScrollView} from 'react-native';
+import {ParamListBase, RouteProp, useRoute} from '@react-navigation/native';
 
 function LotteryTab(): React.JSX.Element {
-  const route = useRoute();
-  const {numCount} = route.params;
+
+  const route = useRoute<RouteProp<ParamListBase, string>>();
+  const numCount = (route.params as { numCount?: number })?.numCount ?? 0;
   const [selectedNumber, setSelectedNumber] = useState<number>(0);
   const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
   const [lastDrawnNumber, setLastDrawnNumber] = useState<number>(0);
@@ -19,22 +20,24 @@ function LotteryTab(): React.JSX.Element {
   const renderNumberGrid = () => {
     const numbers = Array.from({length: numCount}, (_, i) => i + 1);
     return (
-      <View style={styles.grid}>
-        {numbers.map(number => (
-          <TouchableOpacity
-            key={number}
-            style={[
-              styles.numberBox,
-              selectedNumber === number && styles.selectedNumber,
-              drawnNumbers.includes(number) && styles.drawnNumber,
-            ]}
-            onPress={() => {}}
-            disabled={true}
-          >
-            <Text style={styles.numberText}>{number}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+      <ScrollView>
+        <View style={styles.grid}>
+          {numbers.map(number => (
+            <TouchableOpacity
+              key={number}
+              style={[
+                styles.numberBox,
+                selectedNumber === number && styles.selectedNumber,
+                drawnNumbers.includes(number) && styles.drawnNumber,
+              ]}
+              onPress={() => {}}
+              disabled={true}
+            >
+              <Text style={styles.numberText}>{number}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </ScrollView>
     );
   };
 
