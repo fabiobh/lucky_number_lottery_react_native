@@ -12,9 +12,15 @@ function LotteryTab(): React.JSX.Element {
 
 
   const handleDrawNumber = () => {
-    const random = Math.floor(Math.random() * numCount) + 1;
-    setLastDrawnNumber(random);
-    setDrawnNumbers(prev => [...prev, random]);
+    const availableNumbers = Array.from({length: numCount}, (_, i) => i + 1)
+      .filter(num => !drawnNumbers.includes(num));
+      
+    if (availableNumbers.length > 0) {
+      const randomIndex = Math.floor(Math.random() * availableNumbers.length);
+      const random = availableNumbers[randomIndex];
+      setLastDrawnNumber(random);
+      setDrawnNumbers(prev => [...prev, random]);
+    }
   };
 
   const renderNumberGrid = () => {
