@@ -13,7 +13,11 @@ function CardsTab(): React.JSX.Element {
       {cards.map((card, index) => (
         <View key={index} style={styles.card}>
           <Text style={styles.cardTitle}>Card {index + 1}</Text>
-          <Text style={styles.cardNumbers}>{card.join(', ')}</Text>
+          <View style={styles.cardNumbersContainer}>
+            {card.map((number, numberIndex) => (
+              <Text key={numberIndex} style={styles.cardNumber}>{number}</Text>
+            ))}
+          </View>
         </View>
       ))}
     </View>
@@ -43,9 +47,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 5,
   },
-  cardNumbers: {
+  cardNumbersContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  cardNumber: {
     fontSize: 16,
     color: '#666',
+    fontWeight: 'bold',
+    marginRight: 5,
   },
 });
 
