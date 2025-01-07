@@ -56,6 +56,10 @@ const styles = StyleSheet.create({
     color: '#666',
     fontWeight: 'bold',
     marginRight: 5,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 3,
+    padding: 5,
   },
 });
 
