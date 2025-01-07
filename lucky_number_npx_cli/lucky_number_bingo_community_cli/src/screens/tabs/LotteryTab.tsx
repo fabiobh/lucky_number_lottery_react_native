@@ -27,7 +27,9 @@ function LotteryTab(): React.JSX.Element {
               selectedNumber === number && styles.selectedNumber,
               drawnNumbers.includes(number) && styles.drawnNumber,
             ]}
-            onPress={() => setSelectedNumber(number)}>
+            onPress={() => {}}
+            disabled={true}
+          >
             <Text style={styles.numberText}>{number}</Text>
           </TouchableOpacity>
         ))}
