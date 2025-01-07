@@ -3,7 +3,7 @@ import {ScrollView, StyleSheet, Text, View} from 'react-native';
 
 function CardsTab({ numbersPerCard, numCount, cardCount }: { numbersPerCard: number, numCount: number, cardCount: number }): React.JSX.Element {
   const cards = Array.from({ length: cardCount }, () =>
-    Array.from({ length: numbersPerCard }, () => Math.floor(Math.random() * numCount))
+    Array.from({ length: numbersPerCard }, () => Math.floor(Math.random() * (numCount - 1)) + 1)
   );
   
   return (
