@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
   cardNumbersContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
   cardNumber: {
     fontSize: 16,
@@ -60,6 +61,8 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 3,
     padding: 5,
+    width: '18%',
+    textAlign: 'center',
   },
 });
 
