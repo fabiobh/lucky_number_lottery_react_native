@@ -1,17 +1,20 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {useRoute} from '@react-navigation/native';
 
 function LotteryTab(): React.JSX.Element {
+  const route = useRoute();
+  const {numCount} = route.params;
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
   const [drawnNumber, setDrawnNumber] = useState<number | null>(null);
 
   const handleDrawNumber = () => {
-    const random = Math.floor(Math.random() * 15) + 1;
+    const random = Math.floor(Math.random() * numCount) + 1;
     setDrawnNumber(random);
   };
 
   const renderNumberGrid = () => {
-    const numbers = Array.from({length: 15}, (_, i) => i + 1);
+    const numbers = Array.from({length: numCount}, (_, i) => i + 1);
     return (
       <View style={styles.grid}>
         {numbers.map(number => (

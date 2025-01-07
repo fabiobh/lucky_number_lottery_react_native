@@ -2,12 +2,19 @@ import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import LotteryTab from './tabs/LotteryTab';
 import CardsTab from './tabs/CardsTab';
+import {useRoute} from '@react-navigation/native';
 
 function GameScreen(): React.JSX.Element {
   const [activeTab, setActiveTab] = useState<'lottery' | 'cards'>('lottery');
+  const route = useRoute();
+  const params = route.params;
 
   const renderContent = () => {
-    return activeTab === 'lottery' ? <LotteryTab /> : <CardsTab />;
+    return activeTab === 'lottery' ? (
+      <LotteryTab {...params} />
+    ) : (
+      <CardsTab {...params} />
+    );
   };
 
   return (
