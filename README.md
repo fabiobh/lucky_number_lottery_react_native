@@ -46,15 +46,22 @@ npx expo install expo-dev-client
 
 - Generate native Android files:
 
-npx expo prebuild
+npx expo prebuild - generate iOS and Android native folders
 
 - Build on the cloud
 
 eas build --platform android
 
+eas build -p android --profile preview --local
+
 - Build locally:
 
 cd android && ./gradlew assembleRelease
+
+
+- create a aab file for production build:
+
+eas build --platform android --profile production
 
 The APK will be available at: android/app/build/outputs/apk/release/app-release.apk
 

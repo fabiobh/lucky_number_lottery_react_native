@@ -2,6 +2,7 @@
   "expo": {
     "name": "Lucky Draw Number",
     "slug": "lucky_draw_number",
+    "jsEngine": "jsc",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
