@@ -1,20 +1,19 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View, ScrollView} from 'react-native';
-import {ParamListBase, RouteProp, useRoute} from '@react-navigation/native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import { ParamListBase, RouteProp, useRoute } from '@react-navigation/native';
 
-function LotteryTab(): React.JSX.Element {
-
+function LotteryTab({ drawnNumbers, setDrawnNumbers, numCount }: { 
+  drawnNumbers: number[];
+  setDrawnNumbers: React.Dispatch<React.SetStateAction<number[]>>;
+  numCount: number;
+}): React.JSX.Element {
   const route = useRoute<RouteProp<ParamListBase, string>>();
-  const numCount = (route.params as { numCount?: number })?.numCount ?? 0;
-  const [selectedNumber, setSelectedNumber] = useState<number>(0);
-  const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
   const [lastDrawnNumber, setLastDrawnNumber] = useState<number>(0);
 
-
   const handleDrawNumber = () => {
-    const availableNumbers = Array.from({length: numCount}, (_, i) => i + 1)
+    const availableNumbers = Array.from({ length: numCount }, (_, i) => i + 1)
       .filter(num => !drawnNumbers.includes(num));
-      
+
     if (availableNumbers.length > 0) {
       const randomIndex = Math.floor(Math.random() * availableNumbers.length);
       const random = availableNumbers[randomIndex];
@@ -24,7 +23,7 @@ function LotteryTab(): React.JSX.Element {
   };
 
   const renderNumberGrid = () => {
-    const numbers = Array.from({length: numCount}, (_, i) => i + 1);
+    const numbers = Array.from({ length: numCount }, (_, i) => i + 1);
     return (
       <ScrollView>
         <View style={styles.grid}>
@@ -33,7 +32,6 @@ function LotteryTab(): React.JSX.Element {
               key={number}
               style={[
                 styles.numberBox,
-                selectedNumber === number && styles.selectedNumber,
                 drawnNumbers.includes(number) && styles.drawnNumber,
               ]}
               onPress={() => {}}
@@ -59,6 +57,7 @@ function LotteryTab(): React.JSX.Element {
     </>
   );
 }
+
 const styles = StyleSheet.create({
   drawSection: {
     alignItems: 'center',
@@ -94,9 +93,6 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     margin: 5,
     backgroundColor: '#f5f5f5',
-  },
-  selectedNumber: {
-    backgroundColor: '#0F9D58',
   },
   drawnNumber: {
     backgroundColor: '#0F9D58',

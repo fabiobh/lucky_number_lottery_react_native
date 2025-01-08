@@ -6,12 +6,17 @@ import {useRoute} from '@react-navigation/native';
 
 function GameScreen(): React.JSX.Element {
   const [activeTab, setActiveTab] = useState<'lottery' | 'cards'>('lottery');
+  const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
   const route = useRoute();
   const params = route.params;
 
+  const handleResetNumbers = () => {
+    setDrawnNumbers([]);
+  };
+
   const renderContent = () => {
     return activeTab === 'lottery' ? (
-      <LotteryTab {...params} />
+      <LotteryTab {...params} drawnNumbers={drawnNumbers} setDrawnNumbers={setDrawnNumbers} />
     ) : (
       <CardsTab numbersPerCard={0} {...params} />
     );
@@ -36,6 +41,10 @@ function GameScreen(): React.JSX.Element {
       </View>
 
       {renderContent()}
+
+      <TouchableOpacity onPress={handleResetNumbers}>
+        <Text>Prosseguir</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
