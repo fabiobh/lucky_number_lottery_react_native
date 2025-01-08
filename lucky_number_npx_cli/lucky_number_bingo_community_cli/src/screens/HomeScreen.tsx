@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import Slider from '@react-native-community/slider';
+import { NavigationProp } from '@react-navigation/native';
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ navigation }: { navigation: NavigationProp<any> }) {
   const [numCount, setNumCount] = useState(30);
   const [cardCount, setCardCount] = useState(10);
   const [numbersPerCard, setNumbersPerCard] = useState(5);
 
   const handleStart = () => {
     console.log('Iniciando jogo...');
+    const generatedCards = Array.from({ length: cardCount }, () =>
+      Array.from({ length: numbersPerCard }, () => Math.floor(Math.random() * (numCount - 1)) + 1)
+    );
     navigation.navigate('Game', {
       numCount,
       cardCount,
       numbersPerCard,
+      cards: generatedCards,
     });
   };
 
@@ -32,7 +37,7 @@ export default function HomeScreen({ navigation }) {
       <Slider
         minimumValue={10}
         maximumValue={100}
-        step={1}
+        step={5}
         value={cardCount}
         onValueChange={setCardCount}
         style={styles.slider}

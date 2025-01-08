@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 
-function CardsTab({ numbersPerCard, numCount, cardCount }: { numbersPerCard: number, numCount: number, cardCount: number }): React.JSX.Element {
-  const cards = Array.from({ length: cardCount }, () =>
-    Array.from({ length: numbersPerCard }, () => Math.floor(Math.random() * (numCount - 1)) + 1)
-  );
-  
+function CardsTab({ cards, numbersPerCard, numCount, cardCount }: { 
+  cards: number[][]; 
+  numbersPerCard: number; 
+  numCount: number; 
+  cardCount: number; 
+}): React.JSX.Element {
+  useEffect(() => {
+  }, [numbersPerCard, numCount, cardCount]);
+
   return (
     <ScrollView style={styles.container}>
       {cards.map((card, index) => (
