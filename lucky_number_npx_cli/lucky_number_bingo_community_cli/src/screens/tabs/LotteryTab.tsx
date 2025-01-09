@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import { ParamListBase, RouteProp, useRoute } from '@react-navigation/native';
+import { useDrawnNumbers } from '../../contexts/DrawnNumbersContext';
 
-function LotteryTab({ drawnNumbers, setDrawnNumbers, numCount }: { 
-  drawnNumbers: number[];
-  setDrawnNumbers: React.Dispatch<React.SetStateAction<number[]>>;
-  numCount: number;
-}): React.JSX.Element {
+function LotteryTab({ numCount }: { numCount: number; }): React.JSX.Element {
   const route = useRoute<RouteProp<ParamListBase, string>>();
+  const { drawnNumbers, setDrawnNumbers } = useDrawnNumbers();
   const [lastDrawnNumber, setLastDrawnNumber] = useState<number>(0);
 
   const handleDrawNumber = () => {
