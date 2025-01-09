@@ -3,10 +3,11 @@ import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-nati
 import LotteryTab from './tabs/LotteryTab';
 import CardsTab from './tabs/CardsTab';
 import {useRoute} from '@react-navigation/native';
+import {useDrawnNumbers} from '../contexts/DrawnNumbersContext';
 
 function GameScreen(): React.JSX.Element {
   const [activeTab, setActiveTab] = useState<'lottery' | 'cards'>('lottery');
-  const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
+  const {drawnNumbers, setDrawnNumbers} = useDrawnNumbers();
   const route = useRoute();
   const params = route.params;
 
