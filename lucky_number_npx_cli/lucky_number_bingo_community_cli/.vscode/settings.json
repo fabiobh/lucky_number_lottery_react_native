@@ -1,0 +1,34 @@
+{
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#0b8092",
+        "activityBar.activeBorder": "#0b809299",
+        "activityBar.background": "#0b8092",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#0b809299",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "sash.hoverBorder": "#0b8092",
+        "statusBar.background": "#0b809299",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#0b8092",
+        "statusBarItem.remoteBackground": "#0b809299",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#0b809299",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#0b809299",
+        "titleBar.inactiveForeground": "#e7e7e799",
+        "commandCenter.border": "#e7e7e799"
+    },
+    "peacock.color": "#0b924799",
+    "java.configuration.updateBuildConfiguration": "interactive",
+    // "dart.flutterSdkPath": "/home/pedro/Developer/sdks/flutter/flutter-3.13.0",
+    // Remove .fvm files from search
+    "search.exclude": {
+        "**/.fvm": true
+    },
+    // Remove from file watching
+    "files.watcherExclude": {
+        "**/.fvm": true
+    },
+    "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx2G -Xms100m -Xlog:disable"
+}
