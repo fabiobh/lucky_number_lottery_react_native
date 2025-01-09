@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import { ParamListBase, RouteProp, useRoute } from '@react-navigation/native';
+import { useDrawnNumbers } from '../../contexts/DrawnNumbersContext';
 
-function LotteryTab({ drawnNumbers, setDrawnNumbers, numCount }: { 
-  drawnNumbers: number[];
-  setDrawnNumbers: React.Dispatch<React.SetStateAction<number[]>>;
-  numCount: number;
-}): React.JSX.Element {
+function LotteryTab({ numCount }: { numCount: number; }): React.JSX.Element {
   const route = useRoute<RouteProp<ParamListBase, string>>();
+  const { drawnNumbers, setDrawnNumbers } = useDrawnNumbers();
   const [lastDrawnNumber, setLastDrawnNumber] = useState<number>(0);
 
   const handleDrawNumber = () => {
@@ -20,6 +18,11 @@ function LotteryTab({ drawnNumbers, setDrawnNumbers, numCount }: {
       setLastDrawnNumber(random);
       setDrawnNumbers(prev => [...prev, random]);
     }
+  };
+
+  const handleResetNumbers = () => {
+    setDrawnNumbers([]);
+    setLastDrawnNumber(0); // Optionally reset the last drawn number
   };
 
   const renderNumberGrid = () => {
@@ -51,6 +54,9 @@ function LotteryTab({ drawnNumbers, setDrawnNumbers, numCount }: {
         <TouchableOpacity style={styles.drawButton} onPress={handleDrawNumber}>
           <Text style={styles.drawButtonText}>Draw Number</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.resetButton} onPress={handleResetNumbers}>
+          <Text style={styles.resetButtonText}>Reset Numbers</Text>
+        </TouchableOpacity>
         <Text style={styles.drawnNumberText}>{lastDrawnNumber || ''}</Text>
       </View>
       {renderNumberGrid()}
@@ -69,7 +75,18 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 4,
   },
+  resetButton: {
+    backgroundColor: '#D9534F', // Red color for reset button
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 4,
+    marginTop: 10,
+  },
   drawButtonText: {
+    color: 'white',
+    fontSize: 16,
+  },
+  resetButtonText: {
     color: 'white',
     fontSize: 16,
   },

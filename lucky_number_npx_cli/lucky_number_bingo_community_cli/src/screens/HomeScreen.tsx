@@ -23,7 +23,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 
   return (
     <View style={styles.container}>
-      <Text>Quantidade de Números (30 a 100): {numCount}</Text>
+      <Text>Quantity of Numbers (30 - 100): {numCount}</Text>
       <Slider
         minimumValue={30}
         maximumValue={100}
@@ -33,7 +33,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
         style={styles.slider}
       />
       
-      <Text>Quantidade de Cartelas (10 a 100): {cardCount}</Text>
+      <Text>Quantity of Cards (10 - 100): {cardCount}</Text>
       <Slider
         minimumValue={10}
         maximumValue={100}
@@ -43,7 +43,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
         style={styles.slider}
       />
       
-      <Text>Números por Cartela (5 a 25): {numbersPerCard}</Text>
+      <Text>Numbers per Card (5 - 25): {numbersPerCard}</Text>
       <Slider
         minimumValue={5}
         maximumValue={25}
@@ -53,7 +53,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
         style={styles.slider}
       />
       
-      <Button title="Prosseguir" onPress={handleStart} />
+      <Button title="Start Game" onPress={handleStart} />
     </View>
   );
 }

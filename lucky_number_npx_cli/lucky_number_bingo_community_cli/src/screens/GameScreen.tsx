@@ -3,10 +3,11 @@ import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-nati
 import LotteryTab from './tabs/LotteryTab';
 import CardsTab from './tabs/CardsTab';
 import {useRoute} from '@react-navigation/native';
+import {useDrawnNumbers} from '../contexts/DrawnNumbersContext';
 
 function GameScreen(): React.JSX.Element {
   const [activeTab, setActiveTab] = useState<'lottery' | 'cards'>('lottery');
-  const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
+  const {drawnNumbers, setDrawnNumbers} = useDrawnNumbers();
   const route = useRoute();
   const params = route.params;
 
@@ -18,14 +19,13 @@ function GameScreen(): React.JSX.Element {
     return activeTab === 'lottery' ? (
       <LotteryTab {...params} drawnNumbers={drawnNumbers} setDrawnNumbers={setDrawnNumbers} />
     ) : (
-      <CardsTab numbersPerCard={0} {...params} />
+      <CardsTab cards={[]} numCount={0} cardCount={0} numbersPerCard={0} {...params} />
     );
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Lucky Draw</Text>
         <View style={styles.tabs}>
           <TouchableOpacity onPress={() => setActiveTab('lottery')}>
             <Text style={[styles.tab, activeTab === 'lottery' && styles.activeTab]}>
@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
   },
   tabs: {
     flexDirection: 'row',
+    justifyContent: 'center',
     marginBottom: 16,
   },
   tab: {

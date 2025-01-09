@@ -5,17 +5,20 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './src/screens/HomeScreen';
 import GameScreen from './src/screens/GameScreen';
+import { DrawnNumbersProvider } from './src/contexts/DrawnNumbersContext';
 
 const Stack = createStackNavigator();
 
 export default function Index() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Bingo - Seleção Números e Cartelas' }}/>
-        <Stack.Screen name="Game" component={GameScreen} options={{ title: 'Bingo - Sorteio', headerTitleAlign: 'center' }} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <DrawnNumbersProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Select Cards and Numbers', headerTitleAlign: 'center' }}/>
+          <Stack.Screen name="Game" component={GameScreen} options={{ title: 'Draw Numbers', headerTitleAlign: 'center' }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </DrawnNumbersProvider>
   );
 }
 
