@@ -1,10 +1,22 @@
-# Project create with the command below:
+# Projeto criado com o comando abaixo:
 
 npx @react-native-community/cli@latest init MyApp
 
-* generate a release apk
+* Crie um release de um AAB ( Android aApp Bundle )
 
-- npx react-native build-android
+npx react-native build-android --mode=release
+
+npx react-native build-android --mode=debug
+
+# Gerar um APK
+
+npx react-native build-android --mode=release --output-type=apk
+
+# Gerar arquivo APK
+cd android && ./gradlew assembleRelease
+
+# Gerar arquivo AAB
+cd android && ./gradlew bundleRelease
 
 -----------
 

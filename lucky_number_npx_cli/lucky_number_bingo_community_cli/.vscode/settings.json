@@ -21,7 +21,7 @@
     },
     "peacock.color": "#0b924799",
     "java.configuration.updateBuildConfiguration": "interactive",
-    // "dart.flutterSdkPath": "/home/pedro/Developer/sdks/flutter/flutter-3.13.0",
+    "dart.flutterSdkPath": "/Users/fabiocunha/Documents/FlutterMySDK/flutter_3.13.0",
     // Remove .fvm files from search
     "search.exclude": {
         "**/.fvm": true
