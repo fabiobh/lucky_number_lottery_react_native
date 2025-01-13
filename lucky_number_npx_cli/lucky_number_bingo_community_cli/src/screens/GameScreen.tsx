@@ -36,15 +36,12 @@ function GameScreen(): React.JSX.Element {
             <Text style={[styles.tab, activeTab === 'cards' && styles.activeTab]}>
               Cards
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity>          
         </View>
       </View>
 
       {renderContent()}
 
-      <TouchableOpacity onPress={handleResetNumbers}>
-        <Text>Prosseguir</Text>
-      </TouchableOpacity>
     </SafeAreaView>
   );
 }

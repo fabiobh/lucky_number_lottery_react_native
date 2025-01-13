@@ -15,6 +15,7 @@ function CardsTab({ cards, numbersPerCard, numCount, cardCount }: {
 
   return (
     <ScrollView style={styles.container}>
+      <Text>Quantity of Numbers Drawed - {drawnNumbers.length || '0'}</Text>
       {cards.map((card, index) => (
         <View key={index} style={styles.card}>
           <Text style={styles.cardTitle}>Card {index + 1}</Text>

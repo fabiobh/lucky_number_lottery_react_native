@@ -56,8 +56,9 @@ function LotteryTab({ numCount }: { numCount: number; }): React.JSX.Element {
         </TouchableOpacity>
         <TouchableOpacity style={styles.resetButton} onPress={handleResetNumbers}>
           <Text style={styles.resetButtonText}>Reset Numbers</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>        
         <Text style={styles.drawnNumberText}>{lastDrawnNumber || ''}</Text>
+        <Text>Quantity of Numbers Drawed - {drawnNumbers.length || '0'}</Text>
       </View>
       {renderNumberGrid()}
     </>
