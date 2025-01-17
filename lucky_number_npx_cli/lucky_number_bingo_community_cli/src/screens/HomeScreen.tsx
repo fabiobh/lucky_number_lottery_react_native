@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { NavigationProp } from '@react-navigation/native';
 
@@ -23,37 +23,75 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 
   return (
     <View style={styles.container}>
-      <Text>Quantity of Numbers (30 - 100): {numCount}</Text>
-      <Slider
-        minimumValue={30}
-        maximumValue={100}
-        step={1}
-        value={numCount}
-        onValueChange={setNumCount}
-        style={styles.slider}
-      />
       
-      <Text>Quantity of Cards (10 - 100): {cardCount}</Text>
-      <Slider
-        minimumValue={10}
-        maximumValue={100}
-        step={5}
-        value={cardCount}
-        onValueChange={setCardCount}
-        style={styles.slider}
-      />
-      
-      <Text>Numbers per Card (5 - 25): {numbersPerCard}</Text>
-      <Slider
-        minimumValue={5}
-        maximumValue={25}
-        step={1}
-        value={numbersPerCard}
-        onValueChange={setNumbersPerCard}
-        style={styles.slider}
-      />
-      
-      <Button title="Start Game" onPress={handleStart} />
+      <View style={styles.setupContainer}>
+        <Text style={styles.setupTitle}>Game Setup</Text>
+        <Text style={styles.setupSubtitle}>Customize your bingo experience</Text>
+
+        <View style={styles.sliderCard}>
+          <Text style={styles.sliderLabel}>Total Numbers to Draw</Text>
+          <Text style={styles.sliderValue}>{numCount}</Text>
+          <Slider
+            minimumValue={30}
+            maximumValue={100}
+            step={1}
+            value={numCount}
+            onValueChange={setNumCount}
+            style={styles.slider}
+            minimumTrackTintColor="#8B5CF6"
+            maximumTrackTintColor="#E5E7EB"
+            thumbTintColor="#8B5CF6"
+          />
+          <View style={styles.sliderRange}>
+            <Text style={styles.rangeText}>30</Text>
+            <Text style={styles.rangeText}>100</Text>
+          </View>
+        </View>
+
+        <View style={styles.sliderCard}>
+          <Text style={styles.sliderLabel}>Quantity of Cards</Text>
+          <Text style={styles.sliderValue}>{cardCount}</Text>
+          <Slider
+            minimumValue={10}
+            maximumValue={100}
+            step={5}
+            value={cardCount}
+            onValueChange={setCardCount}
+            style={styles.slider}
+            minimumTrackTintColor="#8B5CF6"
+            maximumTrackTintColor="#E5E7EB"
+            thumbTintColor="#8B5CF6"
+          />
+          <View style={styles.sliderRange}>
+            <Text style={styles.rangeText}>10</Text>
+            <Text style={styles.rangeText}>100</Text>
+          </View>
+        </View>
+
+        <View style={styles.sliderCard}>
+          <Text style={styles.sliderLabel}>Numbers per Card</Text>
+          <Text style={styles.sliderValue}>{numbersPerCard}</Text>
+          <Slider
+            minimumValue={5}
+            maximumValue={25}
+            step={1}
+            value={numbersPerCard}
+            onValueChange={setNumbersPerCard}
+            style={styles.slider}
+            minimumTrackTintColor="#8B5CF6"
+            maximumTrackTintColor="#E5E7EB"
+            thumbTintColor="#8B5CF6"
+          />
+          <View style={styles.sliderRange}>
+            <Text style={styles.rangeText}>5</Text>
+            <Text style={styles.rangeText}>25</Text>
+          </View>
+        </View>
+
+        <TouchableOpacity style={styles.startButton} onPress={handleStart}>
+          <Text style={styles.startButtonText}>▶ Start Game</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -61,11 +99,78 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#F3F4F6',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#8B5CF6',
+  },
+  settingsIcon: {
+    fontSize: 24,
+  },
+  setupContainer: {
     padding: 16,
+    alignItems: 'center',
+  },
+  setupTitle: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#4C1D95',
+    marginBottom: 8,
+  },
+  setupSubtitle: {
+    fontSize: 16,
+    color: '#6B7280',
+    marginBottom: 24,
+  },
+  sliderCard: {
+    backgroundColor: 'white',
+    borderRadius: 16,
+    padding: 16,
+    width: '100%',
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  sliderLabel: {
+    fontSize: 16,
+    color: '#4C1D95',
+    marginBottom: 8,
+  },
+  sliderValue: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    color: '#8B5CF6',
+    marginBottom: 16,
   },
   slider: {
     width: '100%',
     height: 40,
+  },
+  sliderRange: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 8,
+  },
+  rangeText: {
+    color: '#6B7280',
+  },
+  startButton: {
+    backgroundColor: '#8B5CF6',
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+    borderRadius: 100,
+    width: '100%',
+    marginTop: 16,
+  },
+  startButtonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 }); 
