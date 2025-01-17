@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { NavigationProp } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function HomeScreen({ navigation }: { navigation: NavigationProp<any> }) {
   const [numCount, setNumCount] = useState(30);
@@ -30,6 +31,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 
         <View style={styles.sliderCard}>
           <Text style={styles.sliderLabel}>Total Numbers to Draw</Text>
+          <Icon name="dice-multiple" size={24} color="#6B46C1" />
           <Text style={styles.sliderValue}>{numCount}</Text>
           <Slider
             minimumValue={30}
@@ -50,6 +52,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 
         <View style={styles.sliderCard}>
           <Text style={styles.sliderLabel}>Quantity of Cards</Text>
+          <Icon name="refresh" size={24} color="#6B46C1" />
           <Text style={styles.sliderValue}>{cardCount}</Text>
           <Slider
             minimumValue={10}
@@ -70,6 +73,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 
         <View style={styles.sliderCard}>
           <Text style={styles.sliderLabel}>Numbers per Card</Text>
+          <Icon name="grid" size={24} color="#6B46C1" />
           <Text style={styles.sliderValue}>{numbersPerCard}</Text>
           <Slider
             minimumValue={5}
