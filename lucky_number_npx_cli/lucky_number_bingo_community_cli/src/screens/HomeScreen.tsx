@@ -54,8 +54,10 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 
         <View style={styles.sliderCard}>
           <Text style={styles.sliderLabel}>Quantity of Cards</Text>
-          <Icon name="refresh" size={24} color="#6B46C1" />
-          <Text style={styles.sliderValue}>{cardCount}</Text>
+          <View style={styles.valueContainer}>
+            <Text style={styles.sliderValue}>{cardCount}</Text>
+            <Icon name="refresh" size={24} color="#6B46C1" />
+          </View>
           <Slider
             minimumValue={10}
             maximumValue={100}
@@ -75,8 +77,10 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 
         <View style={styles.sliderCard}>
           <Text style={styles.sliderLabel}>Numbers per Card</Text>
-          <Icon name="grid" size={24} color="#6B46C1" />
-          <Text style={styles.sliderValue}>{numbersPerCard}</Text>
+          <View style={styles.valueContainer}>
+            <Text style={styles.sliderValue}>{numbersPerCard}</Text>
+            <Icon name="grid" size={24} color="#6B46C1" />
+          </View>
           <Slider
             minimumValue={5}
             maximumValue={25}
