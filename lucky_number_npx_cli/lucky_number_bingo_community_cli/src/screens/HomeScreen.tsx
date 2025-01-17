@@ -4,6 +4,8 @@ import Slider from '@react-native-community/slider';
 import { NavigationProp } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+const ICON_SIZE = 36;
+
 export default function HomeScreen({ navigation }: { navigation: NavigationProp<any> }) {
   const [numCount, setNumCount] = useState(30);
   const [cardCount, setCardCount] = useState(10);
@@ -29,11 +31,12 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
         <Text style={styles.setupTitle}>Game Setup</Text>
         <Text style={styles.setupSubtitle}>Customize your bingo experience</Text>
 
+        {/* card #1 */}
         <View style={styles.sliderCard}>
           <Text style={styles.sliderLabel}>Total Numbers to Draw</Text>
           <View style={styles.valueContainer}>
             <Text style={styles.sliderValue}>{numCount}</Text>
-            <Icon name="dice-multiple" size={24} color="#6B46C1" />
+            <Icon name="dice-multiple" size={ICON_SIZE} color="#6B46C1" />
           </View>
           <Slider
             minimumValue={30}
@@ -51,12 +54,13 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
             <Text style={styles.rangeText}>100</Text>
           </View>
         </View>
-
+        
+        {/* card #2 */}
         <View style={styles.sliderCard}>
           <Text style={styles.sliderLabel}>Quantity of Cards</Text>
           <View style={styles.valueContainer}>
             <Text style={styles.sliderValue}>{cardCount}</Text>
-            <Icon name="refresh" size={24} color="#6B46C1" />
+            <Icon name="refresh" size={ICON_SIZE} color="#6B46C1" />
           </View>
           <Slider
             minimumValue={10}
@@ -75,11 +79,12 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
           </View>
         </View>
 
+        {/* card #3 */}
         <View style={styles.sliderCard}>
           <Text style={styles.sliderLabel}>Numbers per Card</Text>
           <View style={styles.valueContainer}>
             <Text style={styles.sliderValue}>{numbersPerCard}</Text>
-            <Icon name="grid" size={24} color="#6B46C1" />
+            <Icon name="grid" size={ICON_SIZE} color="#6B46C1" />
           </View>
           <Slider
             minimumValue={5}
@@ -171,7 +176,8 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   rangeText: {
-    color: '#6B7280',
+    color: '#8B5CF6',
+    fontWeight: 'bold',
   },
   startButton: {
     backgroundColor: '#8B5CF6',
@@ -192,10 +198,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 12,
-  },
-  sliderValue: {
-    fontSize: 36,
-    fontWeight: 'bold',
-    color: '#8B5CF6',
+    paddingRight: 1, // to align the icon with the text
   },
 }); 
