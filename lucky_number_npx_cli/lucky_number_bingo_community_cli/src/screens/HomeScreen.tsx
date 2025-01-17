@@ -31,8 +31,10 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 
         <View style={styles.sliderCard}>
           <Text style={styles.sliderLabel}>Total Numbers to Draw</Text>
-          <Icon name="dice-multiple" size={24} color="#6B46C1" />
-          <Text style={styles.sliderValue}>{numCount}</Text>
+          <View style={styles.valueContainer}>
+            <Text style={styles.sliderValue}>{numCount}</Text>
+            <Icon name="dice-multiple" size={24} color="#6B46C1" />
+          </View>
           <Slider
             minimumValue={30}
             maximumValue={100}
@@ -131,7 +133,8 @@ const styles = StyleSheet.create({
   sliderCard: {
     backgroundColor: 'white',
     borderRadius: 16,
-    padding: 12,
+    padding: 16,
+    paddingRight: 24,
     width: '100%',
     marginBottom: 12,
     shadowColor: '#000',
@@ -144,6 +147,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#4C1D95',
     marginBottom: 8,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   sliderValue: {
     fontSize: 36,
@@ -176,5 +182,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  valueContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  sliderValue: {
+    fontSize: 36,
+    fontWeight: 'bold',
+    color: '#8B5CF6',
   },
 }); 
