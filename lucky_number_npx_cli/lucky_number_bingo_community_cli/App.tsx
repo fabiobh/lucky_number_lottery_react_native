@@ -14,7 +14,7 @@ export default function Index() {
     <DrawnNumbersProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Select Cards and Numbers', headerTitleAlign: 'center' }}/>
+          <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false, title: 'Select Cards and Numbers', headerTitleAlign: 'center' }}/>
           <Stack.Screen name="Game" component={GameScreen} options={{ title: 'Draw Numbers', headerTitleAlign: 'center' }} />
         </Stack.Navigator>
       </NavigationContainer>
