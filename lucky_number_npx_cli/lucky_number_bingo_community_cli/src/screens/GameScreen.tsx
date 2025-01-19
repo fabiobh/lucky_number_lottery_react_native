@@ -5,20 +5,24 @@ import CardsTab from './tabs/CardsTab';
 import {useRoute, useNavigation} from '@react-navigation/native';
 import {useDrawnNumbers} from '../contexts/DrawnNumbersContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Colors } from '../constants'; // Import Colors
 
 const ICON_SIZE = 36;
 
 function GameScreen(): React.JSX.Element {
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState<'lottery' | 'cards'>('lottery');
-  const {drawnNumbers, setDrawnNumbers, lastDrawnNumber, setLastDrawnNumber} = useDrawnNumbers();
+  const {drawnNumbers, setDrawnNumbers, lastDrawnNumber, setLastDrawnNumber, completedCards, setCompletedCards} = useDrawnNumbers();
   const route = useRoute();
   const params = route.params;
 
   const handleResetNumbers = () => {
+    console.log('Resetting numbers...');
     setDrawnNumbers([]);
-    setLastDrawnNumber(0)
+    setLastDrawnNumber(0);
+    setCompletedCards(new Set());
   };
+
 
   // Handle the back button press, hardware back button and software back button(top left button)
   const handleBackButtonPress = () => {
@@ -64,7 +68,7 @@ function GameScreen(): React.JSX.Element {
 
   const renderContent = () => {
     return activeTab === 'lottery' ? (
-      <LotteryTab numCount={0} {...params}  />
+      <LotteryTab cards={[]} numCount={0} {...params}  />
     ) : (
       <CardsTab cards={[]} numCount={0} cardCount={0} numbersPerCard={0} {...params} />
     );
@@ -97,7 +101,7 @@ function GameScreen(): React.JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
   },
   header: {
     padding: 2,
@@ -114,13 +118,13 @@ const styles = StyleSheet.create({
   },
   tab: {
     marginRight: 16,
-    color: '#666',
+    color: Colors.textSecondary,
     padding: 8,
   },
   activeTab: {
-    color: '#0F9D58',
+    color: Colors.primary,
     borderBottomWidth: 2,
-    borderBottomColor: '#0F9D58',
+    borderBottomColor: Colors.primary,
   },
 });
 

@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { NavigationProp } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Colors } from '../constants'; // Import Colors
 
 const ICON_SIZE = 36;
 
@@ -114,12 +115,12 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F3F4F6',
+    backgroundColor: Colors.background,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#8B5CF6',
+    color: Colors.secondary,
   },
   settingsIcon: {
     fontSize: 24,
@@ -131,22 +132,22 @@ const styles = StyleSheet.create({
   setupTitle: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#4C1D95',
+    color: Colors.dark_gray,
     marginBottom: 4,
   },
   setupSubtitle: {
     fontSize: 14,
-    color: '#6B7280',
+    color: Colors.textSecondary,
     marginBottom: 16,
   },
   sliderCard: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.white,
     borderRadius: 16,
     padding: 16,
     paddingRight: 24,
     width: '100%',
     marginBottom: 12,
-    shadowColor: '#000',
+    shadowColor: Colors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
   },
   sliderLabel: {
     fontSize: 16,
-    color: '#4C1D95',
+    color: Colors.dark_gray,
     marginBottom: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -163,7 +164,7 @@ const styles = StyleSheet.create({
   sliderValue: {
     fontSize: 36,
     fontWeight: 'bold',
-    color: '#8B5CF6',
+    color: Colors.secondary,
     marginBottom: 12,
   },
   slider: {
@@ -176,11 +177,11 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   rangeText: {
-    color: '#8B5CF6',
+    color: Colors.secondary,
     fontWeight: 'bold',
   },
   startButton: {
-    backgroundColor: '#8B5CF6',
+    backgroundColor: Colors.secondary,
     paddingVertical: 14,
     paddingHorizontal: 32,
     borderRadius: 100,
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   startButtonText: {
-    color: 'white',
+    color: Colors.white,
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',

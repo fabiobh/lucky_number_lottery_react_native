@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useDrawnNumbers } from '../../contexts/DrawnNumbersContext';
 import { useCardContext } from '../../contexts/CardContext';
+import { Colors } from '../../constants';
 
 function CardsTab({ cards, numbersPerCard, numCount, cardCount }: { 
   cards: number[][]; 
@@ -91,14 +92,14 @@ function CardsTab({ cards, numbersPerCard, numCount, cardCount }: {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: Colors.background,
   },
   statsSection: {
     padding: 24,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.white,
     borderBottomWidth: 1,
-    borderBottomColor: '#EAEAEA',
-    shadowColor: '#000',
+    borderBottomColor: Colors.border,
+    shadowColor: Colors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
     shadowRadius: 3.84,
@@ -115,31 +116,31 @@ const styles = StyleSheet.create({
   statDivider: {
     width: 1,
     height: 40,
-    backgroundColor: '#EAEAEA',
+    backgroundColor: Colors.light_gray,
     marginHorizontal: 24,
   },
   statValue: {
     fontSize: 28,
     fontWeight: '700',
-    color: '#2C3E50',
+    color: Colors.textPrimary,
     marginVertical: 4,
   },
   statLabel: {
     fontSize: 14,
-    color: '#95A5A6',
+    color: Colors.gray_text,
     fontWeight: '600',
     textTransform: 'uppercase',
   },
   progressBar: {
     height: 4,
-    backgroundColor: '#EAEAEA',
+    backgroundColor: Colors.light_gray,
     borderRadius: 2,
     marginTop: 8,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    backgroundColor: '#0F9D58',
+    backgroundColor: Colors.primary,
     borderRadius: 2,
   },
   cardsContainer: {
@@ -147,11 +148,11 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   card: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.white,
     padding: 20,
     marginBottom: 16,
     borderRadius: 16,
-    shadowColor: '#000',
+    shadowColor: Colors.shadow,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -169,10 +170,10 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#2C3E50',
+    color: Colors.dark_gray,
   },
   cardStats: {
-    backgroundColor: '#F8F9FA',
+    backgroundColor: Colors.light_gray,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 12,
@@ -180,7 +181,7 @@ const styles = StyleSheet.create({
   cardStatsText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#95A5A6', // 
+    color: Colors.gray_text,
   },
   cardNumbersContainer: {
     flexDirection: 'row',
@@ -194,8 +195,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 24,
-    backgroundColor: '#F8F9FA',
-    shadowColor: '#000',
+    backgroundColor: Colors.light_gray,
+    shadowColor: Colors.shadow,
     shadowOffset: {
       width: 0,
       height: 1,
@@ -206,31 +207,31 @@ const styles = StyleSheet.create({
   },
   numberText: {
     fontSize: 18,
-    color: '#2C3E50',
+    color: Colors.dark_gray,
     fontWeight: '600',
   },
   drawnNumber: {
-    backgroundColor: '#0F9D58',
+    backgroundColor: Colors.primary,
   },
   drawnNumberText: {
-    color: '#FFFFFF',
+    color: Colors.white,
   },
   spacer: {
     height: 50,
   },
   winnerCard: {
-    backgroundColor: '#A5D6A7',
+    backgroundColor: Colors.success,
   },
   winnerText: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: Colors.white,
     marginBottom: 4,
   },
   winnerPosition: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: Colors.white,
   },
 });
 

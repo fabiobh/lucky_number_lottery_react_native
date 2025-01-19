@@ -2,11 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, ScrollView, Alert } from 'react-native';
 import { ParamListBase, RouteProp, useRoute } from '@react-navigation/native';
 import { useDrawnNumbers } from '../../contexts/DrawnNumbersContext';
+import { Colors } from '../../constants';
 
 function LotteryTab({ numCount, cards }: { numCount: number; cards: number[][] }): React.JSX.Element {
   const route = useRoute<RouteProp<ParamListBase, string>>();
-  const { drawnNumbers, setDrawnNumbers, lastDrawnNumber, setLastDrawnNumber } = useDrawnNumbers();
-  const [completedCards, setCompletedCards] = useState<Set<number>>(new Set());
+  const { 
+    drawnNumbers, 
+    setDrawnNumbers, 
+    lastDrawnNumber, 
+    setLastDrawnNumber,
+    completedCards,
+    setCompletedCards 
+  } = useDrawnNumbers();
 
   const handleDrawNumber = () => {
     const availableNumbers = Array.from({ length: numCount }, (_, i) => i + 1)
@@ -16,23 +23,21 @@ function LotteryTab({ numCount, cards }: { numCount: number; cards: number[][] }
       const randomIndex = Math.floor(Math.random() * availableNumbers.length);
       const random = availableNumbers[randomIndex];
       setLastDrawnNumber(random);
-      setDrawnNumbers(prev => [...prev, random]);
+      setDrawnNumbers((prev: number[]) => [...prev, random]);
 
       // Check for completed cards
       cards.forEach((card, index) => {
         const allNumbersDrawn = card.every(num => drawnNumbers.includes(num) || num === random);
         if (allNumbersDrawn && !completedCards.has(index)) {
-          setCompletedCards(prev => new Set(prev).add(index));
-          Alert.alert(`Card #${index + 1} is the winner!`);
+          setCompletedCards(prev => {
+            const updatedCards = new Set(prev).add(index);
+            console.log('Completed Cards:', updatedCards);
+            return updatedCards;
+          });
+          Alert.alert(`Card #${index + 1} completed all numbers in the card!`);
         }
       });
     }
-  };
-
-  const handleResetNumbers = () => {
-    setDrawnNumbers([]);
-    setLastDrawnNumber(0);
-    setCompletedCards(new Set());
   };
 
   return (
@@ -100,16 +105,16 @@ function LotteryTab({ numCount, cards }: { numCount: number; cards: number[][] }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: Colors.background,
   },
   drawSection: {
     padding: 16,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.white,
     borderBottomWidth: 1,
-    borderBottomColor: '#E9ECEF',
+    borderBottomColor: Colors.border,
     borderRadius: 16,
     margin: 16,
-    shadowColor: '#000',
+    shadowColor: Colors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -121,7 +126,7 @@ const styles = StyleSheet.create({
   },
   lastNumberLabel: {
     fontSize: 14,
-    color: '#6C757D',
+    color: Colors.textSecondary,
     marginBottom: 8,
     fontWeight: '500',
   },
@@ -129,16 +134,16 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: Colors.light_gray,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 3,
-    borderColor: '#0F9D58',
+    borderColor: Colors.primary,
   },
   lastNumberText: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#0F9D58',
+    color: Colors.primary,
   },
   statsContainer: {
     flexDirection: 'row',
@@ -154,39 +159,39 @@ const styles = StyleSheet.create({
   statDivider: {
     width: 1,
     height: 40,
-    backgroundColor: '#DEE2E6',
+    backgroundColor: Colors.border,
     marginHorizontal: 24,
   },
   statValue: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#212529',
+      color: Colors.textPrimary,
   },
   statLabel: {
     fontSize: 12,
-    color: '#6C757D',
+    color: Colors.textSecondary,
     marginTop: 2,
   },
   buttonContainer: {
     gap: 12,
   },
   drawButton: {
-    backgroundColor: '#0F9D58',
+    backgroundColor: Colors.primary,
     paddingHorizontal: 24,
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: Colors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
     elevation: 4,
   },
   drawButtonDisabled: {
-    backgroundColor: '#ADB5BD',
+    backgroundColor: Colors.gray,
   },
   drawButtonText: {
-    color: 'white',
+    color: Colors.white,
     fontSize: 18,
     fontWeight: '600',
   },
@@ -195,7 +200,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   resetButtonText: {
-    color: '#DC3545',
+    color: Colors.danger,
     fontSize: 16,
     fontWeight: '500',
   },
@@ -215,19 +220,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 6,
     borderRadius: 28,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.white,
     borderWidth: 1,
-    borderColor: '#DEE2E6',
+    borderColor: Colors.border,
   },
   drawnNumber: {
-    backgroundColor: '#0F9D58',
-    borderColor: '#0F9D58',
+    backgroundColor: Colors.primary,
+    borderColor: Colors.primary,
   },
   lastDrawnNumber: {
-    backgroundColor: '#0F9D58',
-    borderColor: '#0F9D58',
+    backgroundColor: Colors.primary,
+    borderColor: Colors.primary,
     transform: [{ scale: 1.1 }],
-    shadowColor: '#000',
+    shadowColor: Colors.shadow,
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
@@ -235,11 +240,11 @@ const styles = StyleSheet.create({
   },
   numberText: {
     fontSize: 18,
-    color: '#495057',
+    color: Colors.textPrimary,
     fontWeight: '500',
   },
   drawnNumberText: {
-    color: '#FFFFFF',
+    color: Colors.white,
   },
 });
 
