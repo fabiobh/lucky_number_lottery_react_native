@@ -37,7 +37,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
           <Text style={styles.sliderLabel}>Total Numbers to Draw</Text>
           <View style={styles.valueContainer}>
             <Text style={styles.sliderValue}>{numCount}</Text>
-            <Icon name="dice-multiple" size={ICON_SIZE} color="#6B46C1" />
+            <Icon name="dice-multiple" size={ICON_SIZE} color={Colors.primary} />
           </View>
           <Slider
             minimumValue={30}
@@ -46,9 +46,9 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
             value={numCount}
             onValueChange={setNumCount}
             style={styles.slider}
-            minimumTrackTintColor="#8B5CF6"
+            minimumTrackTintColor={Colors.primary}
             maximumTrackTintColor="#E5E7EB"
-            thumbTintColor="#8B5CF6"
+            thumbTintColor={Colors.primary}
           />
           <View style={styles.sliderRange}>
             <Text style={styles.rangeText}>30</Text>
@@ -61,7 +61,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
           <Text style={styles.sliderLabel}>Quantity of Cards</Text>
           <View style={styles.valueContainer}>
             <Text style={styles.sliderValue}>{cardCount}</Text>
-            <Icon name="refresh" size={ICON_SIZE} color="#6B46C1" />
+            <Icon name="refresh" size={ICON_SIZE} color={Colors.primary} />
           </View>
           <Slider
             minimumValue={10}
@@ -70,9 +70,9 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
             value={cardCount}
             onValueChange={setCardCount}
             style={styles.slider}
-            minimumTrackTintColor="#8B5CF6"
+            minimumTrackTintColor={Colors.primary}
             maximumTrackTintColor="#E5E7EB"
-            thumbTintColor="#8B5CF6"
+            thumbTintColor={Colors.primary}
           />
           <View style={styles.sliderRange}>
             <Text style={styles.rangeText}>10</Text>
@@ -85,7 +85,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
           <Text style={styles.sliderLabel}>Numbers per Card</Text>
           <View style={styles.valueContainer}>
             <Text style={styles.sliderValue}>{numbersPerCard}</Text>
-            <Icon name="grid" size={ICON_SIZE} color="#6B46C1" />
+            <Icon name="grid" size={ICON_SIZE} color={Colors.primary} />
           </View>
           <Slider
             minimumValue={5}
@@ -94,9 +94,9 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
             value={numbersPerCard}
             onValueChange={setNumbersPerCard}
             style={styles.slider}
-            minimumTrackTintColor="#8B5CF6"
+            minimumTrackTintColor={Colors.primary}
             maximumTrackTintColor="#E5E7EB"
-            thumbTintColor="#8B5CF6"
+            thumbTintColor={Colors.primary}
           />
           <View style={styles.sliderRange}>
             <Text style={styles.rangeText}>5</Text>
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   sliderValue: {
     fontSize: 36,
     fontWeight: 'bold',
-    color: Colors.secondary,
+    color: Colors.primary,
     marginBottom: 12,
   },
   slider: {
@@ -177,11 +177,11 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   rangeText: {
-    color: Colors.secondary,
+    color: Colors.primary,
     fontWeight: 'bold',
   },
   startButton: {
-    backgroundColor: Colors.secondary,
+    backgroundColor: Colors.primary,
     paddingVertical: 14,
     paddingHorizontal: 32,
     borderRadius: 100,

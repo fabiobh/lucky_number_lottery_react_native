@@ -55,7 +55,7 @@ function GameScreen(): React.JSX.Element {
     navigation.setOptions({
       headerLeft: () => (
         <TouchableOpacity onPress={handleBackButtonPress} style={{ marginLeft: 10 }}>
-          <Icon name="chevron-left" size={ICON_SIZE} color="#6B46C1" />
+          <Icon name="chevron-left" size={ICON_SIZE} color={Colors.primary} />
         </TouchableOpacity>
       ),
     });
