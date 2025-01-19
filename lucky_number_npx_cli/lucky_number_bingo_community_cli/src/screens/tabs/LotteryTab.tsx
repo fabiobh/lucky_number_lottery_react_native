@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, ScrollView, Alert } from 'react-native';
 import { ParamListBase, RouteProp, useRoute } from '@react-navigation/native';
 import { useDrawnNumbers } from '../../contexts/DrawnNumbersContext';
 
-function LotteryTab({ numCount }: { numCount: number; }): React.JSX.Element {
+function LotteryTab({ numCount, cards }: { numCount: number; cards: number[][] }): React.JSX.Element {
   const route = useRoute<RouteProp<ParamListBase, string>>();
   const { drawnNumbers, setDrawnNumbers, lastDrawnNumber, setLastDrawnNumber } = useDrawnNumbers();
+  const [completedCards, setCompletedCards] = useState<Set<number>>(new Set());
 
   const handleDrawNumber = () => {
     const availableNumbers = Array.from({ length: numCount }, (_, i) => i + 1)
@@ -16,12 +17,22 @@ function LotteryTab({ numCount }: { numCount: number; }): React.JSX.Element {
       const random = availableNumbers[randomIndex];
       setLastDrawnNumber(random);
       setDrawnNumbers(prev => [...prev, random]);
+
+      // Check for completed cards
+      cards.forEach((card, index) => {
+        const allNumbersDrawn = card.every(num => drawnNumbers.includes(num) || num === random);
+        if (allNumbersDrawn && !completedCards.has(index)) {
+          setCompletedCards(prev => new Set(prev).add(index));
+          Alert.alert(`Card #${index + 1} is the winner!`);
+        }
+      });
     }
   };
 
   const handleResetNumbers = () => {
     setDrawnNumbers([]);
     setLastDrawnNumber(0);
+    setCompletedCards(new Set());
   };
 
   return (
@@ -58,7 +69,6 @@ function LotteryTab({ numCount }: { numCount: number; }): React.JSX.Element {
               {drawnNumbers.length === numCount ? 'All Numbers Drawn' : 'Draw Next Number'}
             </Text>
           </TouchableOpacity>
-
         </View>
       </View>
 

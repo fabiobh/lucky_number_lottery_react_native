@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useDrawnNumbers } from '../../contexts/DrawnNumbersContext';
+import { useCardContext } from '../../contexts/CardContext';
 
 function CardsTab({ cards, numbersPerCard, numCount, cardCount }: { 
   cards: number[][]; 
@@ -9,6 +10,11 @@ function CardsTab({ cards, numbersPerCard, numCount, cardCount }: {
   cardCount: number; 
 }): React.JSX.Element {
   const { drawnNumbers } = useDrawnNumbers();
+  const { setCards } = useCardContext();
+
+  useEffect(() => {
+    setCards(cards);
+  }, [cards, setCards]);
 
   return (
     <View style={styles.container}>
@@ -174,7 +180,7 @@ const styles = StyleSheet.create({
   cardStatsText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#95A5A6',
+    color: '#95A5A6', // 
   },
   cardNumbersContainer: {
     flexDirection: 'row',
@@ -213,7 +219,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   winnerCard: {
-    backgroundColor: '#0F9D58',
+    backgroundColor: '#A5D6A7',
   },
   winnerText: {
     fontSize: 18,

@@ -6,18 +6,21 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './src/screens/HomeScreen';
 import GameScreen from './src/screens/GameScreen';
 import { DrawnNumbersProvider } from './src/contexts/DrawnNumbersContext';
+import { CardProvider } from './src/contexts/CardContext';
 
 const Stack = createStackNavigator();
 
 export default function Index() {
   return (
     <DrawnNumbersProvider>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false, title: 'Select Cards and Numbers', headerTitleAlign: 'center' }}/>
-          <Stack.Screen name="Game" component={GameScreen} options={{ title: 'Draw Numbers', headerTitleAlign: 'center' }} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <CardProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Home">
+            <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false, title: 'Select Cards and Numbers', headerTitleAlign: 'center' }}/>
+            <Stack.Screen name="Game" component={GameScreen} options={{ title: 'Draw Numbers', headerTitleAlign: 'center' }} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </CardProvider>
     </DrawnNumbersProvider>
   );
 }
