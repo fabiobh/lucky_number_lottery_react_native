@@ -50,7 +50,7 @@ function LotteryTab({ numCount }: { numCount: number; }): React.JSX.Element {
 
   return (
     <>
-      <View style={styles.drawSection}>
+      <View style={styles.drawSection}>0                 
         <TouchableOpacity style={styles.drawButton} onPress={handleDrawNumber}>
           <Text style={styles.drawButtonText}>Draw Number</Text>
         </TouchableOpacity>
