@@ -72,6 +72,7 @@ function GameScreen(): React.JSX.Element {
 
   return (
     <SafeAreaView style={styles.container}>
+      
       <View style={styles.header}>
         <View style={styles.tabs}>
           <TouchableOpacity onPress={() => setActiveTab('lottery')}>
