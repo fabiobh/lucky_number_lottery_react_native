@@ -64,7 +64,7 @@ function GameScreen(): React.JSX.Element {
 
   const renderContent = () => {
     return activeTab === 'lottery' ? (
-      <LotteryTab {...params} drawnNumbers={drawnNumbers} setDrawnNumbers={setDrawnNumbers} />
+      <LotteryTab numCount={0} {...params}  />
     ) : (
       <CardsTab cards={[]} numCount={0} cardCount={0} numbersPerCard={0} {...params} />
     );
