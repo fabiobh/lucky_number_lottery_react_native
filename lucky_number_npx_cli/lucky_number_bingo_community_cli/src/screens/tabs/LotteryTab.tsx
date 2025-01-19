@@ -16,6 +16,7 @@ function LotteryTab({ numCount, cards }: { numCount: number; cards: number[][] }
     setCompletedCards,
     winnerOrder,
     setWinnerOrder
+
   } = useDrawnNumbers();
 
   const handleDrawNumber = () => {

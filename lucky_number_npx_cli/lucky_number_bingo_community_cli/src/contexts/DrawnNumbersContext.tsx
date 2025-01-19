@@ -6,9 +6,11 @@ interface DrawnNumbersContextType {
   lastDrawnNumber: number;
   setLastDrawnNumber: (number: number) => void;
   completedCards: Set<number>;
+
   setCompletedCards: (cards: Set<number> | ((prev: Set<number>) => Set<number>)) => void;
   winnerOrder: number[];
   setWinnerOrder: (order: number[]) => void;
+
 }
 
 export const DrawnNumbersContext = createContext<DrawnNumbersContextType>({
@@ -20,6 +22,7 @@ export const DrawnNumbersContext = createContext<DrawnNumbersContextType>({
   setCompletedCards: () => {},
   winnerOrder: [],
   setWinnerOrder: () => {},
+
 });
 
 export function DrawnNumbersProvider({ children }: { children: React.ReactNode }) {
@@ -39,6 +42,7 @@ export function DrawnNumbersProvider({ children }: { children: React.ReactNode }
         setCompletedCards,
         winnerOrder,
         setWinnerOrder,
+
       }}
     >
       {children}
