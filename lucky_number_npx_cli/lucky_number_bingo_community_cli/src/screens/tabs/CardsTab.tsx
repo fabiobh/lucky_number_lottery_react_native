@@ -38,38 +38,44 @@ function CardsTab({ cards, numbersPerCard, numCount, cardCount }: {
       </View>
 
       <ScrollView style={styles.cardsContainer}>
-        {cards.map((card, index) => (
-          <View key={index} style={styles.card}>
-            <View style={styles.cardHeader}>
-              <Text style={styles.cardTitle}>Card {index + 1}</Text>
-              <View style={styles.cardStats}>
-                <Text style={styles.cardStatsText}>
-                  {card.filter(num => drawnNumbers.includes(num)).length}/{numbersPerCard}
-                </Text>
-              </View>
-            </View>
-            <View style={styles.cardNumbersContainer}>
-              {card.map((number, numberIndex) => (
-                <View 
-                  key={numberIndex} 
-                  style={[
-                    styles.numberBox,
-                    drawnNumbers.includes(number) && styles.drawnNumber
-                  ]}
-                >
-                  <Text 
-                    style={[
-                      styles.numberText,
-                      drawnNumbers.includes(number) && styles.drawnNumberText
-                    ]}
-                  >
-                    {number}
+        {cards.map((card, index) => {
+          const allNumbersDrawn = card.every(num => drawnNumbers.includes(num));
+          const winnerPosition = drawnNumbers.indexOf(card[0]) + 1;
+          return (
+            <View key={index} style={[styles.card, allNumbersDrawn ? styles.winnerCard : null]}>
+              {allNumbersDrawn && <Text style={styles.winnerText}>Card {index + 1} wins</Text>}
+              {allNumbersDrawn && <Text style={styles.winnerPosition}>Winner #{winnerPosition}</Text>}
+              <View style={styles.cardHeader}>
+                <Text style={styles.cardTitle}>Card {index + 1}</Text>
+                <View style={styles.cardStats}>
+                  <Text style={styles.cardStatsText}>
+                    {card.filter(num => drawnNumbers.includes(num)).length}/{numbersPerCard}
                   </Text>
                 </View>
-              ))}
-            </View>
-          </View>        
-        ))}
+              </View>
+              <View style={styles.cardNumbersContainer}>
+                {card.map((number, numberIndex) => (
+                  <View 
+                    key={numberIndex} 
+                    style={[
+                      styles.numberBox,
+                      drawnNumbers.includes(number) && styles.drawnNumber
+                    ]}
+                  >
+                    <Text 
+                      style={[
+                        styles.numberText,
+                        drawnNumbers.includes(number) && styles.drawnNumberText
+                      ]}
+                    >
+                      {number}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            </View>        
+          );
+        })}
         <View style={styles.spacer} />
       </ScrollView>
     </View>
@@ -205,6 +211,20 @@ const styles = StyleSheet.create({
   },
   spacer: {
     height: 50,
+  },
+  winnerCard: {
+    backgroundColor: '#0F9D58',
+  },
+  winnerText: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#FFFFFF',
+    marginBottom: 4,
+  },
+  winnerPosition: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#FFFFFF',
   },
 });
 
