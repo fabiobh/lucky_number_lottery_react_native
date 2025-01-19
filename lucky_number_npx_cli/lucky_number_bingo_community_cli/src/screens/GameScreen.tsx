@@ -19,6 +19,7 @@ function GameScreen(): React.JSX.Element {
     setDrawnNumbers([]);
   };
 
+  // Handle the back button press, hardware back button and software back button(top left button)
   const handleBackButtonPress = () => {
     Alert.alert(
       "Reset Numbers",
@@ -49,8 +50,6 @@ function GameScreen(): React.JSX.Element {
     navigation.setOptions({
       headerLeft: () => (
         <TouchableOpacity onPress={handleBackButtonPress} style={{ marginLeft: 10 }}>
-          {/* Replace with your icon component */}
-          {/* Example using a local image */}
           <Icon name="chevron-left" size={ICON_SIZE} color="#6B46C1" />
         </TouchableOpacity>
       ),
