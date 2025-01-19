@@ -32,8 +32,9 @@ function CardsTab({ cards, numbersPerCard, numCount, cardCount }: {
               </Text>
             ))}
           </View>
-        </View>
+        </View>        
       ))}
+      <View style={styles.spacer}></View>
     </ScrollView>
   );
 }
@@ -83,6 +84,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#0F9D58',
     padding: 5,
     borderRadius: 3,
+  },
+  spacer: {
+    height: 50,
   },
 });
 

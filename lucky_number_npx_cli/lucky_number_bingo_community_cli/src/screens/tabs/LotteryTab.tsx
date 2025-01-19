@@ -25,98 +25,162 @@ function LotteryTab({ numCount }: { numCount: number; }): React.JSX.Element {
     setLastDrawnNumber(0); // Optionally reset the last drawn number
   };
 
-  const renderNumberGrid = () => {
-    const numbers = Array.from({ length: numCount }, (_, i) => i + 1);
-    return (
-      <ScrollView>
+  return (
+    <View style={styles.container}>
+      <View style={styles.drawSection}>
+        <View style={styles.lastNumberContainer}>
+          <Text style={styles.lastNumberLabel}>Last Number</Text>
+          <Text style={styles.lastNumberText}>
+            {lastDrawnNumber ? lastDrawnNumber : '-'}
+          </Text>
+        </View>
+        
+        <View style={styles.statsContainer}>
+          <View style={styles.statItem}>
+            <Text style={styles.statValue}>{drawnNumbers.length}</Text>
+            <Text style={styles.statLabel}>Drawn</Text>
+          </View>
+          <View style={styles.statItem}>
+            <Text style={styles.statValue}>{numCount - drawnNumbers.length}</Text>
+            <Text style={styles.statLabel}>Remaining</Text>
+          </View>
+        </View>
+
+        <TouchableOpacity 
+          style={styles.drawButton}
+          onPress={handleDrawNumber}
+          disabled={drawnNumbers.length === numCount}
+        >
+          <Text style={styles.drawButtonText}>
+            {drawnNumbers.length === numCount ? 'Complete' : 'Draw Number'}
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      <ScrollView style={styles.gridContainer}>
         <View style={styles.grid}>
-          {numbers.map(number => (
-            <TouchableOpacity
+          {Array.from({ length: numCount }, (_, i) => i + 1).map(number => (
+            <View
               key={number}
               style={[
                 styles.numberBox,
                 drawnNumbers.includes(number) && styles.drawnNumber,
               ]}
-              onPress={() => {}}
-              disabled={true}
             >
-              <Text style={styles.numberText}>{number}</Text>
-            </TouchableOpacity>
+              <Text style={[
+                styles.numberText,
+                drawnNumbers.includes(number) && styles.drawnNumberText
+              ]}>
+                {number}
+              </Text>
+            </View>
           ))}
         </View>
       </ScrollView>
-    );
-  };
-
-  return (
-    <>
-      <View style={styles.drawSection}>
-        <TouchableOpacity style={styles.drawButton} onPress={handleDrawNumber}>
-          <Text style={styles.drawButtonText}>Draw Number</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.resetButton} onPress={handleResetNumbers}>
-          <Text style={styles.resetButtonText}>Reset Numbers</Text>
-        </TouchableOpacity>        
-        <Text style={styles.drawnNumberText}>{lastDrawnNumber || ''}</Text>
-        <Text>Quantity of Numbers Drawed - {drawnNumbers.length || '0'}</Text>
-      </View>
-      {renderNumberGrid()}
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
   drawSection: {
+    padding: 20,
+    backgroundColor: '#FFFFFF',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+  },
+  lastNumberContainer: {
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 20,
+  },
+  lastNumberLabel: {
+    fontSize: 16,
+    color: '#666666',
+    marginBottom: 8,
+  },
+  lastNumberText: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    color: '#0F9D58',
+  },
+  statsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 20,
+    paddingHorizontal: 20,
+  },
+  statItem: {
+    alignItems: 'center',
+  },
+  statValue: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#333333',
+  },
+  statLabel: {
+    fontSize: 14,
+    color: '#666666',
+    marginTop: 4,
   },
   drawButton: {
     backgroundColor: '#0F9D58',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 4,
-  },
-  resetButton: {
-    backgroundColor: '#D9534F', // Red color for reset button
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 4,
-    marginTop: 10,
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 25,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   drawButtonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: '600',
   },
-  resetButtonText: {
-    color: 'white',
-    fontSize: 16,
-  },
-  drawnNumberText: {
-    fontSize: 24,
-    marginTop: 16,
+  gridContainer: {
+    flex: 1,
   },
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     padding: 16,
     justifyContent: 'center',
-    width: '100%',
   },
   numberBox: {
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#ddd',
-    margin: 5,
-    backgroundColor: '#f5f5f5',
+    margin: 6,
+    borderRadius: 25,
+    backgroundColor: '#F5F5F5',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
   },
   drawnNumber: {
     backgroundColor: '#0F9D58',
   },
   numberText: {
     fontSize: 18,
+    color: '#333333',
+    fontWeight: '500',
+  },
+  drawnNumberText: {
+    color: '#FFFFFF',
   },
 });
 
