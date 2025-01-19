@@ -11,12 +11,13 @@ const ICON_SIZE = 36;
 function GameScreen(): React.JSX.Element {
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState<'lottery' | 'cards'>('lottery');
-  const {drawnNumbers, setDrawnNumbers} = useDrawnNumbers();
+  const {drawnNumbers, setDrawnNumbers, lastDrawnNumber, setLastDrawnNumber} = useDrawnNumbers();
   const route = useRoute();
   const params = route.params;
 
   const handleResetNumbers = () => {
     setDrawnNumbers([]);
+    setLastDrawnNumber(0)
   };
 
   // Handle the back button press, hardware back button and software back button(top left button)
