@@ -1,4 +1,5 @@
 import React from 'react';
+import Toast from 'react-native-toast-message';
 
 // import { Text, View } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
@@ -20,6 +21,7 @@ export default function Index() {
             <Stack.Screen name="Game" component={GameScreen} options={{ title: 'Draw Numbers', headerTitleAlign: 'center' }} />
           </Stack.Navigator>
         </NavigationContainer>
+        <Toast />
       </CardProvider>
     </DrawnNumbersProvider>
   );

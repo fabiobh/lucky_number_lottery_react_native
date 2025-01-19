@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View, ScrollView, Alert } from 'rea
 import { ParamListBase, RouteProp, useRoute } from '@react-navigation/native';
 import { useDrawnNumbers } from '../../contexts/DrawnNumbersContext';
 import { Colors } from '../../constants';
+import Toast from 'react-native-toast-message';
 
 function LotteryTab({ numCount, cards }: { numCount: number; cards: number[][] }): React.JSX.Element {
   const route = useRoute<RouteProp<ParamListBase, string>>();
@@ -12,7 +13,9 @@ function LotteryTab({ numCount, cards }: { numCount: number; cards: number[][] }
     lastDrawnNumber, 
     setLastDrawnNumber,
     completedCards,
-    setCompletedCards 
+    setCompletedCards,
+    winnerOrder,
+    setWinnerOrder
   } = useDrawnNumbers();
 
   const handleDrawNumber = () => {
@@ -34,7 +37,18 @@ function LotteryTab({ numCount, cards }: { numCount: number; cards: number[][] }
             console.log('Completed Cards:', updatedCards);
             return updatedCards;
           });
-          Alert.alert(`Card #${index + 1} completed all numbers in the card!`);
+          
+          // Update the winner order
+          setWinnerOrder(prev => [...prev, index]); // Add the index of the completed card to the order
+          // Alert.alert(`Card #${index + 1} completed all numbers in the card!`);
+          Toast.show({
+            text1: `Card #${index + 1} completed all numbers in the card!`,
+            type: 'success',
+            position: 'bottom',
+            visibilityTime: 3000,
+            autoHide: true,
+          });
+
         }
       });
     }

@@ -10,7 +10,7 @@ function CardsTab({ cards, numbersPerCard, numCount, cardCount }: {
   numCount: number; 
   cardCount: number; 
 }): React.JSX.Element {
-  const { drawnNumbers } = useDrawnNumbers();
+  const { drawnNumbers, winnerOrder } = useDrawnNumbers();
   const { setCards } = useCardContext();
 
   useEffect(() => {
@@ -47,7 +47,7 @@ function CardsTab({ cards, numbersPerCard, numCount, cardCount }: {
       <ScrollView style={styles.cardsContainer}>
         {cards.map((card, index) => {
           const allNumbersDrawn = card.every(num => drawnNumbers.includes(num));
-          const winnerPosition = drawnNumbers.indexOf(card[0]) + 1;
+          const winnerPosition = winnerOrder.indexOf(index) + 1;
           return (
             <View key={index} style={[styles.card, allNumbersDrawn ? styles.winnerCard : null]}>
               {allNumbersDrawn && <Text style={styles.winnerText}>Card {index + 1} wins</Text>}
