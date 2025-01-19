@@ -5,8 +5,14 @@ import { useDrawnNumbers } from '../../contexts/DrawnNumbersContext';
 
 function LotteryTab({ numCount, cards }: { numCount: number; cards: number[][] }): React.JSX.Element {
   const route = useRoute<RouteProp<ParamListBase, string>>();
-  const { drawnNumbers, setDrawnNumbers, lastDrawnNumber, setLastDrawnNumber } = useDrawnNumbers();
-  const [completedCards, setCompletedCards] = useState<Set<number>>(new Set());
+  const { 
+    drawnNumbers, 
+    setDrawnNumbers, 
+    lastDrawnNumber, 
+    setLastDrawnNumber,
+    completedCards,
+    setCompletedCards 
+  } = useDrawnNumbers();
 
   const handleDrawNumber = () => {
     const availableNumbers = Array.from({ length: numCount }, (_, i) => i + 1)

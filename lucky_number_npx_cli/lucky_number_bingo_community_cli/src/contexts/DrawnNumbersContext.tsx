@@ -5,25 +5,39 @@ interface DrawnNumbersContextType {
   setDrawnNumbers: (numbers: number[]) => void;
   lastDrawnNumber: number;
   setLastDrawnNumber: (number: number) => void;
+  completedCards: Set<number>;
+  setCompletedCards: (cards: Set<number>) => void;
 }
 
-const DrawnNumbersContext = createContext<DrawnNumbersContextType | undefined>(undefined);
+export const DrawnNumbersContext = createContext<DrawnNumbersContextType>({
+  drawnNumbers: [],
+  setDrawnNumbers: () => {},
+  lastDrawnNumber: 0,
+  setLastDrawnNumber: () => {},
+  completedCards: new Set(),
+  setCompletedCards: () => {},
+});
 
-export const DrawnNumbersProvider = ({ children }: { children: ReactNode }) => {
+export function DrawnNumbersProvider({ children }: { children: React.ReactNode }) {
   const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
   const [lastDrawnNumber, setLastDrawnNumber] = useState<number>(0);
-  
+  const [completedCards, setCompletedCards] = useState<Set<number>>(new Set());
+
   return (
-    <DrawnNumbersContext.Provider value={{ 
-      drawnNumbers, 
-      setDrawnNumbers, 
-      lastDrawnNumber, 
-      setLastDrawnNumber 
-    }}>
+    <DrawnNumbersContext.Provider 
+      value={{ 
+        drawnNumbers, 
+        setDrawnNumbers, 
+        lastDrawnNumber, 
+        setLastDrawnNumber,
+        completedCards,
+        setCompletedCards,
+      }}
+    >
       {children}
     </DrawnNumbersContext.Provider>
   );
-};
+}
 
 export const useDrawnNumbers = () => {
   const context = useContext(DrawnNumbersContext);
