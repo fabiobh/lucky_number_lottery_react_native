@@ -29,32 +29,38 @@ function LotteryTab({ numCount }: { numCount: number; }): React.JSX.Element {
     <View style={styles.container}>
       <View style={styles.drawSection}>
         <View style={styles.lastNumberContainer}>
-          <Text style={styles.lastNumberLabel}>Last Number</Text>
-          <Text style={styles.lastNumberText}>
-            {lastDrawnNumber ? lastDrawnNumber : '-'}
-          </Text>
+          <Text style={styles.lastNumberLabel}>Last Drawn Number</Text>
+          <View style={styles.lastNumberCircle}>
+            <Text style={styles.lastNumberText}>
+              {lastDrawnNumber ? lastDrawnNumber : '-'}
+            </Text>
+          </View>
         </View>
         
         <View style={styles.statsContainer}>
           <View style={styles.statItem}>
             <Text style={styles.statValue}>{drawnNumbers.length}</Text>
-            <Text style={styles.statLabel}>Drawn</Text>
+            <Text style={styles.statLabel}>Numbers Drawn</Text>
           </View>
+          <View style={styles.statDivider} />
           <View style={styles.statItem}>
             <Text style={styles.statValue}>{numCount - drawnNumbers.length}</Text>
-            <Text style={styles.statLabel}>Remaining</Text>
+            <Text style={styles.statLabel}>Numbers Left</Text>
           </View>
         </View>
 
-        <TouchableOpacity 
-          style={styles.drawButton}
-          onPress={handleDrawNumber}
-          disabled={drawnNumbers.length === numCount}
-        >
-          <Text style={styles.drawButtonText}>
-            {drawnNumbers.length === numCount ? 'Complete' : 'Draw Number'}
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity 
+            style={[styles.drawButton, drawnNumbers.length === numCount && styles.drawButtonDisabled]}
+            onPress={handleDrawNumber}
+            disabled={drawnNumbers.length === numCount}
+          >
+            <Text style={styles.drawButtonText}>
+              {drawnNumbers.length === numCount ? 'All Numbers Drawn' : 'Draw Next Number'}
+            </Text>
+          </TouchableOpacity>
+
+        </View>
       </View>
 
       <ScrollView style={styles.gridContainer}>
@@ -65,6 +71,7 @@ function LotteryTab({ numCount }: { numCount: number; }): React.JSX.Element {
               style={[
                 styles.numberBox,
                 drawnNumbers.includes(number) && styles.drawnNumber,
+                lastDrawnNumber === number && styles.lastDrawnNumber,
               ]}
             >
               <Text style={[
@@ -84,22 +91,40 @@ function LotteryTab({ numCount }: { numCount: number; }): React.JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F8F9FA',
   },
   drawSection: {
-    padding: 20,
+    padding: 24,
     backgroundColor: '#FFFFFF',
     borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
+    borderBottomColor: '#E9ECEF',
+    borderRadius: 16,
+    margin: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   lastNumberContainer: {
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 24,
   },
   lastNumberLabel: {
     fontSize: 16,
-    color: '#666666',
-    marginBottom: 8,
+    color: '#6C757D',
+    marginBottom: 12,
+    fontWeight: '500',
+  },
+  lastNumberCircle: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: '#F8F9FA',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 3,
+    borderColor: '#0F9D58',
   },
   lastNumberText: {
     fontSize: 48,
@@ -109,41 +134,61 @@ const styles = StyleSheet.create({
   statsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginBottom: 20,
-    paddingHorizontal: 20,
+    alignItems: 'center',
+    marginBottom: 24,
+    paddingHorizontal: 16,
   },
   statItem: {
     alignItems: 'center',
+    flex: 1,
+  },
+  statDivider: {
+    width: 1,
+    height: 40,
+    backgroundColor: '#DEE2E6',
+    marginHorizontal: 24,
   },
   statValue: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
-    color: '#333333',
+    color: '#212529',
   },
   statLabel: {
     fontSize: 14,
-    color: '#666666',
+    color: '#6C757D',
     marginTop: 4,
+  },
+  buttonContainer: {
+    gap: 12,
   },
   drawButton: {
     backgroundColor: '#0F9D58',
     paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 25,
+    paddingVertical: 16,
+    borderRadius: 12,
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 4,
+  },
+  drawButtonDisabled: {
+    backgroundColor: '#ADB5BD',
   },
   drawButtonText: {
     color: 'white',
     fontSize: 18,
     fontWeight: '600',
+  },
+  resetButton: {
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+  resetButtonText: {
+    color: '#DC3545',
+    fontSize: 16,
+    fontWeight: '500',
   },
   gridContainer: {
     flex: 1,
@@ -155,28 +200,33 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   numberBox: {
-    width: 50,
-    height: 50,
+    width: 56,
+    height: 56,
     justifyContent: 'center',
     alignItems: 'center',
     margin: 6,
-    borderRadius: 25,
-    backgroundColor: '#F5F5F5',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
+    borderRadius: 28,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#DEE2E6',
   },
   drawnNumber: {
     backgroundColor: '#0F9D58',
+    borderColor: '#0F9D58',
+  },
+  lastDrawnNumber: {
+    backgroundColor: '#0F9D58',
+    borderColor: '#0F9D58',
+    transform: [{ scale: 1.1 }],
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 6,
   },
   numberText: {
     fontSize: 18,
-    color: '#333333',
+    color: '#495057',
     fontWeight: '500',
   },
   drawnNumberText: {
@@ -185,3 +235,4 @@ const styles = StyleSheet.create({
 });
 
 export default LotteryTab;
+
