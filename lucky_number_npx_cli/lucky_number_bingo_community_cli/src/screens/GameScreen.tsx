@@ -12,7 +12,16 @@ const ICON_SIZE = 36;
 function GameScreen(): React.JSX.Element {
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState<'lottery' | 'cards'>('lottery');
-  const {drawnNumbers, setDrawnNumbers, lastDrawnNumber, setLastDrawnNumber, completedCards, setCompletedCards} = useDrawnNumbers();
+  const {
+    drawnNumbers, 
+    setDrawnNumbers, 
+    lastDrawnNumber, 
+    setLastDrawnNumber, 
+    completedCards, 
+    setCompletedCards,
+     winnerOrder, 
+     setWinnerOrder
+  } = useDrawnNumbers();
   const route = useRoute();
   const params = route.params;
 
@@ -21,6 +30,7 @@ function GameScreen(): React.JSX.Element {
     setDrawnNumbers([]);
     setLastDrawnNumber(0);
     setCompletedCards(new Set());
+    setWinnerOrder([]);
   };
 
 
