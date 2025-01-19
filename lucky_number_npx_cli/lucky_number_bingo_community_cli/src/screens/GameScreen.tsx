@@ -1,9 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Alert, BackHandler} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Alert, BackHandler, Image} from 'react-native';
 import LotteryTab from './tabs/LotteryTab';
 import CardsTab from './tabs/CardsTab';
 import {useRoute, useNavigation} from '@react-navigation/native';
 import {useDrawnNumbers} from '../contexts/DrawnNumbersContext';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+const ICON_SIZE = 36;
 
 function GameScreen(): React.JSX.Element {
   const navigation = useNavigation();
@@ -42,11 +45,13 @@ function GameScreen(): React.JSX.Element {
       handleBackButtonPress
     );
 
-    // Set custom header options
+    // Set custom header options with an icon
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity onPress={handleBackButtonPress}>
-          <Text style={{ marginLeft: 10, color: '#0F9D58' }}>Reset Numbers</Text>
+        <TouchableOpacity onPress={handleBackButtonPress} style={{ marginLeft: 10 }}>
+          {/* Replace with your icon component */}
+          {/* Example using a local image */}
+          <Icon name="chevron-left" size={ICON_SIZE} color="#6B46C1" />
         </TouchableOpacity>
       ),
     });
