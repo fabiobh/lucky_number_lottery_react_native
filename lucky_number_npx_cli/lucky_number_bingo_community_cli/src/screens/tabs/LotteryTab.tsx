@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F9FA',
   },
   drawSection: {
-    padding: 24,
+    padding: 16,
     backgroundColor: '#FFFFFF',
     borderBottomWidth: 1,
     borderBottomColor: '#E9ECEF',
@@ -108,18 +108,18 @@ const styles = StyleSheet.create({
   },
   lastNumberContainer: {
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 16,
   },
   lastNumberLabel: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#6C757D',
-    marginBottom: 12,
+    marginBottom: 8,
     fontWeight: '500',
   },
   lastNumberCircle: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
     backgroundColor: '#F8F9FA',
     justifyContent: 'center',
     alignItems: 'center',
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     borderColor: '#0F9D58',
   },
   lastNumberText: {
-    fontSize: 48,
+    fontSize: 32,
     fontWeight: 'bold',
     color: '#0F9D58',
   },
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 16,
     paddingHorizontal: 16,
   },
   statItem: {
@@ -149,14 +149,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
   },
   statValue: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: 'bold',
     color: '#212529',
   },
   statLabel: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#6C757D',
-    marginTop: 4,
+    marginTop: 2,
   },
   buttonContainer: {
     gap: 12,
