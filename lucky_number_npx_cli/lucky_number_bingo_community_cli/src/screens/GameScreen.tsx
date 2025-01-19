@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Alert, BackHandler} from 'react-native';
 import LotteryTab from './tabs/LotteryTab';
 import CardsTab from './tabs/CardsTab';
-import {useRoute} from '@react-navigation/native';
+import {useRoute, useNavigation} from '@react-navigation/native';
 import {useDrawnNumbers} from '../contexts/DrawnNumbersContext';
 
 function GameScreen(): React.JSX.Element {
+  const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState<'lottery' | 'cards'>('lottery');
   const {drawnNumbers, setDrawnNumbers} = useDrawnNumbers();
   const route = useRoute();
@@ -14,6 +15,47 @@ function GameScreen(): React.JSX.Element {
   const handleResetNumbers = () => {
     setDrawnNumbers([]);
   };
+
+  const handleBackButtonPress = () => {
+    Alert.alert(
+      "Reset Numbers",
+      "Do you want to reset the drawn numbers?",
+      [
+        {
+          text: "No",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "Yes", onPress: () => {
+            handleResetNumbers();
+            navigation.goBack();
+          }
+        }
+      ]
+    );
+    return true; // Prevent default back action
+  };
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      handleBackButtonPress
+    );
+
+    // Set custom header options
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity onPress={handleBackButtonPress}>
+          <Text style={{ marginLeft: 10, color: '#0F9D58' }}>Reset Numbers</Text>
+        </TouchableOpacity>
+      ),
+    });
+
+    return () => {
+      backHandler.remove();
+      navigation.setOptions({ headerLeft: undefined }); // Clean up
+    };
+  }, [navigation]);
 
   const renderContent = () => {
     return activeTab === 'lottery' ? (
