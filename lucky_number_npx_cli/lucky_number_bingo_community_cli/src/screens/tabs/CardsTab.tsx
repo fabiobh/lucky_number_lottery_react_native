@@ -15,12 +15,24 @@ function CardsTab({ cards, numbersPerCard, numCount, cardCount }: {
       <View style={styles.statsSection}>
         <View style={styles.statsContainer}>
           <View style={styles.statItem}>
-            <Text style={styles.statValue}>{drawnNumbers.length}</Text>
             <Text style={styles.statLabel}>Numbers Drawn</Text>
+            <Text style={styles.statValue}>{drawnNumbers.length}</Text>
+            <View style={styles.progressBar}>
+              <View style={[styles.progressFill, { width: `${(drawnNumbers.length / numCount) * 100}%` }]} />
+            </View>
           </View>
+          <View style={styles.statDivider} />
           <View style={styles.statItem}>
-            <Text style={styles.statValue}>{numCount - drawnNumbers.length}</Text>
             <Text style={styles.statLabel}>Remaining</Text>
+            <Text style={styles.statValue}>{numCount - drawnNumbers.length}</Text>
+            <View style={styles.progressBar}>
+              <View 
+                style={[
+                  styles.progressFill, 
+                  { width: `${((numCount - drawnNumbers.length) / numCount) * 100}%` }
+                ]} 
+              />
+            </View>
           </View>
         </View>
       </View>
@@ -28,7 +40,14 @@ function CardsTab({ cards, numbersPerCard, numCount, cardCount }: {
       <ScrollView style={styles.cardsContainer}>
         {cards.map((card, index) => (
           <View key={index} style={styles.card}>
-            <Text style={styles.cardTitle}>Card {index + 1}</Text>
+            <View style={styles.cardHeader}>
+              <Text style={styles.cardTitle}>Card {index + 1}</Text>
+              <View style={styles.cardStats}>
+                <Text style={styles.cardStatsText}>
+                  {card.filter(num => drawnNumbers.includes(num)).length}/{numbersPerCard}
+                </Text>
+              </View>
+            </View>
             <View style={styles.cardNumbersContainer}>
               {card.map((number, numberIndex) => (
                 <View 
@@ -60,31 +79,56 @@ function CardsTab({ cards, numbersPerCard, numCount, cardCount }: {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F8F9FA',
   },
   statsSection: {
-    padding: 20,
+    padding: 24,
     backgroundColor: '#FFFFFF',
     borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
+    borderBottomColor: '#EAEAEA',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 3.84,
+    elevation: 3,
   },
   statsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingHorizontal: 20,
-  },
-  statItem: {
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
+  statItem: {
+    flex: 1,
+  },
+  statDivider: {
+    width: 1,
+    height: 40,
+    backgroundColor: '#EAEAEA',
+    marginHorizontal: 24,
+  },
   statValue: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333333',
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#2C3E50',
+    marginVertical: 4,
   },
   statLabel: {
     fontSize: 14,
-    color: '#666666',
-    marginTop: 4,
+    color: '#95A5A6',
+    fontWeight: '600',
+    textTransform: 'uppercase',
+  },
+  progressBar: {
+    height: 4,
+    backgroundColor: '#EAEAEA',
+    borderRadius: 2,
+    marginTop: 8,
+    overflow: 'hidden',
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: '#0F9D58',
+    borderRadius: 2,
   },
   cardsContainer: {
     flex: 1,
@@ -92,50 +136,66 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: '#FFFFFF',
-    padding: 16,
+    padding: 20,
     marginBottom: 16,
-    borderRadius: 12,
+    borderRadius: 16,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
     elevation: 3,
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
   },
   cardTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333333',
-    marginBottom: 12,
+    fontWeight: '700',
+    color: '#2C3E50',
+  },
+  cardStats: {
+    backgroundColor: '#F8F9FA',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12,
+  },
+  cardStatsText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#95A5A6',
   },
   cardNumbersContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
-    gap: 8,
+    gap: 10,
   },
   numberBox: {
-    width: 45,
-    height: 45,
+    width: 48,
+    height: 48,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 22.5,
-    backgroundColor: '#F5F5F5',
+    borderRadius: 24,
+    backgroundColor: '#F8F9FA',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 1,
     },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
     elevation: 2,
   },
   numberText: {
     fontSize: 18,
-    color: '#333333',
-    fontWeight: '500',
+    color: '#2C3E50',
+    fontWeight: '600',
   },
   drawnNumber: {
     backgroundColor: '#0F9D58',
