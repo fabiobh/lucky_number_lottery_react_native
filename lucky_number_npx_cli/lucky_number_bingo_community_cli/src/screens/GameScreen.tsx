@@ -6,6 +6,7 @@ import {useRoute, useNavigation} from '@react-navigation/native';
 import {useDrawnNumbers} from '../contexts/DrawnNumbersContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Colors } from '../constants'; // Import Colors
+import Toast from 'react-native-toast-message';
 
 const ICON_SIZE = 36;
 
@@ -26,11 +27,21 @@ function GameScreen(): React.JSX.Element {
   const params = route.params;
 
   const handleResetNumbers = () => {
-    console.log('Resetting numbers...');
+    console.log('');
+    
     setDrawnNumbers([]);
     setLastDrawnNumber(0);
     setCompletedCards(new Set());
     setWinnerOrder([]);
+
+    Toast.show({
+      text1: `Resetting numbers...`,
+      type: 'info',
+      position: 'bottom',
+      visibilityTime: 3000,
+      autoHide: true,
+    });
+
   };
 
 

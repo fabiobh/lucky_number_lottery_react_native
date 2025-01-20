@@ -41,7 +41,6 @@ function LotteryTab({ numCount, cards }: { numCount: number; cards: number[][] }
           
           // Update the winner order
           setWinnerOrder(prev => [...prev, index]); // Add the index of the completed card to the order
-          // Alert.alert(`Card #${index + 1} completed all numbers in the card!`);
           Toast.show({
             text1: `Card #${index + 1} completed all numbers in the card!`,
             type: 'success',
