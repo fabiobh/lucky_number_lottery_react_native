@@ -10,6 +10,8 @@ npm start
 
 npx react-native build-android --mode=release
 
+se gerar um APK ou AAB pelo Android Studio, não funciona pois não embute o serviço/servidor do react
+
 npx react-native build-android --mode=debug
 
 # Gerar um APK
@@ -20,6 +22,13 @@ npx react-native build-android --mode=release --output-type=apk
 cd android && ./gradlew assembleRelease
 
 # Gerar arquivo AAB
+1. Primeiro, crie a pasta de assets se ela não existir
+mkdir -p android/app/src/main/assets
+
+2. Agora, na raiz do seu projeto React Native, execute o comando para gerar o bundle
+npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+
+3. gere o arquivo aab
 cd android && ./gradlew bundleRelease
 
 -----------

@@ -1,73 +1,27 @@
-# react native app created with expo
+# command use to create a new react native app without expo
 
-- created using the command:
+npx @react-native-community/cli init
 
-npx create-expo-app lucky_number_react_native
+--------
 
-- to run use:
+#  Run instructions for Android:
+    • Have an Android emulator running (quickest way to get started), or a device connected.
+    • cd "/Users/fabiocunha/Documents/GitHub/lucky_number_lottery_react_native/lucky_number_npx_cli/lucky_number_bingo_community_cli" && npx react-native run-android
+  
+#  Run instructions for iOS:
+    • cd "/Users/fabiocunha/Documents/GitHub/lucky_number_lottery_react_native/lucky_number_npx_cli/lucky_number_bingo_community_cli/ios"
+    
+    • Install Cocoapods
+      • bundle install # you need to run this only once in your project.
+      • bundle exec pod install
+      • cd ..
+    
+    • npx react-native run-ios
+    - or -
+    • Open lucky_number_bingo_community_cli/ios/lucky_number_bingo_community_cli.xcodeproj in Xcode or run "xed -b ios"
+    • Hit the Run button
+    
+#  Run instructions for macOS:
+    • See https://aka.ms/ReactNativeGuideMacOS for the latest up-to-date instructions.
 
-npx expo start
-
-# Android platform
-
-- create a build on Eas Cloud:
-
-eas build -p android --profile preview
-
-- Generate native Android files
-
-npx expo prebuild
-
------
-
-- First, install the EAS CLI globally:
-
-npm install -g eas-cli
-
-- Login to your Expo account:
-
-eas login
-
-- Initialize EAS Build in your project:
-
-eas build:configure
-
-- Build the APK: on the cloud:
-
-eas build -p android --profile preview
-
-- The build process will start in the Expo cloud servers. Once completed, you'll receive a URL to download your APK file.
-
-# Alternative local build method using Expo:
-
-- Install expo-dev-client:
-
-npx expo install expo-dev-client
-
-- Generate native Android files:
-
-npx expo prebuild - generate iOS and Android native folders
-
-- Build on the cloud
-
-eas build --platform android
-
-eas build -p android --profile preview --local
-
-- Build locally:
-
-cd android && ./gradlew assembleRelease
-
-
-- create a aab file for production build:
-
-eas build --platform android --profile production
-
-The APK will be available at: android/app/build/outputs/apk/release/app-release.apk
-
-Key points:
-
-The cloud build (EAS) is recommended for production builds
-Local builds are great for testing
-Make sure to configure proper signing keys for release builds
-The build process might take several minutes
+#  Generate aab build on android:
