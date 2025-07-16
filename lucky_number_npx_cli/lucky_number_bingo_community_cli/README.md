@@ -6,6 +6,10 @@ npx @react-native-community/cli@latest init MyApp
 
 npm start
 
+npm run android
+
+npm run ios
+
 * Crie um release de um AAB ( Android App Bundle )
 
 npx react-native build-android --mode=release
