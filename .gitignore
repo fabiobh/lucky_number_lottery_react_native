@@ -25,3 +25,6 @@ yarn-error.log*
 
 # Ignora o diretório de cache e arquivos gerados pelo Gradle
 .gradle/
+
+*.apk
+*.aab
