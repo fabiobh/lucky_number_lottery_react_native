@@ -82,8 +82,8 @@ android {
         applicationId "com.uaialternativa.luckydraw"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 12
-        versionName "1.1.2"
+        versionCode 15
+        versionName "1.1.5"
     }
     signingConfigs {
         debug {
