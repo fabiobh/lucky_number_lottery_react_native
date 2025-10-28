@@ -2,6 +2,10 @@
 
 npx @react-native-community/cli@latest init MyApp
 
+# instale as dependencias
+
+npm install
+
 # rode o app com o comando abaixo:
 
 npm start
