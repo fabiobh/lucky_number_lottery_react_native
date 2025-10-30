@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from '../contexts/ThemeContext';
 import { getColors } from '../constants';
 
-const ICON_SIZE = 36;
+
 
 export default function HomeScreen({ navigation }: { navigation: NavigationProp<any> }) {
   const { t } = useTranslation();
@@ -56,73 +56,85 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 
           {/* card #1 */}
           <View style={styles.sliderCard}>
-            <Text style={styles.sliderLabel}>{t('totalNumbers')}</Text>
-            <View style={styles.valueContainer}>
-              <Text style={styles.sliderValue}>{numCount}</Text>
-              <Icon name="dice-multiple" size={ICON_SIZE} color={colors.primary} />
+            <View style={styles.labelContainer}>
+              <Icon name="dice-multiple" size={24} color={colors.primary} />
+              <Text style={styles.sliderLabel}>{t('totalNumbers')}</Text>
             </View>
-            <Slider
-              minimumValue={30}
-              maximumValue={100}
-              step={1}
-              value={numCount}
-              onValueChange={setNumCount}
-              style={styles.slider}
-              minimumTrackTintColor={colors.primary}
-              maximumTrackTintColor={colors.border}
-              thumbTintColor={colors.primary}
-            />
-            <View style={styles.sliderRange}>
-              <Text style={styles.rangeText}>30</Text>
-              <Text style={styles.rangeText}>100</Text>
+            <View style={styles.valueSliderContainer}>
+              <Text style={styles.sliderValue}>{numCount}</Text>
+              <View style={styles.sliderWrapper}>
+                <Slider
+                  minimumValue={30}
+                  maximumValue={100}
+                  step={1}
+                  value={numCount}
+                  onValueChange={setNumCount}
+                  style={styles.slider}
+                  minimumTrackTintColor={colors.primary}
+                  maximumTrackTintColor={colors.border}
+                  thumbTintColor={colors.primary}
+                />
+                <View style={styles.sliderRange}>
+                  <Text style={styles.rangeText}>30</Text>
+                  <Text style={styles.rangeText}>100</Text>
+                </View>
+              </View>
             </View>
           </View>
           
           {/* card #2 */}
           <View style={styles.sliderCard}>
-            <Text style={styles.sliderLabel}>{t('quantityCards')}</Text>
-            <View style={styles.valueContainer}>
-              <Text style={styles.sliderValue}>{cardCount}</Text>
-              <Icon name="refresh" size={ICON_SIZE} color={colors.primary} />
+            <View style={styles.labelContainer}>
+              <Icon name="refresh" size={24} color={colors.primary} />
+              <Text style={styles.sliderLabel}>{t('quantityCards')}</Text>
             </View>
-            <Slider
-              minimumValue={10}
-              maximumValue={100}
-              step={5}
-              value={cardCount}
-              onValueChange={setCardCount}
-              style={styles.slider}
-              minimumTrackTintColor={colors.primary}
-              maximumTrackTintColor={colors.border}
-              thumbTintColor={colors.primary}
-            />
-            <View style={styles.sliderRange}>
-              <Text style={styles.rangeText}>10</Text>
-              <Text style={styles.rangeText}>100</Text>
+            <View style={styles.valueSliderContainer}>
+              <Text style={styles.sliderValue}>{cardCount}</Text>
+              <View style={styles.sliderWrapper}>
+                <Slider
+                  minimumValue={10}
+                  maximumValue={100}
+                  step={5}
+                  value={cardCount}
+                  onValueChange={setCardCount}
+                  style={styles.slider}
+                  minimumTrackTintColor={colors.primary}
+                  maximumTrackTintColor={colors.border}
+                  thumbTintColor={colors.primary}
+                />
+                <View style={styles.sliderRange}>
+                  <Text style={styles.rangeText}>10</Text>
+                  <Text style={styles.rangeText}>100</Text>
+                </View>
+              </View>
             </View>
           </View>
 
           {/* card #3 */}
           <View style={styles.sliderCard}>
-            <Text style={styles.sliderLabel}>{t('numbersPerCard')}</Text>
-            <View style={styles.valueContainer}>
-              <Text style={styles.sliderValue}>{numbersPerCard}</Text>
-              <Icon name="grid" size={ICON_SIZE} color={colors.primary} />
+            <View style={styles.labelContainer}>
+              <Icon name="grid" size={24} color={colors.primary} />
+              <Text style={styles.sliderLabel}>{t('numbersPerCard')}</Text>
             </View>
-            <Slider
-              minimumValue={5}
-              maximumValue={25}
-              step={1}
-              value={numbersPerCard}
-              onValueChange={setNumbersPerCard}
-              style={styles.slider}
-              minimumTrackTintColor={colors.primary}
-              maximumTrackTintColor={colors.border}
-              thumbTintColor={colors.primary}
-            />
-            <View style={styles.sliderRange}>
-              <Text style={styles.rangeText}>5</Text>
-              <Text style={styles.rangeText}>25</Text>
+            <View style={styles.valueSliderContainer}>
+              <Text style={styles.sliderValue}>{numbersPerCard}</Text>
+              <View style={styles.sliderWrapper}>
+                <Slider
+                  minimumValue={5}
+                  maximumValue={25}
+                  step={1}
+                  value={numbersPerCard}
+                  onValueChange={setNumbersPerCard}
+                  style={styles.slider}
+                  minimumTrackTintColor={colors.primary}
+                  maximumTrackTintColor={colors.border}
+                  thumbTintColor={colors.primary}
+                />
+                <View style={styles.sliderRange}>
+                  <Text style={styles.rangeText}>5</Text>
+                  <Text style={styles.rangeText}>25</Text>
+                </View>
+              </View>
             </View>
           </View>
 
@@ -199,19 +211,30 @@ const createStyles = (colors: any) => StyleSheet.create({
     shadowRadius: 4,
     elevation: 2,
   },
+  labelContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
   sliderLabel: {
     fontSize: 16,
     color: colors.dark_gray,
-    marginBottom: 8,
+    marginLeft: 8,
+  },
+  valueSliderContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: 12,
   },
   sliderValue: {
     fontSize: 36,
     fontWeight: 'bold',
     color: colors.primary,
-    marginBottom: 12,
+    minWidth: 60,
+    marginRight: 16,
+  },
+  sliderWrapper: {
+    flex: 1,
   },
   slider: {
     width: '100%',
@@ -220,7 +243,7 @@ const createStyles = (colors: any) => StyleSheet.create({
   sliderRange: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 8,
+    marginTop: 4,
   },
   rangeText: {
     color: colors.primary,
@@ -240,11 +263,5 @@ const createStyles = (colors: any) => StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  valueContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-    paddingRight: 1, // to align the icon with the text
-  },
+
 }); 
