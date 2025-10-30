@@ -20,7 +20,8 @@ npx react-native build-android --mode=debug
 
 # Gerar um APK
 
-npx react-native build-android --mode=release --output-type=apk
+npx react-native build-android --mode=release --tasks assembleDebug
+npx react-native build-android --mode=release --tasks assembleRelease
 
 # Rodar APK com arquivos js embutidos
 
