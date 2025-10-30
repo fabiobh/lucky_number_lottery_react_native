@@ -10,18 +10,32 @@ import OptionsScreen from './src/screens/OptionsScreen';
 import { DrawnNumbersProvider } from './src/contexts/DrawnNumbersContext';
 import { CardProvider } from './src/contexts/CardContext';
 import { LanguageProvider } from './src/contexts/LanguageContext';
-import { ThemeProvider } from './src/contexts/ThemeContext';
+import { ThemeProvider, useTheme } from './src/contexts/ThemeContext';
 import { useTranslation } from 'react-i18next';
+import { getColors } from './src/constants';
 import './src/i18n';
 
 const Stack = createStackNavigator();
 
 function AppNavigator() {
   const { t } = useTranslation();
+  const { isDarkMode } = useTheme();
+  const colors = getColors(isDarkMode);
   
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator 
+        initialRouteName="Home"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: colors.background,
+          },
+          headerTintColor: colors.textPrimary,
+          headerTitleStyle: {
+            color: colors.textPrimary,
+          },
+        }}
+      >
         <Stack.Screen 
           name="Home" 
           component={HomeScreen} 

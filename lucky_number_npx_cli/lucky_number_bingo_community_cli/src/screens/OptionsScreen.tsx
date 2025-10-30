@@ -23,8 +23,6 @@ export default function OptionsScreen({ navigation: _navigation }: { navigation:
                 showsVerticalScrollIndicator={false}
             >
                 <View style={styles.optionsContainer}>
-                    <Text style={styles.title}>{t('options')}</Text>
-
                     {/* Language Selection */}
                     <View style={styles.optionCard}>
                         <View style={styles.optionHeader}>
@@ -44,7 +42,7 @@ export default function OptionsScreen({ navigation: _navigation }: { navigation:
                                     styles.languageButtonText,
                                     language === 'en' && styles.languageButtonTextActive
                                 ]}>
-                                    {t('english')}
+                                    English
                                 </Text>
                             </TouchableOpacity>
 
@@ -59,7 +57,7 @@ export default function OptionsScreen({ navigation: _navigation }: { navigation:
                                     styles.languageButtonText,
                                     language === 'pt' && styles.languageButtonTextActive
                                 ]}>
-                                    {t('portuguese')}
+                                    Português
                                 </Text>
                             </TouchableOpacity>
 
@@ -74,7 +72,7 @@ export default function OptionsScreen({ navigation: _navigation }: { navigation:
                                     styles.languageButtonText,
                                     language === 'fr' && styles.languageButtonTextActive
                                 ]}>
-                                    {t('french')}
+                                    Français
                                 </Text>
                             </TouchableOpacity>
 
@@ -89,7 +87,7 @@ export default function OptionsScreen({ navigation: _navigation }: { navigation:
                                     styles.languageButtonText,
                                     language === 'es' && styles.languageButtonTextActive
                                 ]}>
-                                    {t('spanish')}
+                                    Español
                                 </Text>
                             </TouchableOpacity>
 
@@ -104,7 +102,7 @@ export default function OptionsScreen({ navigation: _navigation }: { navigation:
                                     styles.languageButtonText,
                                     language === 'de' && styles.languageButtonTextActive
                                 ]}>
-                                    {t('german')}
+                                    Deutsch
                                 </Text>
                             </TouchableOpacity>
 
@@ -119,7 +117,7 @@ export default function OptionsScreen({ navigation: _navigation }: { navigation:
                                     styles.languageButtonText,
                                     language === 'zh' && styles.languageButtonTextActive
                                 ]}>
-                                    {t('chinese')}
+                                    中文
                                 </Text>
                             </TouchableOpacity>
                         </View>
@@ -161,13 +159,7 @@ const createStyles = (colors: any) => StyleSheet.create({
     optionsContainer: {
         padding: 16,
     },
-    title: {
-        fontSize: 28,
-        fontWeight: 'bold',
-        color: colors.dark_gray,
-        marginBottom: 24,
-        textAlign: 'center',
-    },
+
     optionCard: {
         backgroundColor: colors.white,
         borderRadius: 16,
