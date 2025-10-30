@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, ScrollView, Alert } from 'react-native';
-import { ParamListBase, RouteProp, useRoute } from '@react-navigation/native';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import { ParamListBase, RouteProp } from '@react-navigation/native';
 import { useDrawnNumbers } from '../../contexts/DrawnNumbersContext';
-import { Colors } from '../../constants';
+import { useTheme } from '../../contexts/ThemeContext';
+import { useTranslation } from 'react-i18next';
+import { getColors } from '../../constants';
 import Toast from 'react-native-toast-message';
 
 function LotteryTab({ numCount, cards }: { numCount: number; cards: number[][] }): React.JSX.Element {
-  const route = useRoute<RouteProp<ParamListBase, string>>();
+  const { t } = useTranslation();
+  const { isDarkMode } = useTheme();
+  const colors = getColors(isDarkMode);
+
   const { 
     drawnNumbers, 
     setDrawnNumbers, 
@@ -33,16 +38,16 @@ function LotteryTab({ numCount, cards }: { numCount: number; cards: number[][] }
       cards.forEach((card, index) => {
         const allNumbersDrawn = card.every(num => drawnNumbers.includes(num) || num === random);
         if (allNumbersDrawn && !completedCards.has(index)) {
-          setCompletedCards(prev => {
+          setCompletedCards((prev: Set<number>) => {
             const updatedCards = new Set(prev).add(index);
             console.log('Completed Cards:', updatedCards);
             return updatedCards;
           });
           
           // Update the winner order
-          setWinnerOrder(prev => [...prev, index]); // Add the index of the completed card to the order
+          setWinnerOrder([...winnerOrder, index]); // Add the index of the completed card to the order
           Toast.show({
-            text1: `Card #${index + 1} completed all numbers in the card!`,
+            text1: t('cardCompleted', { cardNumber: index + 1 }),
             type: 'success',
             position: 'bottom',
             visibilityTime: 3000,
@@ -54,11 +59,13 @@ function LotteryTab({ numCount, cards }: { numCount: number; cards: number[][] }
     }
   };
 
+  const styles = createStyles(colors);
+
   return (
     <View style={styles.container}>
       <View style={styles.drawSection}>
         <View style={styles.lastNumberContainer}>
-          <Text style={styles.lastNumberLabel}>Last Drawn Number</Text>
+          <Text style={styles.lastNumberLabel}>{t('lastDrawnNumber')}</Text>
           <View style={styles.lastNumberCircle}>
             <Text style={styles.lastNumberText}>
               {lastDrawnNumber ? lastDrawnNumber : '-'}
@@ -69,12 +76,12 @@ function LotteryTab({ numCount, cards }: { numCount: number; cards: number[][] }
         <View style={styles.statsContainer}>
           <View style={styles.statItem}>
             <Text style={styles.statValue}>{drawnNumbers.length}</Text>
-            <Text style={styles.statLabel}>Numbers Drawn</Text>
+            <Text style={styles.statLabel}>{t('numbersDrawn')}</Text>
           </View>
           <View style={styles.statDivider} />
           <View style={styles.statItem}>
             <Text style={styles.statValue}>{numCount - drawnNumbers.length}</Text>
-            <Text style={styles.statLabel}>Numbers Left</Text>
+            <Text style={styles.statLabel}>{t('numbersLeft')}</Text>
           </View>
         </View>
 
@@ -85,7 +92,7 @@ function LotteryTab({ numCount, cards }: { numCount: number; cards: number[][] }
             disabled={drawnNumbers.length === numCount}
           >
             <Text style={styles.drawButtonText}>
-              {drawnNumbers.length === numCount ? 'All Numbers Drawn' : 'Draw Next Number'}
+              {drawnNumbers.length === numCount ? t('allNumbersDrawn') : t('drawNextNumber')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -116,19 +123,19 @@ function LotteryTab({ numCount, cards }: { numCount: number; cards: number[][] }
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: colors.background,
   },
   drawSection: {
     padding: 16,
-    backgroundColor: Colors.white,
+    backgroundColor: colors.white,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border, 
+    borderBottomColor: colors.border, 
     borderRadius: 16,
     margin: 16,
-    shadowColor: Colors.shadow,
+    shadowColor: colors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -140,7 +147,7 @@ const styles = StyleSheet.create({
   },
   lastNumberLabel: {
     fontSize: 14,
-    color: Colors.textSecondary,
+    color: colors.textSecondary,
     marginBottom: 8,
     fontWeight: '500',
   },
@@ -148,16 +155,16 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: Colors.white,
+    backgroundColor: colors.background,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 3,
-    borderColor: Colors.primary,
+    borderColor: colors.primary,
   },
   lastNumberText: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: Colors.primary,
+    color: colors.primary,
   },
   statsContainer: {
     flexDirection: 'row',
@@ -173,39 +180,39 @@ const styles = StyleSheet.create({
   statDivider: {
     width: 1,
     height: 40,
-    backgroundColor: Colors.border,
+    backgroundColor: colors.border,
     marginHorizontal: 24,
   },
   statValue: {
     fontSize: 24,
     fontWeight: 'bold',
-      color: Colors.textPrimary,
+      color: colors.textPrimary,
   },
   statLabel: {
     fontSize: 12,
-    color: Colors.textSecondary,
+    color: colors.textSecondary,
     marginTop: 2,
   },
   buttonContainer: {
     gap: 12,
   },
   drawButton: {
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
     paddingHorizontal: 24,
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
-    shadowColor: Colors.shadow,
+    shadowColor: colors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
     elevation: 4,
   },
   drawButtonDisabled: {
-    backgroundColor: Colors.gray,
+    backgroundColor: colors.gray,
   },
   drawButtonText: {
-    color: Colors.white,
+    color: colors.white,
     fontSize: 18,
     fontWeight: '600',
   },
@@ -214,7 +221,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   resetButtonText: {
-    color: Colors.danger,
+    color: colors.danger,
     fontSize: 16,
     fontWeight: '500',
   },
@@ -234,19 +241,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 6,
     borderRadius: 28,
-    backgroundColor: Colors.white,
+    backgroundColor: colors.white,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: colors.border,
   },
   drawnNumber: {
-    backgroundColor: Colors.primary,
-    borderColor: Colors.primary,
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
   },
   lastDrawnNumber: {
-    backgroundColor: Colors.primary,
-    borderColor: Colors.primary,
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
     transform: [{ scale: 1.1 }],
-    shadowColor: Colors.shadow,
+    shadowColor: colors.shadow,
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
@@ -254,11 +261,11 @@ const styles = StyleSheet.create({
   },
   numberText: {
     fontSize: 18,
-    color: Colors.textPrimary,
+    color: colors.textPrimary,
     fontWeight: '500',
   },
   drawnNumberText: {
-    color: Colors.white,
+    color: colors.white,
   },
 });
 

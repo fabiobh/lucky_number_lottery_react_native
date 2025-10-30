@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { NavigationProp } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Colors } from '../constants'; // Import Colors
+import { useTranslation } from 'react-i18next';
+import { useTheme } from '../contexts/ThemeContext';
+import { getColors } from '../constants';
 
 const ICON_SIZE = 36;
 
 export default function HomeScreen({ navigation }: { navigation: NavigationProp<any> }) {
+  const { t } = useTranslation();
+  const { isDarkMode } = useTheme();
+  const colors = getColors(isDarkMode);
   const [numCount, setNumCount] = useState(30);
   const [cardCount, setCardCount] = useState(10);
   const [numbersPerCard, setNumbersPerCard] = useState(5);
@@ -25,102 +30,141 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
     });
   };
 
+  const styles = createStyles(colors);
+
   return (
     <View style={styles.container}>
-      
-      <View style={styles.setupContainer}>
-        <Text style={styles.setupTitle}>Game Setup</Text>
-        <Text style={styles.setupSubtitle}>Customize your bingo experience</Text>
-
-        {/* card #1 */}
-        <View style={styles.sliderCard}>
-          <Text style={styles.sliderLabel}>Total Numbers to Draw</Text>
-          <View style={styles.valueContainer}>
-            <Text style={styles.sliderValue}>{numCount}</Text>
-            <Icon name="dice-multiple" size={ICON_SIZE} color={Colors.primary} />
-          </View>
-          <Slider
-            minimumValue={30}
-            maximumValue={100}
-            step={1}
-            value={numCount}
-            onValueChange={setNumCount}
-            style={styles.slider}
-            minimumTrackTintColor={Colors.primary}
-            maximumTrackTintColor="#E5E7EB"
-            thumbTintColor={Colors.primary}
-          />
-          <View style={styles.sliderRange}>
-            <Text style={styles.rangeText}>30</Text>
-            <Text style={styles.rangeText}>100</Text>
-          </View>
-        </View>
-        
-        {/* card #2 */}
-        <View style={styles.sliderCard}>
-          <Text style={styles.sliderLabel}>Quantity of Cards</Text>
-          <View style={styles.valueContainer}>
-            <Text style={styles.sliderValue}>{cardCount}</Text>
-            <Icon name="refresh" size={ICON_SIZE} color={Colors.primary} />
-          </View>
-          <Slider
-            minimumValue={10}
-            maximumValue={100}
-            step={5}
-            value={cardCount}
-            onValueChange={setCardCount}
-            style={styles.slider}
-            minimumTrackTintColor={Colors.primary}
-            maximumTrackTintColor="#E5E7EB"
-            thumbTintColor={Colors.primary}
-          />
-          <View style={styles.sliderRange}>
-            <Text style={styles.rangeText}>10</Text>
-            <Text style={styles.rangeText}>100</Text>
-          </View>
-        </View>
-
-        {/* card #3 */}
-        <View style={styles.sliderCard}>
-          <Text style={styles.sliderLabel}>Numbers per Card</Text>
-          <View style={styles.valueContainer}>
-            <Text style={styles.sliderValue}>{numbersPerCard}</Text>
-            <Icon name="grid" size={ICON_SIZE} color={Colors.primary} />
-          </View>
-          <Slider
-            minimumValue={5}
-            maximumValue={25}
-            step={1}
-            value={numbersPerCard}
-            onValueChange={setNumbersPerCard}
-            style={styles.slider}
-            minimumTrackTintColor={Colors.primary}
-            maximumTrackTintColor="#E5E7EB"
-            thumbTintColor={Colors.primary}
-          />
-          <View style={styles.sliderRange}>
-            <Text style={styles.rangeText}>5</Text>
-            <Text style={styles.rangeText}>25</Text>
-          </View>
-        </View>
-
-        <TouchableOpacity style={styles.startButton} onPress={handleStart}>
-          <Text style={styles.startButtonText}>▶ Start Game</Text>
+      {/* Header with gear icon */}
+      <View style={styles.header}>
+        <View style={styles.headerSpacer} />
+        <TouchableOpacity 
+          style={styles.gearButton}
+          onPress={() => navigation.navigate('Options')}
+        >
+          <Icon name="cog" size={28} color={colors.primary} />
         </TouchableOpacity>
       </View>
+      
+      <ScrollView 
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.setupContainer}>
+          <Text style={styles.setupTitle}>{t('gameSetup')}</Text>
+          <Text style={styles.setupSubtitle}>{t('customizeExperience')}</Text>
+
+          {/* card #1 */}
+          <View style={styles.sliderCard}>
+            <Text style={styles.sliderLabel}>{t('totalNumbers')}</Text>
+            <View style={styles.valueContainer}>
+              <Text style={styles.sliderValue}>{numCount}</Text>
+              <Icon name="dice-multiple" size={ICON_SIZE} color={colors.primary} />
+            </View>
+            <Slider
+              minimumValue={30}
+              maximumValue={100}
+              step={1}
+              value={numCount}
+              onValueChange={setNumCount}
+              style={styles.slider}
+              minimumTrackTintColor={colors.primary}
+              maximumTrackTintColor={colors.border}
+              thumbTintColor={colors.primary}
+            />
+            <View style={styles.sliderRange}>
+              <Text style={styles.rangeText}>30</Text>
+              <Text style={styles.rangeText}>100</Text>
+            </View>
+          </View>
+          
+          {/* card #2 */}
+          <View style={styles.sliderCard}>
+            <Text style={styles.sliderLabel}>{t('quantityCards')}</Text>
+            <View style={styles.valueContainer}>
+              <Text style={styles.sliderValue}>{cardCount}</Text>
+              <Icon name="refresh" size={ICON_SIZE} color={colors.primary} />
+            </View>
+            <Slider
+              minimumValue={10}
+              maximumValue={100}
+              step={5}
+              value={cardCount}
+              onValueChange={setCardCount}
+              style={styles.slider}
+              minimumTrackTintColor={colors.primary}
+              maximumTrackTintColor={colors.border}
+              thumbTintColor={colors.primary}
+            />
+            <View style={styles.sliderRange}>
+              <Text style={styles.rangeText}>10</Text>
+              <Text style={styles.rangeText}>100</Text>
+            </View>
+          </View>
+
+          {/* card #3 */}
+          <View style={styles.sliderCard}>
+            <Text style={styles.sliderLabel}>{t('numbersPerCard')}</Text>
+            <View style={styles.valueContainer}>
+              <Text style={styles.sliderValue}>{numbersPerCard}</Text>
+              <Icon name="grid" size={ICON_SIZE} color={colors.primary} />
+            </View>
+            <Slider
+              minimumValue={5}
+              maximumValue={25}
+              step={1}
+              value={numbersPerCard}
+              onValueChange={setNumbersPerCard}
+              style={styles.slider}
+              minimumTrackTintColor={colors.primary}
+              maximumTrackTintColor={colors.border}
+              thumbTintColor={colors.primary}
+            />
+            <View style={styles.sliderRange}>
+              <Text style={styles.rangeText}>5</Text>
+              <Text style={styles.rangeText}>25</Text>
+            </View>
+          </View>
+
+          <TouchableOpacity style={styles.startButton} onPress={handleStart}>
+            <Text style={styles.startButtonText}>{t('startGame')}</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: colors.background,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 8,
+  },
+  headerSpacer: {
+    width: 28, // Same width as gear icon to center content
+  },
+  gearButton: {
+    padding: 8,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    paddingBottom: 20,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: Colors.secondary,
+    color: colors.secondary,
   },
   settingsIcon: {
     fontSize: 24,
@@ -128,26 +172,28 @@ const styles = StyleSheet.create({
   setupContainer: {
     padding: 12,
     alignItems: 'center',
+    minHeight: '100%',
+    justifyContent: 'center',
   },
   setupTitle: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: Colors.dark_gray,
+    color: colors.dark_gray,
     marginBottom: 4,
   },
   setupSubtitle: {
     fontSize: 14,
-    color: Colors.textSecondary,
+    color: colors.textSecondary,
     marginBottom: 16,
   },
   sliderCard: {
-    backgroundColor: Colors.white,
+    backgroundColor: colors.white,
     borderRadius: 16,
     padding: 16,
     paddingRight: 24,
     width: '100%',
     marginBottom: 12,
-    shadowColor: Colors.shadow,
+    shadowColor: colors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -155,7 +201,7 @@ const styles = StyleSheet.create({
   },
   sliderLabel: {
     fontSize: 16,
-    color: Colors.dark_gray,
+    color: colors.dark_gray,
     marginBottom: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -164,7 +210,7 @@ const styles = StyleSheet.create({
   sliderValue: {
     fontSize: 36,
     fontWeight: 'bold',
-    color: Colors.primary,
+    color: colors.primary,
     marginBottom: 12,
   },
   slider: {
@@ -177,11 +223,11 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   rangeText: {
-    color: Colors.primary,
+    color: colors.primary,
     fontWeight: 'bold',
   },
   startButton: {
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
     paddingVertical: 14,
     paddingHorizontal: 32,
     borderRadius: 100,
@@ -189,7 +235,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   startButtonText: {
-    color: Colors.white,
+    color: colors.white,
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',

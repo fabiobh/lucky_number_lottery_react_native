@@ -2,14 +2,19 @@ import React, { useEffect } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useDrawnNumbers } from '../../contexts/DrawnNumbersContext';
 import { useCardContext } from '../../contexts/CardContext';
-import { Colors } from '../../constants';
+import { useTheme } from '../../contexts/ThemeContext';
+import { useTranslation } from 'react-i18next';
+import { getColors } from '../../constants';
 
-function CardsTab({ cards, numbersPerCard, numCount, cardCount }: { 
+function CardsTab({ cards, numbersPerCard, numCount, cardCount: _cardCount }: { 
   cards: number[][]; 
   numbersPerCard: number; 
   numCount: number; 
   cardCount: number; 
 }): React.JSX.Element {
+  const { t } = useTranslation();
+  const { isDarkMode } = useTheme();
+  const colors = getColors(isDarkMode);
   const { drawnNumbers, winnerOrder } = useDrawnNumbers();
   const { setCards } = useCardContext();
 
@@ -17,12 +22,14 @@ function CardsTab({ cards, numbersPerCard, numCount, cardCount }: {
     setCards(cards);
   }, [cards, setCards]);
 
+  const styles = createStyles(colors);
+
   return (
     <View style={styles.container}>
       <View style={styles.statsSection}>
         <View style={styles.statsContainer}>
           <View style={styles.statItem}>
-            <Text style={styles.statLabel}>Numbers Drawn</Text>
+            <Text style={styles.statLabel}>{t('numbersDrawn')}</Text>
             <Text style={styles.statValue}>{drawnNumbers.length}</Text>
             <View style={styles.progressBar}>
               <View style={[styles.progressFill, { width: `${(drawnNumbers.length / numCount) * 100}%` }]} />
@@ -30,7 +37,7 @@ function CardsTab({ cards, numbersPerCard, numCount, cardCount }: {
           </View>
           <View style={styles.statDivider} />
           <View style={styles.statItem}>
-            <Text style={styles.statLabel}>Remaining</Text>
+            <Text style={styles.statLabel}>{t('remaining')}</Text>
             <Text style={styles.statValue}>{numCount - drawnNumbers.length}</Text>
             <View style={styles.progressBar}>
               <View 
@@ -50,10 +57,10 @@ function CardsTab({ cards, numbersPerCard, numCount, cardCount }: {
           const winnerPosition = winnerOrder.indexOf(index) + 1;
           return (
             <View key={index} style={[styles.card, allNumbersDrawn ? styles.winnerCard : null]}>
-              {allNumbersDrawn && <Text style={styles.winnerText}>Card {index + 1} wins</Text>}
-              {allNumbersDrawn && <Text style={styles.winnerPosition}>Winner #{winnerPosition}</Text>}
+              {allNumbersDrawn && <Text style={styles.winnerText}>{t('card')} {index + 1} {t('wins')}</Text>}
+              {allNumbersDrawn && <Text style={styles.winnerPosition}>{t('winner', { position: winnerPosition })}</Text>}
               <View style={styles.cardHeader}>
-                <Text style={styles.cardTitle}>Card {index + 1}</Text>
+                <Text style={styles.cardTitle}>{t('card')} {index + 1}</Text>
                 <View style={styles.cardStats}>
                   <Text style={styles.cardStatsText}>
                     {card.filter(num => drawnNumbers.includes(num)).length}/{numbersPerCard}
@@ -89,17 +96,17 @@ function CardsTab({ cards, numbersPerCard, numCount, cardCount }: {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: colors.background,
   },
   statsSection: {
     padding: 24,
-    backgroundColor: Colors.white,
+    backgroundColor: colors.white,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
-    shadowColor: Colors.shadow,
+    borderBottomColor: colors.border,
+    shadowColor: colors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
     shadowRadius: 3.84,
@@ -116,31 +123,31 @@ const styles = StyleSheet.create({
   statDivider: {
     width: 1,
     height: 40,
-    backgroundColor: Colors.light_gray,
+    backgroundColor: colors.light_gray,
     marginHorizontal: 24,
   },
   statValue: {
     fontSize: 28,
     fontWeight: '700',
-    color: Colors.textPrimary,
+    color: colors.textPrimary,
     marginVertical: 4,
   },
   statLabel: {
     fontSize: 14,
-    color: Colors.gray_text,
+    color: colors.gray_text,
     fontWeight: '600',
     textTransform: 'uppercase',
   },
   progressBar: {
     height: 4,
-    backgroundColor: Colors.light_gray,
+    backgroundColor: colors.light_gray,
     borderRadius: 2,
     marginTop: 8,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
     borderRadius: 2,
   },
   cardsContainer: {
@@ -148,11 +155,11 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   card: {
-    backgroundColor: Colors.white,
+    backgroundColor: colors.white,
     padding: 20,
     marginBottom: 16,
     borderRadius: 16,
-    shadowColor: Colors.shadow,
+    shadowColor: colors.shadow,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -170,10 +177,10 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: Colors.dark_gray,
+    color: colors.dark_gray,
   },
   cardStats: {
-    backgroundColor: Colors.light_gray,
+    backgroundColor: colors.light_gray,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 12,
@@ -181,7 +188,7 @@ const styles = StyleSheet.create({
   cardStatsText: {
     fontSize: 14,
     fontWeight: '600',
-    color: Colors.gray_text,
+    color: colors.gray_text,
   },
   cardNumbersContainer: {
     flexDirection: 'row',
@@ -195,8 +202,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 24,
-    backgroundColor: Colors.light_gray,
-    shadowColor: Colors.shadow,
+    backgroundColor: colors.light_gray,
+    shadowColor: colors.shadow,
     shadowOffset: {
       width: 0,
       height: 1,
@@ -207,31 +214,31 @@ const styles = StyleSheet.create({
   },
   numberText: {
     fontSize: 18,
-    color: Colors.dark_gray,
+    color: colors.dark_gray,
     fontWeight: '600',
   },
   drawnNumber: {
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
   },
   drawnNumberText: {
-    color: Colors.white,
+    color: colors.white,
   },
   spacer: {
     height: 50,
   },
   winnerCard: {
-    backgroundColor: Colors.success,
+    backgroundColor: colors.success,
   },
   winnerText: {
     fontSize: 18,
     fontWeight: '700',
-    color: Colors.white,
+    color: colors.white,
     marginBottom: 4,
   },
   winnerPosition: {
     fontSize: 14,
     fontWeight: '600',
-    color: Colors.white,
+    color: colors.white,
   },
 });
 

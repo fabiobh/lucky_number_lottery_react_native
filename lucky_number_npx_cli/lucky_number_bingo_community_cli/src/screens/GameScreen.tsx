@@ -1,27 +1,28 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Alert, BackHandler, Image} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Alert, BackHandler} from 'react-native';
 import LotteryTab from './tabs/LotteryTab';
 import CardsTab from './tabs/CardsTab';
 import {useRoute, useNavigation} from '@react-navigation/native';
 import {useDrawnNumbers} from '../contexts/DrawnNumbersContext';
+import {useTheme} from '../contexts/ThemeContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Colors } from '../constants'; // Import Colors
+import { useTranslation } from 'react-i18next';
+import { getColors } from '../constants';
 import Toast from 'react-native-toast-message';
 
 const ICON_SIZE = 36;
 
 function GameScreen(): React.JSX.Element {
+  const { t } = useTranslation();
+  const { isDarkMode } = useTheme();
+  const colors = getColors(isDarkMode);
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState<'lottery' | 'cards'>('lottery');
   const {
-    drawnNumbers, 
     setDrawnNumbers, 
-    lastDrawnNumber, 
     setLastDrawnNumber, 
-    completedCards, 
     setCompletedCards,
-     winnerOrder, 
-     setWinnerOrder
+    setWinnerOrder
   } = useDrawnNumbers();
   const route = useRoute();
   const params = route.params;
@@ -35,7 +36,7 @@ function GameScreen(): React.JSX.Element {
     setWinnerOrder([]);
 
     Toast.show({
-      text1: `Resetting numbers...`,
+      text1: t('resettingNumbers'),
       type: 'info',
       position: 'bottom',
       visibilityTime: 3000,
@@ -48,15 +49,15 @@ function GameScreen(): React.JSX.Element {
   // Handle the back button press, hardware back button and software back button(top left button)
   const handleBackButtonPress = () => {
     Alert.alert(
-      "Reset Numbers",
-      "Do you want to reset the drawn numbers?",
+      t('resetNumbers'),
+      t('resetQuestion'),
       [
         {
-          text: "No",
+          text: t('no'),
           onPress: () => null,
           style: "cancel"
         },
-        { text: "Yes", onPress: () => {
+        { text: t('yes'), onPress: () => {
             handleResetNumbers();
             navigation.goBack();
           }
@@ -76,7 +77,7 @@ function GameScreen(): React.JSX.Element {
     navigation.setOptions({
       headerLeft: () => (
         <TouchableOpacity onPress={handleBackButtonPress} style={{ marginLeft: 10 }}>
-          <Icon name="chevron-left" size={ICON_SIZE} color={Colors.primary} />
+          <Icon name="chevron-left" size={ICON_SIZE} color={colors.primary} />
         </TouchableOpacity>
       ),
     });
@@ -95,6 +96,8 @@ function GameScreen(): React.JSX.Element {
     );
   };
 
+  const styles = createStyles(colors);
+
   return (
     <SafeAreaView style={styles.container}>
       
@@ -102,12 +105,12 @@ function GameScreen(): React.JSX.Element {
         <View style={styles.tabs}>
           <TouchableOpacity onPress={() => setActiveTab('lottery')}>
             <Text style={[styles.tab, activeTab === 'lottery' && styles.activeTab]}>
-              Lottery
+              {t('lottery')}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => setActiveTab('cards')}>
             <Text style={[styles.tab, activeTab === 'cards' && styles.activeTab]}>
-              Cards
+              {t('cards')}
             </Text>
           </TouchableOpacity>          
         </View>
@@ -119,10 +122,10 @@ function GameScreen(): React.JSX.Element {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: colors.white,
   },
   header: {
     padding: 2,
@@ -139,13 +142,13 @@ const styles = StyleSheet.create({
   },
   tab: {
     marginRight: 16,
-    color: Colors.textSecondary,
+    color: colors.textSecondary,
     padding: 8,
   },
   activeTab: {
-    color: Colors.primary,
+    color: colors.primary,
     borderBottomWidth: 2,
-    borderBottomColor: Colors.primary,
+    borderBottomColor: colors.primary,
   },
 });
 

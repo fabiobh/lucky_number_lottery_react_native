@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 interface DrawnNumbersContextType {
   drawnNumbers: number[];
@@ -9,7 +9,7 @@ interface DrawnNumbersContextType {
 
   setCompletedCards: (cards: Set<number> | ((prev: Set<number>) => Set<number>)) => void;
   winnerOrder: number[];
-  setWinnerOrder: (order: number[]) => void;
+  setWinnerOrder: (order: number[] | ((prev: number[]) => number[])) => void;
 
 }
 
@@ -22,7 +22,6 @@ export const DrawnNumbersContext = createContext<DrawnNumbersContextType>({
   setCompletedCards: () => {},
   winnerOrder: [],
   setWinnerOrder: () => {},
-
 });
 
 export function DrawnNumbersProvider({ children }: { children: React.ReactNode }) {
