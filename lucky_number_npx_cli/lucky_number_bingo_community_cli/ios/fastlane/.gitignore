@@ -1,0 +1,7 @@
+# Fastlane
+screenshots/
+test_output/
+report.xml
+*.ipa
+*.dSYM.zip
+*.mobileprovision

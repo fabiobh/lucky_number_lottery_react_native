@@ -45,4 +45,28 @@ target 'lucky_number_bingo_community_cli' do
       end
     end
   end
+  
+  # Copy Hermes dSYM files for crash symbolication
+  post_integrate do |installer|
+    begin
+      hermes_path = Pod::Executable.execute_command('node', ['-p',
+        'require.resolve(
+          "react-native/sdks/hermes-engine/hermes-engine.podspec",
+          {paths: [process.argv[1]]},
+        )', __dir__]).strip
+      hermes_dir = File.dirname(hermes_path)
+      
+      # Find dSYM files
+      dsym_file_path = File.join(hermes_dir, "destroot", "Library", "Frameworks", "universal", "hermes.framework.dSYM")
+      
+      if File.exist?(dsym_file_path)
+        # Copy to Pods directory
+        destination = File.join(installer.sandbox.root, "hermes.framework.dSYM")
+        FileUtils.cp_r(dsym_file_path, destination, :remove_destination => true)
+        Pod::UI.puts "Copied Hermes dSYM to #{destination}".green
+      end
+    rescue => e
+      Pod::UI.warn "Failed to copy Hermes dSYM: #{e.message}"
+    end
+  end
 end

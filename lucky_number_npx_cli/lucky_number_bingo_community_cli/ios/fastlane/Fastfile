@@ -1,0 +1,39 @@
+# Fastfile para geração de screenshots iOS
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Gerar screenshots para iOS em todos os dispositivos e idiomas"
+  lane :screenshots do
+    capture_ios_screenshots(
+      scheme: "lucky_number_bingo_community_cli",
+      output_directory: "./fastlane/screenshots",
+      clear_previous_screenshots: true,
+      reinstall_app: true,
+      erase_simulator: true,
+      concurrent_simulators: false
+    )
+    
+    puts "✅ Screenshots gerados com sucesso em: ./fastlane/screenshots"
+  end
+  
+  desc "Fazer upload dos screenshots para App Store Connect"
+  lane :upload_screenshots do
+    upload_to_app_store(
+      app_identifier: "com.luckynumberbingocommunity",
+      skip_binary_upload: true,
+      skip_metadata: true,
+      skip_app_version_update: true,
+      overwrite_screenshots: true,
+      screenshots_path: "./fastlane/screenshots"
+    )
+    
+    puts "✅ Screenshots enviados para App Store Connect!"
+  end
+  
+  desc "Gerar e fazer upload dos screenshots"
+  lane :screenshots_and_upload do
+    screenshots
+    upload_screenshots
+  end
+end

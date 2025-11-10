@@ -1,0 +1,9 @@
+# Appfile - Configuração do App
+
+app_identifier("com.luckynumberbingocommunity") # Bundle ID do app
+apple_id("6755083794") # Apple ID do app na App Store Connect
+
+# Para upload de screenshots para App Store Connect (opcional)
+# Descomente as linhas abaixo se quiser fazer upload automático
+# itc_team_id("SEU_TEAM_ID") # Team ID da App Store Connect
+# team_id("SEU_TEAM_ID") # Team ID do Developer Portal

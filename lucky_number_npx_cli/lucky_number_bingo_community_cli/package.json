@@ -9,7 +9,9 @@
     "start": "react-native start",
     "clean": "rm -rf node_modules && rm -rf android/app/build && rm -rf ios/build && watchman watch-del-all && npm cache clean --force && cd android && ./gradlew clean && cd .. && cd ios && xcodebuild clean && cd .. && npx react-native start --reset-cache",
     "clean:ios": "cd ios && xcodebuild clean && rm -rf build && rm -rf Pods Podfile.lock && pod install && cd ..",
-    "test": "jest"
+    "test": "jest",
+    "screenshots": "cd ios && fastlane screenshots",
+    "screenshots:simple": "./scripts/capture_screenshots.sh"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.2.0",
