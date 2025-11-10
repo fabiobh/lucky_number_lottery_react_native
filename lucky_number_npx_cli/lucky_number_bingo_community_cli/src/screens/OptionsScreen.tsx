@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { getColors } from '../constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function OptionsScreen({ navigation: _navigation }: { navigation: NavigationProp<any> }) {
     const { t } = useTranslation();
@@ -138,6 +139,19 @@ export default function OptionsScreen({ navigation: _navigation }: { navigation:
                             />
                         </View>
                     </View>
+
+                    {/* Reset Language Button */}
+                    <TouchableOpacity
+                        style={styles.resetButton}
+                        onPress={async () => {
+                            await AsyncStorage.removeItem('app_language');
+                            // Reload the app or navigate back
+                            alert('Language preference cleared. Please restart the app.');
+                        }}
+                    >
+                        <Icon name="refresh" size={20} color={colors.white} />
+                        <Text style={styles.resetButtonText}>Reset to Device Language</Text>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </View>
@@ -219,5 +233,21 @@ const createStyles = (colors: any) => StyleSheet.create({
         color: colors.textSecondary,
         fontStyle: 'italic',
         marginTop: 8,
+    },
+    resetButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: colors.primary,
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 8,
+        marginTop: 8,
+        gap: 8,
+    },
+    resetButtonText: {
+        color: colors.white,
+        fontSize: 16,
+        fontWeight: '600',
     },
 });
