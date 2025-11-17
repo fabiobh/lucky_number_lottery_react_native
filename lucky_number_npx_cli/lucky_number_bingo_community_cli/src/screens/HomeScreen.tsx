@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { NavigationProp } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -33,7 +33,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
   const styles = createStyles(colors);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {/* Header with gear icon */}
       <View style={styles.header}>
         <View style={styles.headerSpacer} />
@@ -143,7 +143,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 

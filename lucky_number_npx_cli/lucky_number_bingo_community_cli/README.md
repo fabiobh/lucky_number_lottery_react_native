@@ -40,6 +40,10 @@ npx react-native bundle --platform android --dev false --entry-file index.js --b
 3. gere o arquivo aab
 cd android && ./gradlew bundleRelease
 
+# Gerar um IPA
+
+rode o pod install e faça o archive no xcode
+
 -----------
 
 # Documentação padrão do React Native

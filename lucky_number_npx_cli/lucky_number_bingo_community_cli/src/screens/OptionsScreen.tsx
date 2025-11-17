@@ -121,6 +121,36 @@ export default function OptionsScreen({ navigation: _navigation }: { navigation:
                                     中文
                                 </Text>
                             </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={[
+                                    styles.languageButton,
+                                    language === 'it' && styles.languageButtonActive
+                                ]}
+                                onPress={() => setLanguage('it')}
+                            >
+                                <Text style={[
+                                    styles.languageButtonText,
+                                    language === 'it' && styles.languageButtonTextActive
+                                ]}>
+                                    Italiano
+                                </Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={[
+                                    styles.languageButton,
+                                    language === 'ru' && styles.languageButtonActive
+                                ]}
+                                onPress={() => setLanguage('ru')}
+                            >
+                                <Text style={[
+                                    styles.languageButtonText,
+                                    language === 'ru' && styles.languageButtonTextActive
+                                ]}>
+                                    Русский
+                                </Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
 

@@ -1,39 +1,44 @@
-# Fastfile para geração de screenshots iOS
+# Fastfile for Lucky Number Bingo Community
 
 default_platform(:ios)
 
 platform :ios do
-  desc "Gerar screenshots para iOS em todos os dispositivos e idiomas"
-  lane :screenshots do
-    capture_ios_screenshots(
-      scheme: "lucky_number_bingo_community_cli",
-      output_directory: "./fastlane/screenshots",
-      clear_previous_screenshots: true,
-      reinstall_app: true,
-      erase_simulator: true,
-      concurrent_simulators: false
-    )
+  desc "Download app metadata from App Store Connect"
+  lane :download_metadata do |options|
+    username = options[:username] || ENV["FASTLANE_USER"] || "sabrinaaridi@hotmail.com"
     
-    puts "✅ Screenshots gerados com sucesso em: ./fastlane/screenshots"
-  end
-  
-  desc "Fazer upload dos screenshots para App Store Connect"
-  lane :upload_screenshots do
-    upload_to_app_store(
-      app_identifier: "com.luckynumberbingocommunity",
+    deliver(
+      username: username,
+      app_identifier: "com.uaialternativa.luckydraw",
       skip_binary_upload: true,
-      skip_metadata: true,
-      skip_app_version_update: true,
-      overwrite_screenshots: true,
-      screenshots_path: "./fastlane/screenshots"
+      skip_screenshots: true,
+      run_precheck_before_submit: false,
+      force: true
     )
-    
-    puts "✅ Screenshots enviados para App Store Connect!"
   end
   
-  desc "Gerar e fazer upload dos screenshots"
-  lane :screenshots_and_upload do
-    screenshots
-    upload_screenshots
+  desc "Initialize metadata folder structure"
+  lane :init_metadata do
+    sh("fastlane deliver init --app_identifier com.uaialternativa.luckydraw")
+  end
+  
+  desc "Upload app metadata to App Store Connect"
+  lane :upload_metadata do |options|
+    username = options[:username] || ENV["FASTLANE_USER"] || "sabrinaaridi@hotmail.com"
+    
+    deliver(
+      username: username,
+      app_identifier: "com.uaialternativa.luckydraw",
+      skip_binary_upload: true,
+      skip_screenshots: true,
+      skip_app_version_update: true,
+      force: true,
+      submit_for_review: false
+    )
+  end
+  
+  desc "Translate metadata from en-US to all other languages"
+  lane :translate_metadata do
+    sh("python3 translate_metadata.py")
   end
 end

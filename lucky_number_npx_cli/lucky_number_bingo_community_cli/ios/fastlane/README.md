@@ -15,29 +15,37 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios screenshots
+### ios download_metadata
 
 ```sh
-[bundle exec] fastlane ios screenshots
+[bundle exec] fastlane ios download_metadata
 ```
 
-Gerar screenshots para iOS em todos os dispositivos e idiomas
+Download app metadata from App Store Connect
 
-### ios upload_screenshots
+### ios init_metadata
 
 ```sh
-[bundle exec] fastlane ios upload_screenshots
+[bundle exec] fastlane ios init_metadata
 ```
 
-Fazer upload dos screenshots para App Store Connect
+Initialize metadata folder structure
 
-### ios screenshots_and_upload
+### ios upload_metadata
 
 ```sh
-[bundle exec] fastlane ios screenshots_and_upload
+[bundle exec] fastlane ios upload_metadata
 ```
 
-Gerar e fazer upload dos screenshots
+Upload app metadata to App Store Connect
+
+### ios translate_metadata
+
+```sh
+[bundle exec] fastlane ios translate_metadata
+```
+
+Translate metadata from en-US to all other languages
 
 ----
 
