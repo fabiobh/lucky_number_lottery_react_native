@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -8,19 +8,20 @@ import {
   SafeAreaView,
 } from 'react-native';
 import Slider from '@react-native-community/slider';
-import {NavigationProp} from '@react-navigation/native';
+import { NavigationProp } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useTranslation} from 'react-i18next';
-import {useTheme} from '../contexts/ThemeContext';
-import {getColors} from '../constants';
+import { useTranslation } from 'react-i18next';
+import { useTheme } from '../contexts/ThemeContext';
+import { getColors } from '../constants';
+import { generateCards } from '../utils/gameUtils';
 
 export default function HomeScreen({
   navigation,
 }: {
   navigation: NavigationProp<any>;
 }) {
-  const {t} = useTranslation();
-  const {isDarkMode} = useTheme();
+  const { t } = useTranslation();
+  const { isDarkMode } = useTheme();
   const colors = getColors(isDarkMode);
   const [numCount, setNumCount] = useState(30);
   const [cardCount, setCardCount] = useState(10);
@@ -28,12 +29,7 @@ export default function HomeScreen({
 
   const handleStart = () => {
     console.log('Iniciando jogo...');
-    const generatedCards = Array.from({length: cardCount}, () =>
-      Array.from(
-        {length: numbersPerCard},
-        () => Math.floor(Math.random() * (numCount - 1)) + 1,
-      ),
-    );
+    const generatedCards = generateCards(cardCount, numbersPerCard, numCount);
     navigation.navigate('Game', {
       numCount,
       cardCount,
@@ -217,7 +213,7 @@ const createStyles = (colors: any) =>
       width: '100%',
       marginBottom: 12,
       shadowColor: colors.shadow,
-      shadowOffset: {width: 0, height: 2},
+      shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.1,
       shadowRadius: 4,
       elevation: 2,

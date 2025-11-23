@@ -43,9 +43,11 @@ cd android && ./gradlew assembleRelease
    cd android && ./gradlew bundleRelease
 
 # Gerar um IPA
+
 rode o pod install e faça o archive no xcode
 
 # Gerar um IPA local
+
 eas build --platform ios --local
 eas build --platform android --local
 
