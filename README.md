@@ -53,6 +53,27 @@ eas build --platform android --local
 
 ---
 
+# 🐬 Debug com Flipper
+
+O Flipper está instalado e configurado neste projeto! Use para debugar:
+- 🌐 Requisições de rede
+- 💾 AsyncStorage
+- 📱 Componentes React
+- 📊 Performance
+- 📝 Logs
+
+**Início rápido:**
+```bash
+./start-with-flipper.sh ios     # Para iOS
+./start-with-flipper.sh android # Para Android
+```
+
+📖 **Documentação:**
+- [Guia Completo do Flipper](./FLIPPER_GUIDE.md) - Tutorial detalhado
+- [Referência Rápida](./FLIPPER_QUICK_REFERENCE.md) - Comandos e dicas
+
+---
+
 # Documentação padrão do React Native
 
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
