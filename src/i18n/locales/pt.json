@@ -34,5 +34,13 @@
   "resetQuestion": "Deseja resetar os números sorteados?",
   "no": "Não",
   "yes": "Sim",
-  "resettingNumbers": "Resetando números..."
+  "resettingNumbers": "Resetando números...",
+  "exportPDF": "Exportar PDF",
+  "lotteryCards": "Cartelas de Loteria",
+  "totalCards": "Total de Cartelas",
+  "numbers": "números",
+  "generatedOn": "Gerado em",
+  "generatingPDF": "Gerando PDF...",
+  "pdfGenerated": "PDF gerado com sucesso!",
+  "errorGeneratingPDF": "Erro ao gerar PDF"
 }

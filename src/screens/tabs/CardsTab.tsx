@@ -1,10 +1,13 @@
-import React, {useEffect} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import {useDrawnNumbers} from '../../contexts/DrawnNumbersContext';
-import {useCardContext} from '../../contexts/CardContext';
-import {useTheme} from '../../contexts/ThemeContext';
-import {useTranslation} from 'react-i18next';
-import {getColors} from '../../constants';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { useDrawnNumbers } from '../../contexts/DrawnNumbersContext';
+import { useCardContext } from '../../contexts/CardContext';
+import { useTheme } from '../../contexts/ThemeContext';
+import { useToast } from '../../contexts/ToastContext';
+import { useTranslation } from 'react-i18next';
+import { getColors } from '../../constants';
+import { generateCardsPDF, sharePDF } from '../../utils/pdfUtils';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function CardsTab({
   cards,
@@ -17,15 +20,36 @@ function CardsTab({
   numCount: number;
   cardCount: number;
 }): React.JSX.Element {
-  const {t} = useTranslation();
-  const {isDarkMode} = useTheme();
+  const { t } = useTranslation();
+  const { isDarkMode } = useTheme();
   const colors = getColors(isDarkMode);
-  const {drawnNumbers, winnerOrder} = useDrawnNumbers();
-  const {setCards} = useCardContext();
+  const { drawnNumbers, winnerOrder } = useDrawnNumbers();
+  const { setCards } = useCardContext();
+  const { showToast } = useToast();
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   useEffect(() => {
     setCards(cards);
   }, [cards, setCards]);
+
+  const handleExportPDF = async () => {
+    try {
+      setIsGeneratingPDF(true);
+      showToast(t('generatingPDF'), 'info', 2000);
+
+      const filePath = await generateCardsPDF(cards, numbersPerCard, numCount, t);
+
+      showToast(t('pdfGenerated'), 'success', 2000);
+
+      // Share the PDF
+      await sharePDF(filePath);
+    } catch (error) {
+      console.error('Error exporting PDF:', error);
+      showToast(t('errorGeneratingPDF'), 'error', 3000);
+    } finally {
+      setIsGeneratingPDF(false);
+    }
+  };
 
   const styles = createStyles(colors);
 
@@ -40,7 +64,7 @@ function CardsTab({
               <View
                 style={[
                   styles.progressFill,
-                  {width: `${(drawnNumbers.length / numCount) * 100}%`},
+                  { width: `${(drawnNumbers.length / numCount) * 100}%` },
                 ]}
               />
             </View>
@@ -63,6 +87,16 @@ function CardsTab({
             </View>
           </View>
         </View>
+
+        <TouchableOpacity
+          style={[styles.exportButton, isGeneratingPDF && styles.exportButtonDisabled]}
+          onPress={handleExportPDF}
+          disabled={isGeneratingPDF}>
+          <Icon name="file-pdf-box" size={20} color={colors.white} />
+          <Text style={styles.exportButtonText}>
+            {isGeneratingPDF ? t('generatingPDF') : t('exportPDF')}
+          </Text>
+        </TouchableOpacity>
       </View>
 
       <ScrollView style={styles.cardsContainer}>
@@ -80,7 +114,7 @@ function CardsTab({
               )}
               {allNumbersDrawn && (
                 <Text style={styles.winnerPosition}>
-                  {t('winner', {position: winnerPosition})}
+                  {t('winner', { position: winnerPosition })}
                 </Text>
               )}
               <View style={styles.cardHeader}>
@@ -133,7 +167,7 @@ const createStyles = (colors: any) =>
       borderBottomWidth: 1,
       borderBottomColor: colors.border,
       shadowColor: colors.shadow,
-      shadowOffset: {width: 0, height: 2},
+      shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.05,
       shadowRadius: 3.84,
       elevation: 3,
@@ -265,6 +299,34 @@ const createStyles = (colors: any) =>
       fontSize: 14,
       fontWeight: '600',
       color: colors.white,
+    },
+    exportButton: {
+      backgroundColor: colors.primary,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 12,
+      paddingHorizontal: 20,
+      borderRadius: 12,
+      marginTop: 16,
+      gap: 8,
+      shadowColor: colors.shadow,
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.2,
+      shadowRadius: 3,
+      elevation: 4,
+    },
+    exportButtonDisabled: {
+      backgroundColor: colors.gray,
+      opacity: 0.6,
+    },
+    exportButtonText: {
+      color: colors.white,
+      fontSize: 16,
+      fontWeight: '600',
     },
   });
 

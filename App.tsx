@@ -2,24 +2,26 @@ import React from 'react';
 import Toast from 'react-native-toast-message';
 
 // import { Text, View } from "react-native";
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './src/screens/HomeScreen';
 import GameScreen from './src/screens/GameScreen';
 import OptionsScreen from './src/screens/OptionsScreen';
-import {DrawnNumbersProvider} from './src/contexts/DrawnNumbersContext';
-import {CardProvider} from './src/contexts/CardContext';
-import {LanguageProvider} from './src/contexts/LanguageContext';
-import {ThemeProvider, useTheme} from './src/contexts/ThemeContext';
-import {useTranslation} from 'react-i18next';
-import {getColors} from './src/constants';
+import { DrawnNumbersProvider } from './src/contexts/DrawnNumbersContext';
+import { CardProvider } from './src/contexts/CardContext';
+import { LanguageProvider } from './src/contexts/LanguageContext';
+import { ThemeProvider, useTheme } from './src/contexts/ThemeContext';
+import { ToastProvider, useToast } from './src/contexts/ToastContext';
+import { MultiToast } from './src/components/MultiToast';
+import { useTranslation } from 'react-i18next';
+import { getColors } from './src/constants';
 import './src/i18n';
 
 const Stack = createStackNavigator();
 
 function AppNavigator() {
-  const {t} = useTranslation();
-  const {isDarkMode} = useTheme();
+  const { t } = useTranslation();
+  const { isDarkMode } = useTheme();
   const colors = getColors(isDarkMode);
 
   return (
@@ -65,16 +67,29 @@ function AppNavigator() {
   );
 }
 
+function AppContent() {
+  const { messages, removeToast } = useToast();
+
+  return (
+    <>
+      <AppNavigator />
+      <Toast />
+      <MultiToast messages={messages} onRemove={removeToast} />
+    </>
+  );
+}
+
 export default function Index() {
   return (
     <LanguageProvider>
       <ThemeProvider>
-        <DrawnNumbersProvider>
-          <CardProvider>
-            <AppNavigator />
-            <Toast />
-          </CardProvider>
-        </DrawnNumbersProvider>
+        <ToastProvider>
+          <DrawnNumbersProvider>
+            <CardProvider>
+              <AppContent />
+            </CardProvider>
+          </DrawnNumbersProvider>
+        </ToastProvider>
       </ThemeProvider>
     </LanguageProvider>
   );

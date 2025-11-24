@@ -34,5 +34,13 @@
   "resetQuestion": "Do you want to reset the drawn numbers?",
   "no": "No",
   "yes": "Yes",
-  "resettingNumbers": "Resetting numbers..."
+  "resettingNumbers": "Resetting numbers...",
+  "exportPDF": "Export PDF",
+  "lotteryCards": "Lottery Cards",
+  "totalCards": "Total Cards",
+  "numbers": "numbers",
+  "generatedOn": "Generated on",
+  "generatingPDF": "Generating PDF...",
+  "pdfGenerated": "PDF generated successfully!",
+  "errorGeneratingPDF": "Error generating PDF"
 }

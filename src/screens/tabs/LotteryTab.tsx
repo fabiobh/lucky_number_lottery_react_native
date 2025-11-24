@@ -7,11 +7,11 @@ import {
   ScrollView,
 } from 'react-native';
 
-import {useDrawnNumbers} from '../../contexts/DrawnNumbersContext';
-import {useTheme} from '../../contexts/ThemeContext';
-import {useTranslation} from 'react-i18next';
-import {getColors} from '../../constants';
-import Toast from 'react-native-toast-message';
+import { useDrawnNumbers } from '../../contexts/DrawnNumbersContext';
+import { useTheme } from '../../contexts/ThemeContext';
+import { useToast } from '../../contexts/ToastContext';
+import { useTranslation } from 'react-i18next';
+import { getColors } from '../../constants';
 
 function LotteryTab({
   numCount,
@@ -20,9 +20,10 @@ function LotteryTab({
   numCount: number;
   cards: number[][];
 }): React.JSX.Element {
-  const {t} = useTranslation();
-  const {isDarkMode} = useTheme();
+  const { t } = useTranslation();
+  const { isDarkMode } = useTheme();
   const colors = getColors(isDarkMode);
+  const { showToast } = useToast();
 
   const {
     drawnNumbers,
@@ -37,7 +38,7 @@ function LotteryTab({
 
   const handleDrawNumber = () => {
     const availableNumbers = Array.from(
-      {length: numCount},
+      { length: numCount },
       (_, i) => i + 1,
     ).filter(num => !drawnNumbers.includes(num));
 
@@ -61,13 +62,13 @@ function LotteryTab({
 
           // Update the winner order
           setWinnerOrder([...winnerOrder, index]); // Add the index of the completed card to the order
-          Toast.show({
-            text1: t('cardCompleted', {cardNumber: index + 1}),
-            type: 'success',
-            position: 'bottom',
-            visibilityTime: 3000,
-            autoHide: true,
-          });
+
+          // Use the new multi-toast system
+          showToast(
+            t('cardCompleted', { cardNumber: index + 1 }),
+            'success',
+            3000,
+          );
         }
       });
     }
@@ -120,7 +121,7 @@ function LotteryTab({
 
       <ScrollView style={styles.gridContainer}>
         <View style={styles.grid}>
-          {Array.from({length: numCount}, (_, i) => i + 1).map(number => (
+          {Array.from({ length: numCount }, (_, i) => i + 1).map(number => (
             <View
               key={number}
               style={[
@@ -157,7 +158,7 @@ const createStyles = (colors: any) =>
       borderRadius: 16,
       margin: 16,
       shadowColor: colors.shadow,
-      shadowOffset: {width: 0, height: 2},
+      shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.1,
       shadowRadius: 4,
       elevation: 3,
@@ -224,7 +225,7 @@ const createStyles = (colors: any) =>
       borderRadius: 12,
       alignItems: 'center',
       shadowColor: colors.shadow,
-      shadowOffset: {width: 0, height: 2},
+      shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.2,
       shadowRadius: 3,
       elevation: 4,
@@ -273,9 +274,9 @@ const createStyles = (colors: any) =>
     lastDrawnNumber: {
       backgroundColor: colors.primary,
       borderColor: colors.primary,
-      transform: [{scale: 1.1}],
+      transform: [{ scale: 1.1 }],
       shadowColor: colors.shadow,
-      shadowOffset: {width: 0, height: 3},
+      shadowOffset: { width: 0, height: 3 },
       shadowOpacity: 0.3,
       shadowRadius: 4,
       elevation: 6,

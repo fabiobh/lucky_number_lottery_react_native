@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -10,23 +10,24 @@ import {
 } from 'react-native';
 import LotteryTab from './tabs/LotteryTab';
 import CardsTab from './tabs/CardsTab';
-import {useRoute, useNavigation} from '@react-navigation/native';
-import {useDrawnNumbers} from '../contexts/DrawnNumbersContext';
-import {useTheme} from '../contexts/ThemeContext';
+import { useRoute, useNavigation } from '@react-navigation/native';
+import { useDrawnNumbers } from '../contexts/DrawnNumbersContext';
+import { useTheme } from '../contexts/ThemeContext';
+import { useToast } from '../contexts/ToastContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useTranslation} from 'react-i18next';
-import {getColors} from '../constants';
-import Toast from 'react-native-toast-message';
+import { useTranslation } from 'react-i18next';
+import { getColors } from '../constants';
 
 const ICON_SIZE = 36;
 
 function GameScreen(): React.JSX.Element {
-  const {t} = useTranslation();
-  const {isDarkMode} = useTheme();
+  const { t } = useTranslation();
+  const { isDarkMode } = useTheme();
   const colors = getColors(isDarkMode);
   const styles = createStyles(colors);
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState<'lottery' | 'cards'>('lottery');
+  const { showToast } = useToast();
   const {
     setDrawnNumbers,
     setLastDrawnNumber,
@@ -44,18 +45,13 @@ function GameScreen(): React.JSX.Element {
     setCompletedCards(new Set());
     setWinnerOrder([]);
 
-    Toast.show({
-      text1: t('resettingNumbers'),
-      type: 'info',
-      position: 'bottom',
-      visibilityTime: 3000,
-      autoHide: true,
-    });
+    showToast(t('resettingNumbers'), 'info', 3000);
   }, [
     setDrawnNumbers,
     setLastDrawnNumber,
     setCompletedCards,
     setWinnerOrder,
+    showToast,
     t,
   ]);
 
@@ -98,7 +94,7 @@ function GameScreen(): React.JSX.Element {
 
     return () => {
       backHandler.remove();
-      navigation.setOptions({headerLeft: undefined}); // Clean up
+      navigation.setOptions({ headerLeft: undefined }); // Clean up
     };
   }, [
     navigation,
