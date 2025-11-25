@@ -74,6 +74,10 @@ O Flipper está instalado e configurado neste projeto! Use para debugar:
 
 ---
 
-# Documentação padrão do React Native
+CI/CD pipeline
 
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+para gerar um AAB e enviar diretamente para o teste interno do Google play, use o comando
+git push origin main:release -f
+
+isso irá forçar a atualização da branch 'release' que irá disparar o pipeline e criar o arquivo AAB e
+fazer o upload para o Google Play em "Teste interno", depois de testar, basta fazer a promoção para a Produção
