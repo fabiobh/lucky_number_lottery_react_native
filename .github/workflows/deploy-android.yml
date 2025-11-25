@@ -56,8 +56,8 @@ jobs:
           npm version patch --no-git-tag-version
           VERSION_NAME=$(node -p "require('./package.json').version")
           echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
-          # Use run_number + offset (e.g. 1000) to ensure unique build codes
-          VERSION_CODE=$(( ${{ github.run_number }} + 1000 ))
+          # Use Unix timestamp to ensure a unique and always increasing version code
+          VERSION_CODE=$(date +%s)
           echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
           
           # Commit the version bump back to the repo
