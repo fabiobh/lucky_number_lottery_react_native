@@ -1,0 +1,8 @@
+git_url("https://github.com/fabiobh/ios-certificates") # URL do seu repositório privado de certificados
+
+storage_mode("git")
+
+type("appstore") # O tipo padrão de certificados (appstore, adhoc, development)
+
+app_identifier(["com.uaialternativa.luckydraw"])
+username("sabrinaaridi@hotmail.com") # Seu Apple ID
