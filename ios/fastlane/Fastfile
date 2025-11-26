@@ -3,6 +3,7 @@
 default_platform(:ios)
 
 platform :ios do
+  xcversion(version: "16.2")
   desc "Download app metadata from App Store Connect"
   lane :download_metadata do |options|
     username = options[:username] || ENV["FASTLANE_USER"] || "sabrinaaridi@hotmail.com"
@@ -58,7 +59,16 @@ platform :ios do
 
     match(type: "appstore", readonly: is_ci)
     increment_build_number(xcodeproj: "lucky_number_bingo_community_cli.xcodeproj")
-    build_app(scheme: "lucky_number_bingo_community_cli")
+    build_app(
+      scheme: "lucky_number_bingo_community_cli",
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: { 
+          "com.uaialternativa.luckydraw" => "match AppStore com.uaialternativa.luckydraw"
+        }
+      },
+      xcargs: "-allowProvisioningUpdates"
+    )
     upload_to_testflight(api_key: api_key)
   end
 end
