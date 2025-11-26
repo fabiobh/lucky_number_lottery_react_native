@@ -6,4 +6,4 @@ itc_team_id("6755083794") # App Store Connect Team ID (The user provided this as
 # I will comment it out to be safe, or put it as apple_id if it was meant to be the app specific ID, but apple_id in Appfile is usually the user email.
 # The user said "o id do app é 6755083794". This is likely the 'app_apple_id'.
 
-app_apple_id("6755083794")
+# app_apple_id("6755083794")
